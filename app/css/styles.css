@@ -1,0 +1,59 @@
+html, body {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	border: 5px solid rgb(42, 42, 42, 0.7);
+	background-color: rgba(24, 24, 24, .7);
+	box-shadow: 0 0 8px 3px #000 inset;
+	-webkit-user-select: none;
+	color: #fff;
+}
+
+.container {
+	padding: 10px 15px;
+}
+
+.container > div {
+	height: 100%;
+	overflow-y: hidden;
+	-webkit-app-region: drag;
+}
+
+.chat + .chat {
+	margin-top: 8px;
+}
+
+.chat, .chat div {
+	display: flex;
+}
+
+.chat .icon, .icon img {
+	width: 32px;
+	height: 32px;
+}
+
+.icon img {
+	border-radius: 50%;
+}
+
+.content {
+	margin-left: 8px;
+	align-self: center;
+}
+
+.author {
+	margin-right: 8px;
+	line-height: 32px;
+}
+
+.message {
+	margin-right: 32px;
+	line-height: 32px;
+	width: 100%;
+	word-break : break-all;
+}

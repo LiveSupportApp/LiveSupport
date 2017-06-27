@@ -1,0 +1,10 @@
+{
+	"first": true,
+	"channelId": "",
+	"APIkey": "",
+	"timeout": 1000,
+	"reading": false,
+	"path": "",
+	"onTop": false,
+	"whatReading": "all"
+}

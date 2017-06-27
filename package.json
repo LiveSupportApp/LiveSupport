@@ -1,0 +1,9 @@
+{
+  "name": "YouTubeLiveSupport",
+  "version": "0.0.1",
+  "main": "main.js",
+  "dependencies": {
+    "electron": "^1.6.11",
+    "jquery": "^3.2.1"
+  }
+}
