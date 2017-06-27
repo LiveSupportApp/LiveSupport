@@ -1,34 +1,43 @@
 'use strict';
 
 const {app,Menu,Tray,nativeImage,BrowserWindow} = require('electron'),
-	path = require('path'),
-	fs = require('fs');
+			path = require('path'),
+			fs = require('fs');
 
 var mainWindow = null, optWindow = null, settings = {};
 
 app.on('ready', () => {
 	settings = require(path.join(__dirname, 'settings/settings.json'));
-	if (settings.first) {showOptionPage(init)} else {init()}
+	// if (settings.first) {showOptionPage(init)} else {init()}
+	init()
 });
 
 function init() {
-	setWin = require(path.join(__dirname, 'settings/setWin.json'));
-	mainWindow = new BrowserWindow({ "width": 300, "height": 100, "transparent": true, "frame": false, "skip-taskbar": true });
-	mainWindow.loadURL(path.join(__dirname, 'app/index.html'));
-	mainWindow.on('closed', () => { mainWindow = null; });
-  mainWindow.setPosition(setWin.x, setWin.y);
-  mainWindow.setSize(setWin.width, setWin.height);
-	mainWindow.on('close', () => {
-		fs.writeFile(path.join(__dirname, 'settings/setWin.json'), JSON.stringify(mainWindow.getBounds()), (err) => {});
-		fs.writeFile(path.join(__dirname, 'settings/settings.json'), JSON.stringify(settings,undefined,'	'), (err) => {});
-	});
+	var setWin = require(path.join(__dirname, 'settings/setWin.json'));
+
+	if (settings.niconico) {
+		var size = require('electron').screen.getPrimaryDisplay().size;
+		mainWindow = new BrowserWindow({ width: size.width, height: size.width, x: 0, y: 0, resizable : false, movable: false, minimizable: false, maximizable: false, focusable: false, alwaysOnTop: true, fullscreen: true, skipTaskbar: true, transparent: true, frame: false });
+		mainWindow.setIgnoreMouseEvents(true);
+		mainWindow.maximize();
+		mainWindow.loadURL(path.join(__dirname, 'app/nico.html'));
+		mainWindow.on('closed', () => { mainWindow = null; });
+	} else {
+		mainWindow = new BrowserWindow({ width: 300, height: 100, transparent: true, frame: false, skipTaskbar: true });
+		mainWindow.loadURL(path.join(__dirname, 'app/index.html'));
+		mainWindow.on('closed', () => { mainWindow = null; });
+		mainWindow.setPosition(setWin.x, setWin.y);
+		mainWindow.setSize(setWin.width, setWin.height);
+		mainWindow.on('close', () => {
+			fs.writeFile(path.join(__dirname, 'settings/setWin.json'), JSON.stringify(mainWindow.getBounds()), (err) => {});
+			fs.writeFile(path.join(__dirname, 'settings/settings.json'), JSON.stringify(settings,undefined,'	'), (err) => {});
+		});
+	}
+
 
 	var tray = new Tray(nativeImage.createFromPath(path.join(__dirname, 'icon/icon.png')));
-	var contextMenu = Menu.buildFromTemplate([{
+	var menuData = [{
 		label: '表示',
-		click: () => { mainWindow.focus(); }
-	}, {
-		label: '右下に移動',
 		click: () => { mainWindow.focus(); }
 	}, {
 		label: '常に手前に表示',
@@ -44,8 +53,12 @@ function init() {
 	}, {
 		label: '終了',
 		click: () => { app.quit(); }
-	}]);
-	tray.setContextMenu(contextMenu);
+	}];
+	if (settings.niconico) {
+		delete menuData[0];
+		delete menuData[1];
+	}
+	tray.setContextMenu(Menu.buildFromTemplate());
 	tray.setToolTip('YouTubeLive補助ツール');
 	tray.on('click', () => { mainWindow.focus(); });
 }

@@ -14,6 +14,7 @@ fs.readFile(path.join(__dirname, '../../settings/settings.json'), (err,data) => 
 	$('#reading')    .prop('checked', json.reading);
 	$('#whatReading').val(json.whatReading);
 	if (json.reading) {$('.bc').show()} else {$('.bc').hide()}
+	$('#niconico')   .prop('checked', json.niconico);
 });
 
 $('#barrage').on('change', () => {
@@ -35,6 +36,7 @@ $('form').submit(() => {
 	json.reading     = Boolean($('#reading').prop('checked'));
 	json.path        = rtPath;
 	json.whatReading = $('#whatReading').val();
+	json.niconico    = Boolean($('#niconico').prop('checked'));
 
 	fs.writeFile(path.join(__dirname,'../../settings/settings.json'), JSON.stringify(json,undefined,'	'), (err) => {
 		if (!err) {showMsg('保存しました。');} else {showMsg(err);}
