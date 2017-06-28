@@ -1,6 +1,6 @@
 'use strict';
 
-const {app,Menu,Tray,nativeImage,BrowserWindow} = require('electron'),
+const {app,Menu,Tray,nativeImage,BrowserWindow,globalShortcut} = require('electron'),
 			path = require('path'),
 			fs = require('fs');
 
@@ -16,12 +16,18 @@ function init() {
 	var setWin = require(path.join(__dirname, 'settings/setWin.json'));
 
 	if (settings.niconico) {
-		var size = require('electron').screen.getPrimaryDisplay().size;
-		mainWindow = new BrowserWindow({ width: size.width, height: size.width, x: 0, y: 0, resizable : false, movable: false, minimizable: false, maximizable: false, focusable: false, alwaysOnTop: true, fullscreen: true, skipTaskbar: true, transparent: true, frame: false });
+		var size = require('electron').screen.getPrimaryDisplay().size, setting = false;
+		mainWindow = new BrowserWindow({ width: size.width, height: size.width, x: 0, y: 0, resizable : false, movable: false, minimizable: false, maximizable: false, focusable: true, alwaysOnTop: true, fullscreen: true, skipTaskbar: true, transparent: true, frame: false });
 		mainWindow.setIgnoreMouseEvents(true);
+		mainWindow.openDevTools();
 		mainWindow.maximize();
 		mainWindow.loadURL(path.join(__dirname, 'app/nico.html'));
 		mainWindow.on('closed', () => { mainWindow = null; });
+		globalShortcut.register('F8', () => {
+			setting = !setting;
+			mainWindow.webContents.send('set', setting);
+			mainWindow.setIgnoreMouseEvents(!setting);
+		});
 	} else {
 		mainWindow = new BrowserWindow({ width: 300, height: 100, transparent: true, frame: false, skipTaskbar: true });
 		mainWindow.loadURL(path.join(__dirname, 'app/index.html'));
@@ -54,11 +60,8 @@ function init() {
 		label: '終了',
 		click: () => { app.quit(); }
 	}];
-	if (settings.niconico) {
-		delete menuData[0];
-		delete menuData[1];
-	}
-	tray.setContextMenu(Menu.buildFromTemplate());
+	if (settings.niconico) {menuData.splice(0,2)}
+	tray.setContextMenu(Menu.buildFromTemplate(menuData));
 	tray.setToolTip('YouTubeLive補助ツール');
 	tray.on('click', () => { mainWindow.focus(); });
 }
