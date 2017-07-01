@@ -12,6 +12,7 @@ body {
 	box-shadow: 0 0 8px 3px #000 inset;
 	-webkit-user-select: none;
 	color: #fff;
+	-webkit-app-region: drag;
 }
 
 .container {
@@ -21,7 +22,6 @@ body {
 .container > div {
 	height: 100%;
 	overflow-y: hidden;
-	-webkit-app-region: drag;
 }
 
 .chat + .chat {

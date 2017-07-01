@@ -1,4 +1,5 @@
 var NicoJS = require('nicoJS'),
+<<<<<<< HEAD
 		// yt = require('../../youtube.js'),
 		ipc = require('electron').ipcRenderer,
 		$ = require('jquery'),
@@ -6,6 +7,24 @@ var NicoJS = require('nicoJS'),
 
 var set = {'top': 0,'left': 0,'width': pos.width,'height': pos.height},
 		nico = new NicoJS({app:$('#render')[0],width:set.width,height:set.height});
+=======
+		ipc    = require('electron').ipcRenderer,
+		$      = require('jquery'),
+		pos    = window.parent.screen,
+		settings= require('../settings/settings.json')
+		set    = {'top': 0,'left': 0,'width': pos.width,'height': pos.height},
+		nico   = new NicoJS({
+			app: $('#render')[0],
+			width: set.width,
+			height: set.height,
+			font_size: settings.nico.size,
+			color: '#'+settings.nico.color
+		});
+
+nico.listen();
+
+ipc.on('chat', (event, data) => { nico.send(name); });
+>>>>>>> 簡略化
 
 ipc.on('set', (event, is) => {
 	if (is) {
@@ -20,6 +39,7 @@ ipc.on('set', (event, is) => {
 	}
 });
 
+<<<<<<< HEAD
 nico.loop(["あーーー","あーーー","あーーー","あーーー","あーーー"]);
 
 // ipc.on('set', (event) => {
@@ -27,6 +47,8 @@ nico.loop(["あーーー","あーーー","あーーー","あーーー","あー�
 // 	console.log(name);
 // });
 
+=======
+>>>>>>> 簡略化
 function drag() {
 	var x = 0, y = 0, w, h;
 	var ctx = $('canvas')[0].getContext("2d");

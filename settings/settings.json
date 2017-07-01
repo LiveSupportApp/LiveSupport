@@ -1,11 +1,14 @@
 {
-	"first": true,
+	"first": false,
 	"channelId": "",
 	"APIkey": "",
 	"timeout": 1000,
 	"reading": false,
-	"path": "",
 	"onTop": false,
 	"whatReading": "all",
-	"niconico": true
+	"nico": {
+		"is": false,
+		"color": "FFFFFF",
+		"size": 50
+	}
 }

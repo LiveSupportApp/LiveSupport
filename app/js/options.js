@@ -1,11 +1,11 @@
-var remote = require('electron').remote,
-		fs     = require('fs'),
+var fs     = require('fs'),
 		path   = require('path'),
-		$      = require("jquery");
+		$      = require('jquery');
 
 var json = {};
 
-fs.readFile(path.join(__dirname, '../../settings/settings.json'), (err,data) => {
+fs.readFile(path.join(__dirname, '../settings/settings.json'), (err,data) => {
+	if (err) return console.log(err);
 	json = JSON.parse(data);
 	$('#channelId')  .val(json.channelId);
 	$('#APIkey')     .val(json.APIkey);
@@ -14,20 +14,31 @@ fs.readFile(path.join(__dirname, '../../settings/settings.json'), (err,data) => 
 	$('#reading')    .prop('checked', json.reading);
 	$('#whatReading').val(json.whatReading);
 	if (json.reading) {$('.bc').show()} else {$('.bc').hide()}
-	$('#niconico')   .prop('checked', json.niconico);
+	$('#niconico')   .prop('checked', json.nico.is);
+	$('#color')      .val(json.nico.color).css('background-color', '#'+json.nico.color);
+	$('#fontsize')   .val(json.nico.size);
+	$('.is').parents('fieldset').children('p').not($('.is').parents('p')).toggle($(this).prop('checked'));
 });
 
 $('#barrage').on('change', () => {
 	var is = $(this).prop('checked');
-	$("#bcpath").prop('required', is);
+	$('#bcpath').prop('required', is);
 	if (is) {$('.bc').show()} else {$('.bc').hide()}
 });
 
-$('form').submit(() => {
-	var bcPath = bcpath.value.replace('"','');
-	if (path.basename(bcPath)!='BouyomiChan.exe') return showMsg('棒読みちゃんのパスが間違っています。');
-	var rtPath = path.join(path.dirname(bcPath),'RemoteTalk/RemoteTalk.exe');
-	if (!isFile(rtPath)) return showMsg('棒読みちゃんを再インストールしてください。');
+$('.is').click((e) => {
+	var target = $(e.target);
+	target.parents('fieldset').children('p').not($('.is').parents('p')).toggle(target.prop('checked'));
+});
+
+$('form').submit((e) => {
+	e.preventDefault();
+	if ($('#reading').prop('checked')) {
+		var bcPath = bcpath.value.replace('"','');
+		if (path.basename(bcPath)!='BouyomiChan.exe') return showMsg('棒読みちゃんのパスが間違っています。');
+		var rtPath = path.join(path.dirname(bcPath),'RemoteTalk/RemoteTalk.exe');
+		if (!isFile(rtPath)) return showMsg('棒読みちゃんを再インストールしてください。');
+	}
 
 	json.first       = false;
 	json.channelId   = $('#channelId').val();
@@ -36,13 +47,15 @@ $('form').submit(() => {
 	json.reading     = Boolean($('#reading').prop('checked'));
 	json.path        = rtPath;
 	json.whatReading = $('#whatReading').val();
-	json.niconico    = Boolean($('#niconico').prop('checked'));
-
-	fs.writeFile(path.join(__dirname,'../../settings/settings.json'), JSON.stringify(json,undefined,'	'), (err) => {
+	json.nico.is     = Boolean($('#niconico').prop('checked'));
+	json.nico.color  = $('#color').val();
+	json.nico.size   = $('#fontsize').val();
+	console.log(json);
+	fs.writeFile(path.join(__dirname,'../settings/settings.json'), JSON.stringify(json,undefined,'	'), (err) => {
+		if (err) console.log(err);
 		if (!err) {showMsg('保存しました。');} else {showMsg(err);}
 	});
-	return false;
 });
 
-function showMsg(msg) {msg.textContent(msg);}
+function showMsg(msg) {$('#msg').text(msg);}
 function isFile(file) {try{fs.statSync(file);return true}catch(err){if(err.code==='ENOENT')return false}}

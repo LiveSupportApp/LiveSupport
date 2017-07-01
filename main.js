@@ -1,8 +1,25 @@
 'use strict';
 
+<<<<<<< HEAD
 const {app,Menu,Tray,nativeImage,BrowserWindow,globalShortcut} = require('electron'),
 			path = require('path'),
 			fs = require('fs');
+=======
+const {
+				app,
+				Menu,
+				Tray,
+				dialog,
+				nativeImage,
+				BrowserWindow,
+				globalShortcut
+			}        = require('electron'),
+			path     = require('path'),
+			fs       = require('fs'),
+			proc     = require('child_process'),
+			notifier = require('node-notifier'),
+			yt       = require('./youtube');
+>>>>>>> 簡略化
 
 var mainWindow = null, optWindow = null, settings = {};
 
@@ -15,7 +32,11 @@ app.on('ready', () => {
 function init() {
 	var setWin = require(path.join(__dirname, 'settings/setWin.json'));
 
+<<<<<<< HEAD
 	if (settings.niconico) {
+=======
+	if (settings.nico.is) {
+>>>>>>> 簡略化
 		var size = require('electron').screen.getPrimaryDisplay().size, setting = false;
 		mainWindow = new BrowserWindow({ width: size.width, height: size.width, x: 0, y: 0, resizable : false, movable: false, minimizable: false, maximizable: false, focusable: true, alwaysOnTop: true, fullscreen: true, skipTaskbar: true, transparent: true, frame: false });
 		mainWindow.setIgnoreMouseEvents(true);
@@ -29,7 +50,7 @@ function init() {
 			mainWindow.setIgnoreMouseEvents(!setting);
 		});
 	} else {
-		mainWindow = new BrowserWindow({ width: 300, height: 100, transparent: true, frame: false, skipTaskbar: true });
+		mainWindow = new BrowserWindow({ width: 300, height: 100, transparent: true, frame: false, skipTaskbar: true, alwaysOnTop: true });
 		mainWindow.loadURL(path.join(__dirname, 'app/index.html'));
 		mainWindow.on('closed', () => { mainWindow = null; });
 		mainWindow.setPosition(setWin.x, setWin.y);
@@ -40,7 +61,6 @@ function init() {
 		});
 	}
 
-
 	var tray = new Tray(nativeImage.createFromPath(path.join(__dirname, 'icon/icon.png')));
 	var menuData = [{
 		label: '表示',
@@ -49,10 +69,7 @@ function init() {
 		label: '常に手前に表示',
 		type: 'checkbox',
 		checked: settings.onTop,
-		click: (e) => {
-			mainWindow.setAlwaysOnTop(e.checked);
-			settings.onTop = e.checked;
-		}
+		click: (e) => { settings.onTop = e.checked; }
 	}, {
 		label: 'オプション',
 		click: () => { showOptionPage(); }
@@ -64,10 +81,43 @@ function init() {
 	tray.setContextMenu(Menu.buildFromTemplate(menuData));
 	tray.setToolTip('YouTubeLive補助ツール');
 	tray.on('click', () => { mainWindow.focus(); });
+	// main();
 }
 
 function showOptionPage(callback) {
-	optWindow = new BrowserWindow({ frame: false, width: 500, height: 500 });
+	optWindow = new BrowserWindow({ width: 500, titleBarStyle: 'hidden' });
 	optWindow.loadURL(path.join(__dirname, 'app/options.html'));
-	optWindow.on('closed', () => { optWindow = null;callback(); });
+	optWindow.on('closed', () => { optWindow = null;if(callback) callback(); });
 }
+
+// function main() {
+// 	var lastRead = Date.now(),liveChatId='',readingText;
+
+// 	if (!settings.channelId||!settings.APIkey) {
+// 		notifi('チャンネルIDとAPIキーを設定してください。');
+// 	} else {
+// 		yt.isLive(settings.channelId,(is,id)=>{
+// 			if (!is) return;
+// 			liveChatId = yt.getChatId(settings.apikey,id);
+// 			if(liveChatId) {
+// 				setInterval(() => {
+// 					yt.getMsg(settings.apikey,(msg,id) => {
+// 						yt.getName(id,(name,url)=>{
+// 							mainWindow.webContents.send('chat', {msg:msg,name:name,url:url});
+// 							if (settings.reading) {
+// 								switch (settings.whatReading) {
+// 									case 'msg': readingText = msg;
+// 									case 'all': default: readingText = name+' '+msg;
+// 								}
+// 								proc.exec(settings.path+' /t "'+(msg.replace('"','').replace('\n',''))+'"');
+// 							}
+// 						});
+// 					});
+// 				}, settings.timeout);
+// 			}
+// 			notifi('配信URLが見つかりません。配信している場合は暫く待って再起動してください');
+// 		});
+// 	}
+// }
+
+// function notifi(msg) {new Notification('YouTubeLive補助ツール' {body: msg})}

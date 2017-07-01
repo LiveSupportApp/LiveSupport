@@ -13,19 +13,21 @@
 		<h1>基本設定</h1>
 		<fieldset>
 			<legend>YouTube<span class="req">*</span></legend>
-			<p><label>チャンネルID<span class="req">*</span>：<input type="text" name="channelId" id="channelId" pattern="[a-zA-Z0-9\-]{1,}" required></label></p>
-			<p><label>API Key<span class="req">*</span>：<input type="text" name="APIkey" id="APIkey" pattern="[a-zA-Z0-9_-]{1,}" required></label></p>
-			<p><label>更新間隔：<input type="number" autocomplete="off" min="500" max="10000" step="500" name="timeout" id="timeout"></label></p>
+			<p><label>チャンネルID<span class="req">*</span>：<input type="text" id="channelId" pattern="[a-zA-Z0-9\-]{1,}" required></label></p>
+			<p><label>API Key<span class="req">*</span>：<input type="text" id="APIkey" pattern="[a-zA-Z0-9_-]{1,}" required></label></p>
+			<p><label>更新間隔：<input type="number" autocomplete="off" min="500" max="10000" step="500" id="timeout"></label></p>
 		</fieldset>
 		<fieldset>
 			<legend>棒読みちゃん</legend>
-			<p><label><input type="checkbox" name="reading" id="reading">読み上げる</label></p>
-			<p><label>棒読みちゃんのパス<span class="req bc">*</span>：<input type="text" name="bcpath" id="bcpath"></label></p>
+			<p><label><input type="checkbox" id="reading" class="is">読み上げる</label></p>
+			<p><label>棒読みちゃんのパス<span class="req bc">*</span>：<input type="text" id="bcpath"></label></p>
 			<p><label>読み上げ：</label><select id="whatReading"><option value="all">全て(名前+メッセージ)</option><option value="msg">メッセージのみ</option></select></p>
 		</fieldset>
 		<fieldset>
 			<legend>ニコニコ風</legend>
-			<p><label><input type="checkbox" name="reading" id="niconico">ニコニコ風コメント表示を有効にする</label></p>
+			<p><label><input type="checkbox" id="niconico" class="is">ニコニコ風コメント表示</label></p>
+			<p><label>コメント色：#<input type="text" class="jscolor" id="color"></label></p>
+			<p><label>フォントサイズ：<input type="number" autocomplete="off" id="fontsize" >px</label></p>
 		</fieldset>
 		<input type="submit" value="保存"><span id="msg"></span>
 		<!-- <h2>カスタム設定</h2>
@@ -34,6 +36,7 @@
 			<legend>カスタム設定</legend>
 		</fieldset> -->
 	</form>
+	<script src="js/jscolor.min.js"></script>
 	<script src="./js/options.js"></script>
 </body>
 </html>
