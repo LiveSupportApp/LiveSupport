@@ -1,10 +1,5 @@
 'use strict';
 
-<<<<<<< HEAD
-const {app,Menu,Tray,nativeImage,BrowserWindow,globalShortcut} = require('electron'),
-			path = require('path'),
-			fs = require('fs');
-=======
 const {
 				app,
 				Menu,
@@ -19,7 +14,6 @@ const {
 			proc     = require('child_process'),
 			notifier = require('node-notifier'),
 			yt       = require('./youtube');
->>>>>>> 簡略化
 
 var mainWindow = null, optWindow = null, settings = {};
 
@@ -32,13 +26,9 @@ app.on('ready', () => {
 function init() {
 	var setWin = require(path.join(__dirname, 'settings/setWin.json'));
 
-<<<<<<< HEAD
-	if (settings.niconico) {
-=======
 	if (settings.nico.is) {
->>>>>>> 簡略化
 		var size = require('electron').screen.getPrimaryDisplay().size, setting = false;
-		mainWindow = new BrowserWindow({ width: size.width, height: size.width, x: 0, y: 0, resizable : false, movable: false, minimizable: false, maximizable: false, focusable: true, alwaysOnTop: true, fullscreen: true, skipTaskbar: true, transparent: true, frame: false });
+		mainWindow = new BrowserWindow({ width: size.width, height: size.width, x: 0, y: 0, resizable : false, movable: false, minimizable: false, maximizable: false, focusable: true, alwaysOnTop: !settings.nico.chromakey.is, fullscreen: true, skipTaskbar: true, transparent: true, frame: false });
 		mainWindow.setIgnoreMouseEvents(true);
 		mainWindow.openDevTools();
 		mainWindow.maximize();

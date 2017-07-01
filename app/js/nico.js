@@ -12,6 +12,8 @@ var NicoJS = require('nicoJS'),
 			color: '#'+settings.nico.color
 		});
 
+if (settings.nico.chromakey.is&&settings.nico.chromakey.color) $('body').css('background', settings.nico.chromakey.color);
+
 nico.listen();
 
 ipc.on('chat', (event, data) => { nico.send(name); });

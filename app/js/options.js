@@ -17,6 +17,8 @@ fs.readFile(path.join(__dirname, '../settings/settings.json'), (err,data) => {
 	$('#niconico')   .prop('checked', json.nico.is);
 	$('#color')      .val(json.nico.color).css('background-color', '#'+json.nico.color);
 	$('#fontsize')   .val(json.nico.size);
+	$('#chromakey')  .prop('checked', json.chromakey.is);
+	$('#keycolor')   .val(json.chromakey.color).css('background-color', '#'+json.nico.color);
 	$('.is').parents('fieldset').children('p').not($('.is').parents('p')).toggle($(this).prop('checked'));
 });
 
@@ -39,18 +41,18 @@ $('form').submit((e) => {
 		var rtPath = path.join(path.dirname(bcPath),'RemoteTalk/RemoteTalk.exe');
 		if (!isFile(rtPath)) return showMsg('棒読みちゃんを再インストールしてください。');
 	}
-
-	json.first       = false;
-	json.channelId   = $('#channelId').val();
-	json.APIkey      = $('#APIkey').val();
-	json.timeout     = Number($('#timeout').val());
-	json.reading     = Boolean($('#reading').prop('checked'));
-	json.path        = rtPath;
-	json.whatReading = $('#whatReading').val();
-	json.nico.is     = Boolean($('#niconico').prop('checked'));
-	json.nico.color  = $('#color').val();
-	json.nico.size   = $('#fontsize').val();
-	console.log(json);
+	json.first                = false;
+	json.channelId            = $('#channelId').val();
+	json.APIkey               = $('#APIkey').val();
+	json.timeout              = Number($('#timeout').val());
+	json.reading              = Boolean($('#reading').prop('checked'));
+	json.path                 = rtPath;
+	json.whatReading          = $('#whatReading').val();
+	json.nico.is              = Boolean($('#niconico').prop('checked'));
+	json.nico.color           = $('#color').val();
+	json.nico.size            = $('#fontsize').val();
+	json.nico.chromakey.is    = Boolean($('#chromakey').prop('checked'));
+	json.nico.chromakey.color = $('#keycolor').val();
 	fs.writeFile(path.join(__dirname,'../settings/settings.json'), JSON.stringify(json,undefined,'	'), (err) => {
 		if (err) console.log(err);
 		if (!err) {showMsg('保存しました。');} else {showMsg(err);}
