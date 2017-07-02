@@ -1,0 +1,17 @@
+{
+	"channelId": "",
+	"APIkey": "",
+	"timeout": 1000,
+	"reading": false,
+	"onTop": false,
+	"whatReading": "all",
+	"nico": {
+		"is": false,
+		"color": "FFFFFF",
+		"size": 50,
+		"chromakey": {
+			"is": false,
+			"color": ""
+		}
+	}
+}

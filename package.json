@@ -6,6 +6,6 @@
     "electron": "^1.6.11",
     "electron-prebuilt": "^1.4.13",
     "jquery": "^3.2.1",
-    "nicojs": "^1.1.6"
+    "nicojs": "^1.1.7"
   }
 }

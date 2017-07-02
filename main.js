@@ -10,21 +10,20 @@ const {
 				globalShortcut
 			}        = require('electron'),
 			path     = require('path'),
-			fs       = require('fs'),
+			fs       = require('fs-extra'),
 			proc     = require('child_process'),
-			notifier = require('node-notifier'),
 			yt       = require('./youtube');
 
 var mainWindow = null, optWindow = null, settings = {};
 
 app.on('ready', () => {
+	initFile(['settings.json', 'setWin.json']);
 	settings = require(path.join(__dirname, 'settings/settings.json'));
-	// if (settings.first) {showOptionPage(init)} else {init()}
+	// if (!(settings.channelId&&settings.APIkey)) {showOptionPage(init)} else {init()}
 	init()
 });
 
 function init() {
-	var setWin = require(path.join(__dirname, 'settings/setWin.json'));
 
 	if (settings.nico.is) {
 		var size = require('electron').screen.getPrimaryDisplay().size, setting = false;
@@ -40,6 +39,7 @@ function init() {
 			mainWindow.setIgnoreMouseEvents(!setting);
 		});
 	} else {
+		var setWin = require(path.join(__dirname, 'settings/setWin.json'));
 		mainWindow = new BrowserWindow({ width: 300, height: 100, transparent: true, frame: false, skipTaskbar: true, alwaysOnTop: true });
 		mainWindow.loadURL(path.join(__dirname, 'app/index.html'));
 		mainWindow.on('closed', () => { mainWindow = null; });
@@ -61,6 +61,9 @@ function init() {
 		checked: settings.onTop,
 		click: (e) => { settings.onTop = e.checked; }
 	}, {
+		label: 'ライブを取得する',
+		click: () => { main(); }
+	}, {
 		label: 'オプション',
 		click: () => { showOptionPage(); }
 	}, {
@@ -69,9 +72,8 @@ function init() {
 	}];
 	if (settings.niconico) {menuData.splice(0,2)}
 	tray.setContextMenu(Menu.buildFromTemplate(menuData));
-	tray.setToolTip('YouTubeLive補助ツール');
-	tray.on('click', () => { mainWindow.focus(); });
-	// main();
+	tray.setToolTip('YouTubeLiveSupport');
+	main();
 }
 
 function showOptionPage(callback) {
@@ -80,34 +82,81 @@ function showOptionPage(callback) {
 	optWindow.on('closed', () => { optWindow = null;if(callback) callback(); });
 }
 
-// function main() {
-// 	var lastRead = Date.now(),liveChatId='',readingText;
+function main() {
+	var lastRead = Date.now(),liveChatId='',readingText;
 
-// 	if (!settings.channelId||!settings.APIkey) {
-// 		notifi('チャンネルIDとAPIキーを設定してください。');
-// 	} else {
-// 		yt.isLive(settings.channelId,(is,id)=>{
-// 			if (!is) return;
-// 			liveChatId = yt.getChatId(settings.apikey,id);
-// 			if(liveChatId) {
-// 				setInterval(() => {
-// 					yt.getMsg(settings.apikey,(msg,id) => {
-// 						yt.getName(id,(name,url)=>{
-// 							mainWindow.webContents.send('chat', {msg:msg,name:name,url:url});
-// 							if (settings.reading) {
-// 								switch (settings.whatReading) {
-// 									case 'msg': readingText = msg;
-// 									case 'all': default: readingText = name+' '+msg;
-// 								}
-// 								proc.exec(settings.path+' /t "'+(msg.replace('"','').replace('\n',''))+'"');
-// 							}
-// 						});
-// 					});
-// 				}, settings.timeout);
-// 			}
-// 			notifi('配信URLが見つかりません。配信している場合は暫く待って再起動してください');
-// 		});
-// 	}
-// }
+	if (!(settings.channelId&&settings.APIkey)) {
+		msgbox({
+			type: 'error',
+			btns: ['はい','キャンセル'],
+			msg: 'チャンネルIDとAPIキーを設定してください。',
+			detail: '今すぐ設定しますか？'
+		}, (id) => {
+			console.log(id);
+			if (id==0) showOptionPage();
+		});return
+	}
 
-// function notifi(msg) {new Notification('YouTubeLive補助ツール' {body: msg})}
+	yt.isLive(settings.channelId,(err,is,id)=>{
+		if (err) return dialog.showErrorBox('YouTubeLiveSupport', err);
+		if (!is) {
+			msgbox({
+				type: 'warning',
+				btns: ['OK', '再取得'],
+				msg: '配信URLが見つかりません。',
+				detail: '配信している場合は暫く待って取得してください。'
+			},(id) => {if (id==1) main();});return
+		}
+		liveChatId = yt.getChatId(settings.apikey,id);
+		if(liveChatId) {
+			setInterval(() => {
+				yt.getMsg(settings.apikey,(msg,id) => {
+					yt.getName(id,(name,url)=>{
+						mainWindow.webContents.send('chat', {msg:msg,name:name,url:url});
+						if (settings.reading) {
+							switch (settings.whatReading) {
+								case 'msg': readingText = msg;
+								case 'all': default: readingText = name+' '+msg;
+							}
+							proc.exec(settings.path+' /t "'+(msg.replace('"','').replace('\n',''))+'"');
+						}
+					});
+				});
+			}, settings.timeout);
+		} else {
+			msgbox({
+				type: 'warning',
+				btns: ['OK', '再取得'],
+				msg: '配信URLが見つかりません。',
+				detail: '配信している場合は暫く待って取得してください。'
+			},(id) => {if (id==1) main();});
+		}
+	});
+}
+
+function initFile(files) {
+	for (var i=0;i<files.length;i++) {
+		var file = files[i];
+		try {
+			fs.statSync(path.join(__dirname, 'settings/', file));
+		} catch(err) {
+			if(err.code!=='ENOENT') {dialog.showErrorBox('YouTubeLiveSupport', err);continue}
+			fs.copySync(path.join(__dirname, 'settings/default/', file), path.join(__dirname, 'settings/', files[i]));
+		}
+	}
+}
+
+function msgbox(params,callback) {
+	dialog.showMessageBox({
+		type: params.type,
+		buttons: params.btns,
+		defaultId: 0,
+		title: 'YouTubeLiveSupport',
+		message: params.msg,
+		detail: params.detail || '',
+		cancelId: -1,
+		noLink: true
+	}, (res) => {
+		callback(res);
+	});
+}

@@ -2,9 +2,9 @@ const request = require('request');
 
 exports.isLive = function isLive(id,callback) {
 	request.get({url: 'https://www.youtube.com/channel/'+id+'/videos?flow=list&live_view=501&view=2'}, (err, res, body) => {
-		if (err || res.statusCode != 200) return notifi(err);
+		if (err || res.statusCode != 200) return callback(err);
 		var videoIds = body.match(/href="\/watch\?v=(.+?)"/);
-		if (videoIds.length) {callback(true,videoIds[1])}else{callback(false)}
+		if (videoIds.length) {callback(null,true,videoIds[1])}else{callback(null,false)}
 	});
 }
 
