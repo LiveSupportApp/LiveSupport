@@ -1,11 +1,16 @@
 {
   "name": "YouTubeLiveSupport",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "main": "main.js",
   "dependencies": {
+    "child_process": "^1.0.2",
     "electron": "^1.6.11",
     "electron-prebuilt": "^1.4.13",
+    "fs": "0.0.1-security",
+    "fs-extra": "^3.0.1",
     "jquery": "^3.2.1",
-    "nicojs": "^1.1.6"
+    "nicojs": "^1.1.6",
+    "path": "^0.12.7",
+    "request": "^2.81.0"
   }
 }

@@ -12,16 +12,14 @@ const {
 			path     = require('path'),
 			fs       = require('fs-extra'),
 			proc     = require('child_process'),
-			yt       = require('./youtube'),
-			request  = require('request');
+			yt       = require('./youtube');
 
 var mainWindow = null, optWindow = null, settings = {};
 
 app.on('ready', () => {
 	initFile(['settings.json', 'setWin.json']);
 	settings = require(path.join(__dirname, 'settings/settings.json'));
-	// if (!(settings.channelId&&settings.APIkey)) {showOptionPage(init)} else {init()}
-	init()
+	init();
 });
 
 function init() {
@@ -93,7 +91,6 @@ function main() {
 			msg: 'チャンネルIDとAPIキーを設定してください。',
 			detail: '今すぐ設定しますか？'
 		}, (id) => {
-			console.log(id);
 			if (id==0) showOptionPage();
 		});return
 	}

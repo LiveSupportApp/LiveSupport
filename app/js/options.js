@@ -1,6 +1,6 @@
-var fs     = require('fs'),
-		path   = require('path'),
-		$      = require('jquery');
+const fs     = require('fs'),
+			path   = require('path'),
+			$      = require('jquery');
 
 var json = {};
 
