@@ -12,7 +12,8 @@ const {
 			path     = require('path'),
 			fs       = require('fs-extra'),
 			proc     = require('child_process'),
-			yt       = require('./youtube');
+			yt       = require('./youtube'),
+			request  = require('request');
 
 var mainWindow = null, optWindow = null, settings = {};
 
@@ -107,30 +108,38 @@ function main() {
 				detail: '配信している場合は暫く待って取得してください。'
 			},(id) => {if (id==1) main();});return
 		}
-		liveChatId = yt.getChatId(settings.apikey,id);
-		if(liveChatId) {
+		yt.getChatId(settings.APIkey, id, (err,id) => {
+			if (err||!id) {
+				msgbox({
+					type: 'warning',
+					btns: ['OK', '再取得'],
+					msg: 'チャットの取得に失敗しました。',
+					detail: '配信している場合は暫く待って取得してください。'
+				},(id) => {if (id==1) main();});return
+			}
+			liveChatId = id;
 			setInterval(() => {
-				yt.getMsg(settings.apikey,(msg,id) => {
-					yt.getName(id,(name,url)=>{
-						mainWindow.webContents.send('chat', {msg:msg,name:name,url:url});
-						if (settings.reading) {
-							switch (settings.whatReading) {
-								case 'msg': readingText = msg;
-								case 'all': default: readingText = name+' '+msg;
-							}
-							proc.exec(settings.path+' /t "'+(msg.replace('"','').replace('\n',''))+'"');
+				yt.getMsg(settings.APIkey,liveChatId,(json) => {
+					for (var i=0;i<json.items.length;i++) {
+						var snippet = json.items[i].snippet;
+						var t = new Date(snippet.publishedAt).getTime();
+						if (lastRead < t) {
+							lastRead = t;var msg = snippet.displayMessage;
+							yt.getName(id,(name,url)=>{
+								mainWindow.webContents.send('chat', {msg:msg,name:name,url:url});
+								if (settings.reading) {
+									switch (settings.whatReading) {
+										case 'msg': readingText = msg;
+										case 'all': default: readingText = name+' '+msg;
+									}
+									proc.exec(settings.path+' /t "'+(msg.replace('"','').replace('\n',''))+'"');
+								}
+							});
 						}
-					});
+					}
 				});
 			}, settings.timeout);
-		} else {
-			msgbox({
-				type: 'warning',
-				btns: ['OK', '再取得'],
-				msg: '配信URLが見つかりません。',
-				detail: '配信している場合は暫く待って取得してください。'
-			},(id) => {if (id==1) main();});
-		}
+		});
 	});
 }
 

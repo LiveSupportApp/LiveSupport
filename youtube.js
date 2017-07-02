@@ -1,6 +1,6 @@
 const request = require('request');
 
-exports.isLive = function isLive(id,callback) {
+exports.isLive = function(id,callback) {
 	request.get({url: 'https://www.youtube.com/channel/'+id+'/videos?flow=list&live_view=501&view=2'}, (err, res, body) => {
 		if (err || res.statusCode != 200) return callback(err);
 		var videoIds = body.match(/href="\/watch\?v=(.+?)"/);
@@ -8,26 +8,22 @@ exports.isLive = function isLive(id,callback) {
 	});
 }
 
-exports.getChatId = function getChatId(apikey,videoId) {
-	request.get({url:'https://www.googleapis.com/youtube/v3/videos?part=liveStreamingDetails&id='+videoId+'&key='+apikey,json:true}, (err, res, json) => {
-		if (err || res.statusCode != 200 || !json.items.length) return false;
-		return json.items[0].liveStreamingDetails.activeLiveChatId;
+exports.getChatId = function(apikey,liveId,callback) {
+	request.get({url:'https://www.googleapis.com/youtube/v3/videos?part=liveStreamingDetails&id='+liveId+'&key='+apikey,json:true}, (err, res, json) => {
+		if (err || res.statusCode != 200 || !json.items.length) return callback(err||true);
+		callback(null, json.items[0].liveStreamingDetails.activeLiveChatId);
 	});
 }
 
-exports.getMsg = function getMsg(apikey,callback) {
+exports.getMsg = function(apikey,liveChatId,callback) {
 	request.get({url:'https://www.googleapis.com/youtube/v3/liveChat/messages?liveChatId='+liveChatId+'&part=snippet&hl=ja&maxResults=2000&key='+apikey,json:true}, (err, res, json) => {
 		if (res && json.items.length) {
-			for (var i=0;i<json.items.length;i++) {
-				var snippet = json.items[i].snippet;
-				var t = new Date(snippet.publishedAt).getTime();
-				if (lastRead < t) {lastRead = t;callback(snippet.displayMessage,snippet.authorChannelId);}
-			}
+			callback(json);
 		}
 	});
 }
 
-exports.getName = function getName(id,callback) {
+exports.getName = function(id,callback) {
 	request.get({url: 'https://www.youtube.com/channel/'+id}, (err, res, body) => {
 		if (!err && res.statusCode == 200) {
 			let iconU = body.match(/<img class="channel-header-profile-image" src="(.*)" title=".*" alt=".*">/)

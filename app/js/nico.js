@@ -16,7 +16,7 @@ if (settings.nico.chromakey.is&&settings.nico.chromakey.color) $('body').css('ba
 
 nico.listen();
 
-ipc.on('chat', (event, data) => { nico.send(name); });
+ipc.on('chat', (event, data) => { nico.send(data.msg); });
 
 ipc.on('set', (event, is) => {
 	if (is) {
