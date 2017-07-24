@@ -4,30 +4,43 @@ const {
 				app,
 				Menu,
 				Tray,
-				screen,
 				dialog,
 				nativeImage,
 				BrowserWindow,
 				globalShortcut
-			}        = require('electron'),
-			path     = require('path'),
-			fs       = require('fs-extra'),
-			proc     = require('child_process'),
-			yt       = require('./youtube');
+			}    = require('electron'),
+			path = require('path'),
+			fs   = require('fs-extra'),
+			proc = require('child_process'),
+			yt   = require('./youtube');
 
 var mainWindow = null, optWindow = null, settings = {};
 
 app.on('ready', () => {
-	initFile(['settings.json', 'setWin.json']);
-	settings = require(path.join(__dirname, 'settings/settings.json'));
-	init();
+	initFile('settings.json');
+	initFile('setWin.json', is => {
+		if (is) {
+			msgbox({
+				type: 'warning',
+				btns: ['OK'],
+				msg: '初回起動のため設定ウィンドウを起動します。'
+			}, id => {
+				showOptionPage(()=>{
+					settings = require(path.join(__dirname, 'settings/settings.json'));
+					init();
+				});
+			});
+		} else {
+			settings = require(path.join(__dirname, 'settings/settings.json'));
+			init();
+		}
+	});
 });
 
 function init() {
-
 	if (settings.nico.is) {
-		var size = screen.getPrimaryDisplay().size, setting = false;
-		mainWindow = new BrowserWindow({ width: size.width, height: size.width, x: 0, y: 0, resizable : false, movable: false, minimizable: false, maximizable: false, focusable: true, alwaysOnTop: !settings.nico.chromakey.is, fullscreen: true, skipTaskbar: true, transparent: true, frame: false });
+		var setting = false;
+		mainWindow = new BrowserWindow({ x: 0, y: 0, resizable : false, movable: false, minimizable: false, maximizable: false, focusable: true, alwaysOnTop: !settings.nico.chromakey.is, fullscreen: true, skipTaskbar: true, transparent: true, frame: false });
 		mainWindow.setIgnoreMouseEvents(true);
 		mainWindow.openDevTools();
 		mainWindow.maximize();
@@ -51,7 +64,7 @@ function init() {
 		});
 	}
 
-	var tray = new Tray(nativeImage.createFromPath(path.join(__dirname, 'icon/icon.png')));
+	var tray = new Tray(nativeImage.createFromPath(path.join(__dirname, '/icon/icon.png')));
 	var menuData = [{
 		label: '表示',
 		click: () => { mainWindow.focus(); }
@@ -70,7 +83,7 @@ function init() {
 		label: '終了',
 		click: () => { app.quit(); }
 	}];
-	if (settings.niconico) {menuData.splice(0,2)}
+	if (settings.niconico) menuData.splice(0,2);
 	tray.setContextMenu(Menu.buildFromTemplate(menuData));
 	tray.setToolTip('YouTubeLiveSupport');
 	main();
@@ -142,19 +155,18 @@ function main() {
 	});
 }
 
-function initFile(files) {
-	for (var i=0;i<files.length;i++) {
-		var file = files[i];
-		try {
-			fs.statSync(path.join(__dirname, 'settings/', file));
-		} catch(err) {
-			if(err.code!=='ENOENT') {dialog.showErrorBox('YouTubeLiveSupport', err);continue}
-			fs.copySync(path.join(__dirname, 'settings/default/', file), path.join(__dirname, 'settings/', files[i]));
-		}
+function initFile(file, callback) {
+	try {
+		fs.statSync(path.join(__dirname, 'settings/', file));
+		if (callback) callback(false);
+	} catch(err) {
+		if(err.code!=='ENOENT') return dialog.showErrorBox('YouTubeLiveSupport', err);
+		fs.copySync(path.join(__dirname, 'settings/default/', file), path.join(__dirname, 'settings/', file));
+		if (callback) callback(true);
 	}
 }
 
-function msgbox(params,callback) {
+function msgbox(params, callback) {
 	dialog.showMessageBox({
 		type: params.type,
 		buttons: params.btns,
