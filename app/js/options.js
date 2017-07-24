@@ -41,7 +41,6 @@ $('form').submit((e) => {
 		var rtPath = path.join(path.dirname(bcPath),'RemoteTalk/RemoteTalk.exe');
 		if (!isFile(rtPath)) return showMsg('棒読みちゃんを再インストールしてください。');
 	}
-	json.first                = false;
 	json.channelId            = $('#channelId').val();
 	json.APIkey               = $('#APIkey').val();
 	json.timeout              = Number($('#timeout').val());

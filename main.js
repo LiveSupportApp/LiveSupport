@@ -4,6 +4,7 @@ const {
 				app,
 				Menu,
 				Tray,
+				screen,
 				dialog,
 				nativeImage,
 				BrowserWindow,
@@ -25,7 +26,7 @@ app.on('ready', () => {
 function init() {
 
 	if (settings.nico.is) {
-		var size = require('electron').screen.getPrimaryDisplay().size, setting = false;
+		var size = screen.getPrimaryDisplay().size, setting = false;
 		mainWindow = new BrowserWindow({ width: size.width, height: size.width, x: 0, y: 0, resizable : false, movable: false, minimizable: false, maximizable: false, focusable: true, alwaysOnTop: !settings.nico.chromakey.is, fullscreen: true, skipTaskbar: true, transparent: true, frame: false });
 		mainWindow.setIgnoreMouseEvents(true);
 		mainWindow.openDevTools();
@@ -123,6 +124,7 @@ function main() {
 						if (lastRead < t) {
 							lastRead = t;var msg = snippet.displayMessage;
 							yt.getName(id,(name,url)=>{
+								// 40 #30 20
 								mainWindow.webContents.send('chat', {msg:msg,name:name,url:url});
 								if (settings.reading) {
 									switch (settings.whatReading) {
