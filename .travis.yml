@@ -13,7 +13,7 @@ before_install:
 install:
   - npm install
 script:
-  - npm test
+  - npm start
 before_deploy:
   - brew update
   - brew install wine
