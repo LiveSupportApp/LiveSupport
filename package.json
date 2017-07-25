@@ -11,8 +11,8 @@
     "clean:win64": "rm -rf ./dist/win64",
 
     "pack": "npm run pack:win32 && npm run pack:win64",
-    "pack:win32": "npm run clean:win32 && electron-packager . \"YouTubeLiveSupport\" --out=dist/win32 --platform=win32 --arch=x64  --version=0.36.2 --icon=assets/win32/icon.ico --ignore=\"dist|assets\"",
-    "pack:win64": "npm run clean:win64 && electron-packager . \"YouTubeLiveSupport\" --out=dist/win64 --platform=win32 --arch=ia32 --version=0.36.2 --icon=assets/win64/icon.ico --ignore=\"dist|assets\"",
+    "pack:win32": "npm run clean:win32 && electron-packager . \"YouTubeLiveSupport\" --out=dist/win32 --platform=win32 --arch=x64  --version=1.6.11 --icon=assets/win32/icon.ico --ignore=\"dist|assets\"",
+    "pack:win64": "npm run clean:win64 && electron-packager . \"YouTubeLiveSupport\" --out=dist/win64 --platform=win32 --arch=ia32 --version=1.6.11 --icon=assets/win64/icon.ico --ignore=\"dist|assets\"",
 
     "archive": "npm run archive:win32 && npm run archive:win64",
     "archive:win32": "npm run build:win32 && zip -j \"dist/win32/YouTubeLiveSupport-win32.zip\" \"dist/win64/YouTubeLiveSupport-win32-ia32\"",
@@ -29,7 +29,6 @@
     "path": "^0.12.7",
     "request": "^2.81.0",
     "electron-builder": "^2.5.0",
-    "electron-packager": "^5.2.0",
-    "electron-prebuilt": "^0.36.2"
+    "electron-packager": "^5.2.0"
   }
 }
