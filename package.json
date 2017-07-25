@@ -15,8 +15,8 @@
     "pack:win64": "npm run clean:win64 && electron-packager . \"YouTubeLiveSupport\" --out=dist/win64 --platform=win32 --arch=ia32 --version=1.6.11 --icon=assets/win64/icon.ico --ignore=\"dist|assets\"",
 
     "archive": "npm run archive:win32 && npm run archive:win64",
-    "archive:win32": "npm run build:win32 && zip -j \"dist/win32/YouTubeLiveSupport-win32.zip\" \"dist/win64/YouTubeLiveSupport-win32-ia32\"",
-    "archive:win64": "npm run build:win64 && zip -j \"dist/win64/YouTubeLiveSupport-win64.zip\" \"dist/win64/YouTubeLiveSupport-win32-x64\""
+    "archive:win32": "npm run pack:win32 && zip -j \"dist/win32/YouTubeLiveSupport-win32.zip\" \"dist/win64/YouTubeLiveSupport-win32-ia32\"",
+    "archive:win64": "npm run pack:win64 && zip -j \"dist/win64/YouTubeLiveSupport-win64.zip\" \"dist/win64/YouTubeLiveSupport-win32-x64\""
   },
   "dependencies": {
     "child_process": "^1.0.2",
