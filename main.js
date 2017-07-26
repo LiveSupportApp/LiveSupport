@@ -107,7 +107,7 @@ function init() {
 		});return
 	}
 
-	yt.getLive(settings.channelId, (err, is, id) => {
+	yt.getLive(settings.channelId, settings.APIkey, (err, is, id) => {
 		if (err) return dialog.showErrorBox('YouTubeLiveSupport', err);
 		if (!is) {
 			msgbox({
@@ -135,8 +135,7 @@ function init() {
 function main() {
 	let lastRead = Date.now();
 
-	yt.getMsg(settings.APIkey, liveChatId, (err, json) => {
-		if (err) throw err;
+	yt.getMsg(settings.APIkey, liveChatId, (json) => {
 		for (let i=0,item,t,msg,name,author; i<json.items.length; i++) {
 			item = json.items[i];
 			t = new Date(item.snippet.publishedAt).getTime();
