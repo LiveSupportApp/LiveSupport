@@ -42,7 +42,7 @@ function init() {
 		var setting = false;
 		mainWindow = new BrowserWindow({ x: 0, y: 0, resizable : false, movable: false, minimizable: false, maximizable: false, focusable: true, alwaysOnTop: !settings.nico.chromakey.is, fullscreen: true, skipTaskbar: true, transparent: true, frame: false });
 		mainWindow.setIgnoreMouseEvents(true);
-		mainWindow.openDevTools();
+		// mainWindow.openDevTools();
 		mainWindow.maximize();
 		mainWindow.loadURL(path.join(__dirname, 'app/nico.html'));
 		mainWindow.on('closed', () => { mainWindow = null; });
@@ -130,23 +130,34 @@ function main() {
 			}
 			liveChatId = id;
 			setInterval(() => {
-				yt.getMsg(settings.APIkey,liveChatId,(json) => {
-					for (var i=0;i<json.items.length;i++) {
-						var snippet = json.items[i].snippet;
-						var t = new Date(snippet.publishedAt).getTime();
+				yt.getMsg(settings.APIkey, liveChatId, (json) => {
+					for (let i=0,item,t,msg,name,author; i<json.items.length; i++) {
+						item = json.items[i];
+						t = new Date(item.snippet.publishedAt).getTime();
 						if (lastRead < t) {
-							lastRead = t;var msg = snippet.displayMessage;
-							yt.getName(id,(name,url)=>{
-								// 40 #30 20
-								mainWindow.webContents.send('chat', {msg:msg,name:name,url:url});
-								if (settings.reading) {
-									switch (settings.whatReading) {
-										case 'msg': readingText = msg;
-										case 'all': default: readingText = name+' '+msg;
-									}
-									proc.exec(settings.path+' /t "'+(msg.replace('"','').replace('\n',''))+'"');
+							lastRead = t;
+							msg  = item.snippet.displayMessage;
+							author = item.authorDetails;
+							name = item.authorDetails.displayName;
+							// font size 40 #30 20 px
+							mainWindow.webContents.send('chat', {
+								msg:  msg,
+								name: name,
+								url:  author.profileImageUrl,
+								type: {
+									verified:  author.isVerified,
+									owner:     author.isChatOwner,
+									sponsor:   author.isChatSponsor,
+									moderator: author.isChatModerator
 								}
 							});
+							if (settings.reading) {
+								switch (settings.whatReading) {
+									case 'msg': readingText = msg;
+									case 'all': default: readingText = name+' '+msg;
+								}
+								proc.exec(settings.path+' /t "'+(msg.replace('"','').replace('\n',''))+'"');
+							}
 						}
 					}
 				});
