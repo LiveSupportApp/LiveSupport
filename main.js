@@ -14,7 +14,7 @@ const {
 			proc = require('child_process'),
 			yt   = require('./youtube');
 
-var mainWindow = null, optWindow = null, settings = {};
+var mainWindow = null, optWindow = null, settings = {}, liveChatId = '';
 
 app.on('ready', () => {
 	initFile('settings.json');
@@ -75,7 +75,7 @@ function init() {
 		click: (e) => { settings.onTop = e.checked; }
 	}, {
 		label: 'ライブを取得する',
-		click: () => { main(); }
+		click: () => { init(); }
 	}, {
 		label: 'オプション',
 		click: () => { showOptionPage(); }
@@ -86,7 +86,7 @@ function init() {
 	if (settings.niconico) menuData.splice(0,2);
 	tray.setContextMenu(Menu.buildFromTemplate(menuData));
 	tray.setToolTip('YouTubeLiveSupport');
-	main();
+	init();
 }
 
 function showOptionPage(callback) {
@@ -95,9 +95,7 @@ function showOptionPage(callback) {
 	optWindow.on('closed', () => { optWindow = null;if(callback) callback(); });
 }
 
-function main() {
-	var lastRead = Date.now(),liveChatId='',readingText;
-
+function init() {
 	if (!(settings.channelId&&settings.APIkey)) {
 		msgbox({
 			type: 'error',
@@ -109,7 +107,7 @@ function main() {
 		});return
 	}
 
-	yt.isLive(settings.channelId,(err,is,id)=>{
+	yt.getLive(settings.channelId, (err, is, id) => {
 		if (err) return dialog.showErrorBox('YouTubeLiveSupport', err);
 		if (!is) {
 			msgbox({
@@ -117,7 +115,7 @@ function main() {
 				btns: ['OK', '再取得'],
 				msg: '配信URLが見つかりません。',
 				detail: '配信している場合は暫く待って取得してください。'
-			},(id) => {if (id==1) main();});return
+			},(id) => {if (id==1) init();});return
 		}
 		yt.getChatId(settings.APIkey, id, (err,id) => {
 			if (err||!id) {
@@ -126,43 +124,49 @@ function main() {
 					btns: ['OK', '再取得'],
 					msg: 'チャットの取得に失敗しました。',
 					detail: '配信している場合は暫く待って取得してください。'
-				},(id) => {if (id==1) main();});return
+				}, id => {if (id==1) init();});return
 			}
 			liveChatId = id;
-			setInterval(() => {
-				yt.getMsg(settings.APIkey, liveChatId, (json) => {
-					for (let i=0,item,t,msg,name,author; i<json.items.length; i++) {
-						item = json.items[i];
-						t = new Date(item.snippet.publishedAt).getTime();
-						if (lastRead < t) {
-							lastRead = t;
-							msg  = item.snippet.displayMessage;
-							author = item.authorDetails;
-							name = item.authorDetails.displayName;
-							// font size 40 #30 20 px
-							mainWindow.webContents.send('chat', {
-								msg:  msg,
-								name: name,
-								url:  author.profileImageUrl,
-								type: {
-									verified:  author.isVerified,
-									owner:     author.isChatOwner,
-									sponsor:   author.isChatSponsor,
-									moderator: author.isChatModerator
-								}
-							});
-							if (settings.reading) {
-								switch (settings.whatReading) {
-									case 'msg': readingText = msg;
-									case 'all': default: readingText = name+' '+msg;
-								}
-								proc.exec(settings.path+' /t "'+(msg.replace('"','').replace('\n',''))+'"');
-							}
-						}
+			setInterval(main, settings.timeout);
+		});
+	});
+}
+
+function main() {
+	let lastRead = Date.now();
+
+	yt.getMsg(settings.APIkey, liveChatId, (err, json) => {
+		if (err) throw err;
+		for (let i=0,item,t,msg,name,author; i<json.items.length; i++) {
+			item = json.items[i];
+			t = new Date(item.snippet.publishedAt).getTime();
+			if (lastRead < t) {
+				lastRead = t;
+				msg  = item.snippet.displayMessage;
+				author = item.authorDetails;
+				name = item.authorDetails.displayName;
+				// font size 40 #30 20 px
+				mainWindow.webContents.send('chat', {
+					msg:  msg,
+					name: name,
+					url:  author.profileImageUrl,
+					type: {
+						verified:  author.isVerified,
+						owner:     author.isChatOwner,
+						sponsor:   author.isChatSponsor,
+						moderator: author.isChatModerator
 					}
 				});
-			}, settings.timeout);
-		});
+				if (settings.reading) {
+					let readingText = '';
+					switch (settings.whatReading) {
+						case 'msg': readingText = msg;
+						case 'all': default: readingText = name+' '+msg;
+					}
+					proc.exec(settings.path+' /t "'+(msg.replace('"','').replace('\n',''))+'"');
+				}
+			}
+		}
 	});
 }
 
