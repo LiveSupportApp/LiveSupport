@@ -1,6 +1,6 @@
 const get = require('request').get;
 
-exports.isLive = (id, key, callback) => {
+exports.getLive = (id, key, callback) => {
 	get({url: `https://www.googleapis.com/youtube/v3/search?eventType=live&part=id&channelId=${id}&type=video&key=${key}`, json: true}, (err, res, json) => {
 		if (err || res.statusCode != 200) return callback(err||true);
 		if (!json.items[0]) return callback(null, false)
