@@ -16,6 +16,8 @@ const {
 
 let mainWindow = null, optWindow = null, settings = {}, liveChatId = '', tray = null, yt = null;
 
+if (app.makeSingleInstance((argv, workingDirectory) => {})) app.quit();
+
 app.on('ready', () => {
 	initFile('setWin.json');
 	initFile('settings.json', is => {
