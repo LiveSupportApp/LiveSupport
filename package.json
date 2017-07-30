@@ -9,6 +9,7 @@
     "fs-extra": "^3.0.1",
     "jquery": "^3.2.1",
     "nicojs": "^1.1.8",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "youtube-live-chat": "0.0.4"
   }
 }
