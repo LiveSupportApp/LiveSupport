@@ -17,8 +17,8 @@ const {
 let mainWindow = null, optWindow = null, settings = {}, liveChatId = '', tray = null, yt = null;
 
 app.on('ready', () => {
-	initFile('settings.json');
-	initFile('setWin.json', is => {
+	initFile('setWin.json');
+	initFile('settings.json', is => {
 		if (is) {
 			msgbox({
 				type: 'warning',
