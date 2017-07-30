@@ -68,14 +68,6 @@ function appInit() {
 
 	tray = new Tray(nativeImage.createFromPath(path.join(__dirname, '/icon/icon.png')));
 	var menuData = [{
-		label: '表示',
-		click: () => { mainWindow.focus(); }
-	}, {
-		label: '常に手前に表示',
-		type: 'checkbox',
-		checked: settings.onTop,
-		click: (e) => { settings.onTop = e.checked; }
-	}, {
 		label: 'ライブを取得する',
 		click: () => { init(); }
 	}, {
@@ -85,7 +77,6 @@ function appInit() {
 		label: '終了',
 		click: () => { app.quit(); }
 	}];
-	if (settings.niconico) menuData.splice(0,2);
 	tray.setContextMenu(Menu.buildFromTemplate(menuData));
 	tray.setToolTip('YouTubeLiveSupport');
 	init();
