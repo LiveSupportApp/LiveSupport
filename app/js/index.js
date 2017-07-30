@@ -1,13 +1,12 @@
 const path     = require('path'),
 			$        = require("jquery"),
-			ipc      = require('electron').ipcRenderer,
-			settings = require(path.join(__dirname, '../settings/settings.json'));
+			ipc      = require('electron').ipcRenderer;
 
 var lastRead = Date.now(),liveChatId='',readingText;
 
 ipc.on('chat', (event, data) => {
-	addChat(data.name,data.msg,data.url)
-})
+	addChat(data.name, data.msg, data.url);
+});
 
 function addChat(name,msg,url) {
 	$('#chat_container').prepend(`
