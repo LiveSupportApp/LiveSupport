@@ -27,17 +27,17 @@ app.on('ready', () => {
 			}, id => {
 				showOptionPage(()=>{
 					settings = require(path.join(__dirname, 'settings/settings.json'));
-					init();
+					appInit();
 				});
 			});
 		} else {
 			settings = require(path.join(__dirname, 'settings/settings.json'));
-			init();
+			appInit();
 		}
 	});
 });
 
-function init() {
+function appInit() {
 	if (settings.nico.is) {
 		var setting = false;
 		mainWindow = new BrowserWindow({ x: 0, y: 0, resizable : false, movable: false, minimizable: false, maximizable: false, focusable: true, alwaysOnTop: !settings.nico.chromakey.is, fullscreen: true, skipTaskbar: true, transparent: true, frame: false });
