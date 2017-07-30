@@ -103,6 +103,7 @@ function main() {
 	yt = new YouTube(settings.channelId, settings.APIkey);
 
 	yt.on('ready', () => {
+		console.log('ライブを取得しました。');
 		yt.listen(settings.timeout);
 	});
 
@@ -122,7 +123,7 @@ function main() {
 				detail: '配信している場合は暫く待って取得してください。'
 			}, id => {if (id==1) main()});return
 		} else {
-			console.log(err);
+			dialog.showErrorBox('YouTubeLiveSupport', err);
 		}
 	});
 
