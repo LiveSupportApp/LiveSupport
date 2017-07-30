@@ -69,7 +69,7 @@ function appInit() {
 	tray = new Tray(nativeImage.createFromPath(path.join(__dirname, '/icon/icon.png')));
 	var menuData = [{
 		label: 'ライブを取得する',
-		click: () => { init(); }
+		click: () => { main(); }
 	}, {
 		label: 'オプション',
 		click: () => { showOptionPage(); }
@@ -79,7 +79,7 @@ function appInit() {
 	}];
 	tray.setContextMenu(Menu.buildFromTemplate(menuData));
 	tray.setToolTip('YouTubeLiveSupport');
-	init();
+	main();
 }
 
 function showOptionPage(callback) {
@@ -88,7 +88,7 @@ function showOptionPage(callback) {
 	optWindow.on('closed', () => { optWindow = null;if(callback) callback(); });
 }
 
-function init() {
+function main() {
 	if (!(settings.channelId&&settings.APIkey)) {
 		msgbox({
 			type: 'error',
@@ -113,14 +113,14 @@ function init() {
 				btns: ['OK', '再取得'],
 				msg: '配信が見つかりませんでした。',
 				detail: '配信している場合は暫く待って取得してください。'
-			},(id) => {if (id==1) init();});return
+			},(id) => {if (id==1) main()});return
 		} else if (err=='Can not find chat') {
 			msgbox({
 				type: 'warning',
 				btns: ['OK', '再取得'],
 				msg: 'チャットの取得に失敗しました。',
 				detail: '配信している場合は暫く待って取得してください。'
-			}, id => {if (id==1) init();});return
+			}, id => {if (id==1) main()});return
 		} else {
 			console.log(err);
 		}
