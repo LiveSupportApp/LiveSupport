@@ -132,11 +132,11 @@ function init() {
 		author = item.authorDetails;
 		name   = item.authorDetails.displayName;
 		type   = {
-				verified:  author.isVerified,
-				owner:     author.isChatOwner,
-				sponsor:   author.isChatSponsor,
-				moderator: author.isChatModerator
-			};
+			verified:  author.isVerified,
+			owner:     author.isChatOwner,
+			sponsor:   author.isChatSponsor,
+			moderator: author.isChatModerator
+		};
 		// font size 40 #30 20 px
 		mainWindow.webContents.send('chat', {
 			msg:  msg,
