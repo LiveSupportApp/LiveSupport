@@ -64,7 +64,7 @@ function appInit() {
 		click: () => { main(); }
 	}, {
 		label: 'オプション',
-		click: () => { showOptionPage(); }
+		click: showOptionPage
 	}, {
 		label: '終了',
 		click: () => { app.quit(); }
