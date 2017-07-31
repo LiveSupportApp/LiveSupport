@@ -16,7 +16,7 @@ body {
 
 .container {
 	margin: 10px 15px;
-	height: 80%;
+	height: calc(100% - 20px);
 	-webkit-app-region: drag;
 }
 
