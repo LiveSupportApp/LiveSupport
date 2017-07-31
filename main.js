@@ -5,6 +5,7 @@ const {
 				Menu,
 				Tray,
 				dialog,
+				ipcMain,
 				nativeImage,
 				BrowserWindow,
 				globalShortcut
@@ -12,27 +13,27 @@ const {
 			path    = require('path'),
 			fs      = require('fs-extra'),
 			proc    = require('child_process'),
-			YouTube = require('youtube-live-chat');
+			YouTube = require('youtube-live-chat'),
+			storage = require('electron-json-storage');
 
-let mainWindow = null, optWindow = null, config = {}, liveChatId = '', tray = null, yt = null;
+let mainWindow = null, optWindow = null, config = null, liveChatId = '', tray = null, yt = null;
 
 if (app.makeSingleInstance((argv, workingDirectory) => {})) app.quit();
 
 app.on('ready', () => {
-	initFile('config.json', is => {
-		if (is) {
+	storage.get('config', (err, data) => {
+		showError(err);
+
+		if (Object.keys(data).length === 0) {
 			msgbox({
 				type: 'warning',
 				btns: ['OK'],
 				msg: '初回起動のため設定ウィンドウを起動します。'
 			}, id => {
-				showOptionPage(()=>{
-					config = require(path.join(__dirname, 'config/config.json'));
-					appInit();
-				});
+				showOptionPage(()=>{appInit()});
 			});
 		} else {
-			config = require(path.join(__dirname, 'config/config.json'));
+			config = data;
 			appInit();
 		}
 	});
@@ -64,7 +65,7 @@ function appInit() {
 		click: () => { main(); }
 	}, {
 		label: 'オプション',
-		click: showOptionPage
+		click: () => { showOptionPage(); }
 	}, {
 		label: '終了',
 		click: () => { app.quit(); }
@@ -74,22 +75,16 @@ function appInit() {
 	main();
 }
 
-function showOptionPage(callback) {
-	optWindow = new BrowserWindow({ width: 500, titleBarStyle: 'hidden' });
-	optWindow.loadURL(path.join(__dirname, 'app/options.html'));
-	optWindow.on('closed', () => { optWindow = null;if(callback) callback(); });
-}
-
 function main() {
 	if (!(config.channelId&&config.APIkey)) {
 		msgbox({
 			type: 'error',
-			btns: ['はい','キャンセル'],
+			btns: ['はい'],
 			msg: 'チャンネルIDとAPIキーを設定してください。',
-			detail: '今すぐ設定しますか？'
 		}, (id) => {
-			if (id==0) showOptionPage();
-		});return
+			if (id==0) showOptionPage(()=>{main()});
+		});
+		return;
 	}
 
 	yt = new YouTube(config.channelId, config.APIkey);
@@ -141,15 +136,20 @@ function main() {
 	});
 }
 
-function initFile(file, callback) {
-	try {
-		fs.statSync(path.join(__dirname, 'config/', file));
-		if (callback) callback(false);
-	} catch(err) {
-		if(err.code!=='ENOENT') return showError(err);
-		fs.copySync(path.join(__dirname, 'config/default/', file), path.join(__dirname, 'config/', file));
-		if (callback) callback(true);
-	}
+function showOptionPage(callback) {
+	optWindow = new BrowserWindow({ width: 500, titleBarStyle: 'hidden' });
+	optWindow.loadURL(path.join(__dirname, 'app/options.html'));
+	optWindow.on('closed', () => { optWindow = null; });
+
+	ipcMain.on('data', (event, data) => {
+		config = data;
+		storage.set('config', config, err => {
+			showError(err);
+			event.sender.send('reply');
+		});
+	});
+
+	optWindow.on('close', () => { if (callback) callback(); });
 }
 
 function msgbox(params, callback) {
