@@ -1,6 +1,6 @@
 {
-	"channelId": "",
-	"APIkey": "",
+	"channelId": "UCWwYCM2l2pSyK78NEMuG8Og",
+	"APIkey": "AIzaSyDFdYl3-uZBOsOd-zzGTD5uQtN-BMZOuvg",
 	"timeout": 1000,
 	"reading": false,
 	"onTop": false,
@@ -8,10 +8,10 @@
 	"nico": {
 		"is": false,
 		"color": "FFFFFF",
-		"size": 50,
+		"size": "50",
 		"chromakey": {
 			"is": false,
-			"color": ""
+			"color": "FFFFFF"
 		}
 	}
 }

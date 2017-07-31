@@ -14,12 +14,12 @@ const {
 			proc    = require('child_process'),
 			YouTube = require('youtube-live-chat');
 
-let mainWindow = null, optWindow = null, settings = {}, liveChatId = '', tray = null, yt = null;
+let mainWindow = null, optWindow = null, config = {}, liveChatId = '', tray = null, yt = null;
 
 if (app.makeSingleInstance((argv, workingDirectory) => {})) app.quit();
 
 app.on('ready', () => {
-	initFile('settings.json', is => {
+	initFile('config.json', is => {
 		if (is) {
 			msgbox({
 				type: 'warning',
@@ -27,21 +27,21 @@ app.on('ready', () => {
 				msg: '初回起動のため設定ウィンドウを起動します。'
 			}, id => {
 				showOptionPage(()=>{
-					settings = require(path.join(__dirname, 'settings/settings.json'));
+					config = require(path.join(__dirname, 'config/config.json'));
 					appInit();
 				});
 			});
 		} else {
-			settings = require(path.join(__dirname, 'settings/settings.json'));
+			config = require(path.join(__dirname, 'config/config.json'));
 			appInit();
 		}
 	});
 });
 
 function appInit() {
-	if (settings.nico.is) {
+	if (config.nico.is) {
 		var setting = false;
-		mainWindow = new BrowserWindow({ x: 0, y: 0, resizable : false, movable: false, minimizable: false, maximizable: false, focusable: true, alwaysOnTop: !settings.nico.chromakey.is, fullscreen: true, skipTaskbar: true, transparent: true, frame: false });
+		mainWindow = new BrowserWindow({ x: 0, y: 0, resizable : false, movable: false, minimizable: false, maximizable: false, focusable: true, alwaysOnTop: !config.nico.chromakey.is, fullscreen: true, skipTaskbar: true, transparent: true, frame: false });
 		mainWindow.setIgnoreMouseEvents(true);
 		// mainWindow.openDevTools();
 		mainWindow.maximize();
@@ -81,7 +81,7 @@ function showOptionPage(callback) {
 }
 
 function main() {
-	if (!(settings.channelId&&settings.APIkey)) {
+	if (!(config.channelId&&config.APIkey)) {
 		msgbox({
 			type: 'error',
 			btns: ['はい','キャンセル'],
@@ -92,11 +92,11 @@ function main() {
 		});return
 	}
 
-	yt = new YouTube(settings.channelId, settings.APIkey);
+	yt = new YouTube(config.channelId, config.APIkey);
 
 	yt.on('ready', () => {
 		console.log('ライブを取得しました。');
-		yt.listen(settings.timeout);
+		yt.listen(config.timeout);
 	});
 
 	yt.on('error', err => {
@@ -137,17 +137,17 @@ function main() {
 			url:  author.profileImageUrl,
 			type: type
 		});
-		if (settings.reading) read(msg, name, type);
+		if (config.reading) read(msg, name, type);
 	});
 }
 
 function initFile(file, callback) {
 	try {
-		fs.statSync(path.join(__dirname, 'settings/', file));
+		fs.statSync(path.join(__dirname, 'config/', file));
 		if (callback) callback(false);
 	} catch(err) {
 		if(err.code!=='ENOENT') return error(err);
-		fs.copySync(path.join(__dirname, 'settings/default/', file), path.join(__dirname, 'settings/', file));
+		fs.copySync(path.join(__dirname, 'config/default/', file), path.join(__dirname, 'config/', file));
 		if (callback) callback(true);
 	}
 }
@@ -169,11 +169,11 @@ function msgbox(params, callback) {
 
 function read(msg, name, type) {
 	let readingText = '';
-	switch (settings.whatReading) {
+	switch (config.whatReading) {
 		case 'msg': readingText = msg;
 		case 'all': default: readingText = name+' '+msg;
 	}
-	proc.exec(settings.path+' /t "'+(msg.replace('"','').replace('\n',''))+'"');
+	proc.exec(config.path+' /t "'+(msg.replace('"','').replace('\n',''))+'"');
 }
 
 function error(err) {
