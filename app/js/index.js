@@ -1,23 +1,35 @@
-const path     = require('path'),
-			$        = require("jquery"),
-			ipc      = require('electron').ipcRenderer;
+const {
+				remote,
+				ipcRenderer
+			}    = require('electron'),
+			$    = require('jquery'),
+			path = require('path');
 
-var lastRead = Date.now(),liveChatId='',readingText;
+{
+	let win = remote.getCurrentWindow();
 
-ipc.on('chat', (event, data) => {
-	addChat(data.name, data.msg, data.url);
-});
+	if (localStorage.getItem('bounds')) {
+		let bounds = JSON.parse(localStorage.getItem('bounds'));
+		win.setBounds(bounds);
+	}
 
-function addChat(name,msg,url) {
+	win.on('move', () => {
+		localStorage.setItem('bounds', JSON.stringify(win.getBounds()));
+	});
+
+	win.show();
+}
+
+ipcRenderer.on('chat', (event, data) => {
 	$('#chat_container').prepend(`
 			<div class="chat">
 				<div class="icon">
-					<img src="${url}">
+					<img src="${data.url}">
 				</div>
 				<div class="content">
-					<div class="author">${name}</div>
+					<div class="author">${data.name}</div>
 					&#8203;
-					<div class="message">${msg}</div>
+					<div class="message">${data.msg}</div>
 				</div>
 			</div>`);
-}
+});

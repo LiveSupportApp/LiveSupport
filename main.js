@@ -19,7 +19,6 @@ let mainWindow = null, optWindow = null, settings = {}, liveChatId = '', tray = 
 if (app.makeSingleInstance((argv, workingDirectory) => {})) app.quit();
 
 app.on('ready', () => {
-	initFile('setWin.json');
 	initFile('settings.json', is => {
 		if (is) {
 			msgbox({
@@ -54,16 +53,9 @@ function appInit() {
 			mainWindow.setIgnoreMouseEvents(!setting);
 		});
 	} else {
-		var setWin = require(path.join(__dirname, 'settings/setWin.json'));
-		mainWindow = new BrowserWindow({ width: 300, height: 100, transparent: true, frame: false, skipTaskbar: true, alwaysOnTop: true });
+		mainWindow = new BrowserWindow({ width: 300, height: 100, transparent: true, frame: false, skipTaskbar: true, alwaysOnTop: true, show: false });
 		mainWindow.loadURL(path.join(__dirname, 'app/index.html'));
 		mainWindow.on('closed', () => { mainWindow = null; });
-		mainWindow.setPosition(setWin.x, setWin.y);
-		mainWindow.setSize(setWin.width, setWin.height);
-		mainWindow.on('close', () => {
-			fs.writeFile(path.join(__dirname, 'settings/setWin.json'), JSON.stringify(mainWindow.getBounds()), (err) => {});
-			fs.writeFile(path.join(__dirname, 'settings/settings.json'), JSON.stringify(settings,undefined,'	'), (err) => {});
-		});
 	}
 
 	tray = new Tray(nativeImage.createFromPath(path.join(__dirname, '/icon/icon.png')));
@@ -123,7 +115,7 @@ function main() {
 				detail: '配信している場合は暫く待って取得してください。'
 			}, id => {if (id==1) main()});return
 		} else {
-			dialog.showErrorBox('YouTubeLiveSupport', err);
+			error(err);
 		}
 	});
 
@@ -154,7 +146,7 @@ function initFile(file, callback) {
 		fs.statSync(path.join(__dirname, 'settings/', file));
 		if (callback) callback(false);
 	} catch(err) {
-		if(err.code!=='ENOENT') return dialog.showErrorBox('YouTubeLiveSupport', err);
+		if(err.code!=='ENOENT') return error(err);
 		fs.copySync(path.join(__dirname, 'settings/default/', file), path.join(__dirname, 'settings/', file));
 		if (callback) callback(true);
 	}
@@ -182,4 +174,8 @@ function read(msg, name, type) {
 		case 'all': default: readingText = name+' '+msg;
 	}
 	proc.exec(settings.path+' /t "'+(msg.replace('"','').replace('\n',''))+'"');
+}
+
+function error(err) {
+	if (err) dialog.showErrorBox('YouTubeLiveSupport', err);
 }
