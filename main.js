@@ -54,7 +54,7 @@ function appInit() {
 			mainWindow.setIgnoreMouseEvents(!setting);
 		});
 	} else {
-		mainWindow = new BrowserWindow({ width: 300, height: 100, transparent: true, frame: false, skipTaskbar: true, alwaysOnTop: true, show: false });
+		mainWindow = new BrowserWindow({ transparent: true, frame: false, skipTaskbar: true, alwaysOnTop: true, show: false });
 		mainWindow.loadURL(path.join(__dirname, 'app/index.html'));
 		mainWindow.on('closed', () => { mainWindow = null; });
 	}
