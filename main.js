@@ -115,7 +115,7 @@ function main() {
 				detail: '配信している場合は暫く待って取得してください。'
 			}, id => {if (id==1) main()});return
 		} else {
-			error(err);
+			showError(err);
 		}
 	});
 
@@ -146,7 +146,7 @@ function initFile(file, callback) {
 		fs.statSync(path.join(__dirname, 'config/', file));
 		if (callback) callback(false);
 	} catch(err) {
-		if(err.code!=='ENOENT') return error(err);
+		if(err.code!=='ENOENT') return showError(err);
 		fs.copySync(path.join(__dirname, 'config/default/', file), path.join(__dirname, 'config/', file));
 		if (callback) callback(true);
 	}
@@ -176,6 +176,6 @@ function read(msg, name, type) {
 	proc.exec(config.path+' /t "'+(msg.replace('"','').replace('\n',''))+'"');
 }
 
-function error(err) {
+function showError(err) {
 	if (err) dialog.showErrorBox('YouTubeLiveSupport', err);
 }
