@@ -12,11 +12,12 @@ body {
 	box-shadow: 0 0 8px 3px #000 inset;
 	-webkit-user-select: none;
 	color: #fff;
-	-webkit-app-region: drag;
 }
 
 .container {
-	padding: 10px 15px;
+	margin: 10px 15px;
+	height: 80%;
+	-webkit-app-region: drag;
 }
 
 .container > div {
