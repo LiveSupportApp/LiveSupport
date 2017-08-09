@@ -1,5 +1,5 @@
 {
-  "name": "YouTubeLiveSupport",
+  "name": "youtube-live-support",
   "version": "1.1.7",
   "main": "main.js",
   "dependencies": {
@@ -12,5 +12,20 @@
     "nicojs": "^1.1.8",
     "path": "^0.12.7",
     "youtube-live-chat": "0.0.4"
-  }
+  },
+  "description": "YouTubeLiveをサポートするソフト",
+  "devDependencies": {},
+  "scripts": {
+    "test": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuta0801/YouTubeLiveSupport.git"
+  },
+  "author": "yuta0801",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yuta0801/YouTubeLiveSupport/issues"
+  },
+  "homepage": "https://github.com/yuta0801/YouTubeLiveSupport#readme"
 }
