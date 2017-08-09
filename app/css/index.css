@@ -15,8 +15,8 @@ body {
 }
 
 .container {
-	margin: 10px 15px;
-	height: calc(100% - 20px);
+	margin: 2px;
+	height: calc(100% - 4px);
 	-webkit-app-region: drag;
 }
 
