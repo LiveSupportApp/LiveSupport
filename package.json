@@ -14,7 +14,9 @@
     "youtube-live-chat": "0.0.4"
   },
   "description": "YouTubeLiveをサポートするソフト",
-  "devDependencies": {},
+  "devDependencies": {
+    "devtron": "^1.4.0"
+  },
   "scripts": {
     "test": "electron ."
   },
