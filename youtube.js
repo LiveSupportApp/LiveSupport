@@ -76,6 +76,21 @@ class YouTube extends EventEmitter {
 		});
 	}
 
+	send(msg) {
+		this.youtube.liveChatMessages.insert({
+			auth: this.auth,
+			part: 'snippet',
+			resource: {
+				snippet: {
+					liveChatId: this.chatId,
+					type: 'textMessageEvent',
+					textMessageDetails: {
+						messageText: msg
+					}
+				}
+			}
+		})
+	}
 }
 
 module.exports = YouTube;
