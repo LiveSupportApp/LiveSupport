@@ -6,10 +6,10 @@ const {
 			path = require('path');
 
 {
-	let win = remote.getCurrentWindow();
+	const win = remote.getCurrentWindow();
 
 	if (localStorage.getItem('bounds')) {
-		let bounds = JSON.parse(localStorage.getItem('bounds'));
+		const bounds = JSON.parse(localStorage.getItem('bounds'));
 		win.setBounds(bounds);
 	}
 
