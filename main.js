@@ -4,17 +4,22 @@ const {
 				app,
 				Menu,
 				Tray,
+				shell,
 				dialog,
 				ipcMain,
 				nativeImage,
 				BrowserWindow,
 				globalShortcut
-			}       = require('electron'),
-			path    = require('path'),
-			fs      = require('fs-extra'),
-			proc    = require('child_process'),
-			YouTube = require('youtube-live-chat'),
-			storage = require('electron-json-storage');
+			}          = require('electron'),
+			path       = require('path'),
+			fs         = require('fs-extra'),
+			proc       = require('child_process'),
+			YouTube    = require('./youtube.js'),
+			storage    = require('electron-json-storage'),
+			prompt     = require('electron-prompt'),
+			credential = require('./client_secret.json'),
+			googleAuth = require('google-auth-library');
+
 
 let mainWindow = null, optWindow = null, config = null, liveChatId = '', tray = null, yt = null;
 
@@ -25,13 +30,7 @@ app.on('ready', () => {
 		showError(err);
 
 		if (Object.keys(data).length === 0) {
-			msgbox({
-				type: 'warning',
-				btns: ['OK'],
-				msg: '初回起動のため設定ウィンドウを起動します。'
-			}, id => {
-				showOptionPage(()=>{appInit()});
-			});
+			// デフォルト値のセット
 		} else {
 			config = data;
 			appInit();
@@ -60,7 +59,7 @@ function appInit() {
 	}
 
 	tray = new Tray(nativeImage.createFromPath(path.join(__dirname, '/icon/icon.png')));
-	var menuData = [{
+	tray.setContextMenu(Menu.buildFromTemplate([{
 		label: 'ライブを取得する',
 		click: () => { main(); }
 	}, {
@@ -69,28 +68,56 @@ function appInit() {
 	}, {
 		label: '終了',
 		click: () => { app.quit(); }
-	}];
-	tray.setContextMenu(Menu.buildFromTemplate(menuData));
+	}]));
 	tray.setToolTip('YouTubeLiveSupport');
-	main();
+	authorize();
 }
 
-function main() {
-	if (!(config.channelId&&config.APIkey)) {
-		msgbox({
-			type: 'error',
-			btns: ['はい'],
-			msg: 'チャンネルIDとAPIキーを設定してください。',
-		}, (id) => {
-			if (id==0) showOptionPage(()=>{main()});
-		});
-		return;
-	}
+function authorize() {
+	const auth = new googleAuth();
+	const oauth2Client = new auth.OAuth2(credential.installed.client_id, credential.installed.client_secret, credential.installed.redirect_uris[0]);
 
-	yt = new YouTube(config.channelId, config.APIkey);
+	storage.get('token', (err, data) => {
+		if (err) throw err;
+
+		if (Object.keys(data).length === 0) {
+			msgbox({
+				type: 'info',
+				btns: ['OK'],
+				msg: 'OAuth認証を行います。',
+				detail: '次のページから認証を行いコードを入力してください。'
+			}, id => {
+				getNewToken(oauth2Client);
+			});
+		} else {
+			oauth2Client.credentials = data;
+			main(oauth2Client);
+		}
+	});
+}
+
+function getNewToken(oauth2Client) {
+	var authUrl = oauth2Client.generateAuthUrl({
+		access_type: 'offline',
+		scope: 'https://www.googleapis.com/auth/youtube'
+	});
+
+	shell.openExternal(authUrl);
+
+	prompt({ title: 'YouTubeLiveSupport', label: 'コードを入力してください' }).then(res => {
+		oauth2Client.getToken(res, (err, token) => {
+			if (err) return console.log('Error while trying to retrieve access token', err);
+			oauth2Client.credentials = token;
+			storage.set('token', token, console.error);
+			main(oauth2Client);
+		});
+	}).catch(console.error);
+}
+
+function main(auth) {
+	yt = new YouTube(auth);
 
 	yt.on('ready', () => {
-		console.log('ライブを取得しました。');
 		yt.listen(config.timeout);
 	});
 
@@ -101,12 +128,12 @@ function main() {
 				btns: ['OK', '再取得'],
 				msg: '配信が見つかりませんでした。',
 				detail: '配信している場合は暫く待って取得してください。'
-			},(id) => {if (id==1) main()});return
+			}, id => {if (id==1) main()});return
 		} else if (err.message=='Can not find chat') {
 			msgbox({
 				type: 'warning',
 				btns: ['OK', '再取得'],
-				msg: 'チャットの取得に失敗しました。',
+				msg: 'チャットが取得できませんでした。',
 				detail: '配信している場合は暫く待って取得してください。'
 			}, id => {if (id==1) main()});return
 		} else {
