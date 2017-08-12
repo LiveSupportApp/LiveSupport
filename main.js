@@ -66,6 +66,16 @@ function appInit() {
 		label: 'オプション',
 		click: () => { showOptionPage(); }
 	}, {
+		label: '右下に移動',
+		click: () => {
+			const screen = require('electron').screen;
+			const wsize = mainWindow.getSize();
+			const ssize = screen.getPrimaryDisplay().workAreaSize;
+			console.log(wsize, ssize);
+			mainWindow.setPosition(ssize.width-wsize[0], ssize.height-wsize[1]);
+			// mainWindow.center();
+		}
+	}, {
 		label: '終了',
 		click: () => { app.quit(); }
 	}]));
