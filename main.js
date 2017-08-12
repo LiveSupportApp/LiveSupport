@@ -119,6 +119,11 @@ function main(auth) {
 
 	yt.on('ready', () => {
 		yt.listen(config.timeout);
+		globalShortcut.register('ALT+/', () => {
+			prompt({ title: 'YouTubeLiveSupport', label: 'メッセージを入力してください' }).then(res => {
+				if (res) yt.send(res);
+			});
+		});
 	});
 
 	yt.on('error', err => {
