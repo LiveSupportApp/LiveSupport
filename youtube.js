@@ -12,14 +12,14 @@ class YouTube extends EventEmitter {
 	getLive() {
 		this.youtube.liveBroadcasts.list({
 			auth: this.auth,
-			part: 'id',
+			part: 'id,status',
 			mine: true,
 			broadcastType: 'all',
 			maxResults: 1,
 		}, (err, res) => {
 			if (err) {
 				this.emit('error', err);
-			} else if (!res.items.length) {
+			} else if (!res.items[0]||res.items[0].status.recordingStatus!=='recording') {
 				this.emit('error', new Error('Can not find live'));
 			} else {
 				this.liveId = res.items[0].id;
