@@ -41,7 +41,6 @@ function appInit() {
 			const ssize = screen.getPrimaryDisplay().workAreaSize;
 			console.log(wsize, ssize);
 			mainWindow.setPosition(ssize.width-wsize[0], ssize.height-wsize[1]);
-			// mainWindow.center();
 		}
 	}, {
 		label: '終了',
