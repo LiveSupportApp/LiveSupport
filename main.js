@@ -18,10 +18,9 @@ const {
 			credential = require('./client_secret.json'),
 			googleAuth = require('google-auth-library'),
 			fs         = require('fs-extra'),
-			exec       = require('child_process').exec,
-			config     = require(path.join(app.getPath('home'), '.yls/config.json'));
+			exec       = require('child_process').exec;
 
-let mainWindow, tray, yt;
+let mainWindow, tray, yt, config;
 
 app.on('ready', () => {
 	packageInit();
@@ -95,6 +94,7 @@ function getNewToken(oauth2Client) {
 }
 
 function main(auth) {
+	config = require(path.join(app.getPath('home'), '.yls/config.json'));
 	yt = new YouTube(auth);
 
 	yt.on('ready', () => {
@@ -169,17 +169,13 @@ function showError(err) {
 
 function packageInit() {
 	let appPath = path.join(app.getPath('home'), '.yls');
-	if (!fs.existsSync(appPath)) fs.mkdir('xxx', err => { if (err) showError(err); });
-	fs.readdir(path.join(__dirname, 'package/'), (err, files) => {
-		if (err) showError(err);
-		for (let file of files) {
-			if (!fs.existsSync(path.join(appPath, file))) {
-				fs.copy(path.join(__dirname, 'package/', file), path.join(appPath, file), err => {
-					if (err) showError(err);
-				});
-			}
+	if (!fs.existsSync(appPath)) fs.mkdir(appPath, err => { if (err) showError(err); });
+	let files = fs.readdirSync(path.join(__dirname, 'package/'));
+	for (let file of files) {
+		if (!fs.existsSync(path.join(appPath, file))) {
+			fs.copySync(path.join(__dirname, 'package/', file), path.join(appPath, file));
 		}
-	});
+	}
 }
 
 function read(msg, name) {
