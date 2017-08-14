@@ -28,8 +28,9 @@ app.on('ready', () => {
 });
 
 function appInit() {
+	config = require(path.join(app.getPath('home'), '.yls/config.json'));
 	mainWindow = new BrowserWindow({ transparent: true, frame: false, skipTaskbar: true, alwaysOnTop: true, show: false });
-	mainWindow.loadURL(path.join(__dirname, 'app/generator/index.html'));
+	mainWindow.loadURL(path.join(__dirname, 'app', config.package, 'index.html'));
 	mainWindow.on('closed', () => { mainWindow = null; });
 
 	tray = new Tray(nativeImage.createFromPath(path.join(__dirname, '/icon/icon.png')));
@@ -94,7 +95,6 @@ function getNewToken(oauth2Client) {
 }
 
 function main(auth) {
-	config = require(path.join(app.getPath('home'), '.yls/config.json'));
 	yt = new YouTube(auth);
 
 	yt.on('ready', () => {
