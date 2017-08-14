@@ -1,0 +1,9 @@
+{
+	"timeout": 1000,
+	"package": "default",
+	"reading": {
+		"is": false,
+		"path": "",
+		"name": false
+	}
+}

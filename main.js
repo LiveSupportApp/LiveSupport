@@ -16,17 +16,21 @@ const {
 			storage    = require('electron-json-storage'),
 			prompt     = require('electron-prompt'),
 			credential = require('./client_secret.json'),
-			googleAuth = require('google-auth-library');
+			googleAuth = require('google-auth-library'),
+			fs         = require('fs-extra'),
+			exec       = require('child_process').exec,
+			config     = require(path.join(app.getPath('home'), '.yls/config.json'));
 
 let mainWindow, tray, yt;
 
 app.on('ready', () => {
+	packageInit();
 	appInit();
 });
 
 function appInit() {
 	mainWindow = new BrowserWindow({ transparent: true, frame: false, skipTaskbar: true, alwaysOnTop: true, show: false });
-	mainWindow.loadURL(path.join(__dirname, 'app/index.html'));
+	mainWindow.loadURL(path.join(__dirname, 'app/generator/index.html'));
 	mainWindow.on('closed', () => { mainWindow = null; });
 
 	tray = new Tray(nativeImage.createFromPath(path.join(__dirname, '/icon/icon.png')));
@@ -39,7 +43,6 @@ function appInit() {
 			const screen = require('electron').screen;
 			const wsize = mainWindow.getSize();
 			const ssize = screen.getPrimaryDisplay().workAreaSize;
-			console.log(wsize, ssize);
 			mainWindow.setPosition(ssize.width-wsize[0], ssize.height-wsize[1]);
 		}
 	}, {
@@ -95,7 +98,7 @@ function main(auth) {
 	yt = new YouTube(auth);
 
 	yt.on('ready', () => {
-		yt.listen();
+		yt.listen(config.timeout);
 		globalShortcut.register('ALT+/', () => {
 			prompt({ title: 'YouTubeLiveSupport', label: 'メッセージを入力してください' }).then(res => {
 				if (res) yt.send(res);
@@ -134,6 +137,7 @@ function main(auth) {
 			sponsor:   author.isChatSponsor,
 			moderator: author.isChatModerator
 		};
+		if (config.reading.is) read(msg, name);
 		// font size 40 #30 20 px
 		mainWindow.webContents.send('chat', {
 			msg:  msg,
@@ -161,4 +165,23 @@ function msgbox(params, callback) {
 
 function showError(err) {
 	if (err) dialog.showErrorBox('YouTubeLiveSupport', err);
+}
+
+function packageInit() {
+	let appPath = path.join(app.getPath('home'), '.yls');
+	if (!fs.existsSync(appPath)) fs.mkdir('xxx', err => { if (err) showError(err); });
+	fs.readdir(path.join(__dirname, 'package/'), (err, files) => {
+		if (err) showError(err);
+		for (let file of files) {
+			if (!fs.existsSync(path.join(appPath, file))) {
+				fs.copy(path.join(__dirname, 'package/', file), path.join(appPath, file), err => {
+					if (err) showError(err);
+				});
+			}
+		}
+	});
+}
+
+function read(msg, name) {
+	exec(`${config.reading.path} /t "${((config.reading.name)?name+' さん '+text:text).replace('"','\'').replace('\n',' ')}"`);
 }
