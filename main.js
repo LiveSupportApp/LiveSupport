@@ -18,7 +18,7 @@ const {
 			credential = require('./client_secret.json'),
 			googleAuth = require('google-auth-library');
 
-let mainWindow = null, tray = null, yt = null;
+let mainWindow, tray, yt;
 
 app.on('ready', () => {
 	appInit();

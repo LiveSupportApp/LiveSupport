@@ -6,7 +6,6 @@
     "child_process": "^1.0.2",
     "electron": "^1.7.5",
     "electron-json-storage": "^3.0.7",
-    "electron-preference": "0.0.1",
     "electron-prompt": "^0.3.0",
     "fs": "0.0.1-security",
     "google-auth-library": "^0.10.0",
