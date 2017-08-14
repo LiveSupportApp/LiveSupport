@@ -170,10 +170,10 @@ function showError(err) {
 function packageInit() {
 	let appPath = path.join(app.getPath('home'), '.yls');
 	if (!fs.existsSync(appPath)) fs.mkdir(appPath, err => { if (err) showError(err); });
-	let files = fs.readdirSync(path.join(__dirname, 'package/'));
+	let files = fs.readdirSync(path.join(__dirname, 'package'));
 	for (let file of files) {
 		if (!fs.existsSync(path.join(appPath, file))) {
-			fs.copySync(path.join(__dirname, 'package/', file), path.join(appPath, file));
+			fs.copySync(path.join(__dirname, 'package', file), path.join(appPath, file));
 		}
 	}
 }
