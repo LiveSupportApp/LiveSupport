@@ -11,6 +11,8 @@ const {
 	if (localStorage.getItem('bounds')) {
 		const bounds = JSON.parse(localStorage.getItem('bounds'));
 		win.setBounds(bounds);
+	} else {
+		win.setSize(600, 200);
 	}
 
 	win.on('move', () => {
