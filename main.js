@@ -75,7 +75,7 @@ function authorize() {
 				msg: 'OAuth認証を行います。',
 				detail: '次のページから認証を行いコードを入力してください。'
 			}, id => {
-				main(getNewToken(oauth2Client));
+				getNewToken(oauth2Client);
 			});
 		} else {
 			oauth2Client.credentials = data;
@@ -94,10 +94,18 @@ function getNewToken(oauth2Client) {
 
 	prompt({ title: 'YouTubeLiveSupport', label: 'コードを入力してください' }).then(res => {
 		oauth2Client.getToken(res, (err, token) => {
-			if (err) showError('Error while trying to retrieve access token', err);
-			oauth2Client.credentials = token;
-			storage.set('token', token, console.error);
-			return oauth2Client;
+			if (err) {
+				msgbox({
+					type: 'warning',
+					btns: ['再認証'],
+					msg: '認証できませんでした。',
+					detail: err.toString()
+				}, id => { authorize(); });
+			} else {
+				oauth2Client.credentials = token;
+				storage.set('token', token, showError);
+				main(oauth2Client);
+			}
 		});
 	}).catch(showError);
 }
