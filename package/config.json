@@ -1,6 +1,9 @@
 {
 	"timeout": 1000,
-	"package": "default",
+	"package": {
+		"name": "default",
+		"internal": true
+	},
 	"reading": {
 		"is": false,
 		"path": "",

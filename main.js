@@ -18,7 +18,8 @@ const {
 			credential = require('./client_secret.json'),
 			googleAuth = require('google-auth-library'),
 			fs         = require('fs-extra'),
-			exec       = require('child_process').exec;
+			exec       = require('child_process').exec,
+			appPath    = path.join(app.getPath('home'), '.yls');
 
 if (app.makeSingleInstance((argv, workingDirectory) => {})) {
 	showError('すでに起動してるっぽいdёsц☆');
@@ -33,9 +34,11 @@ app.on('ready', () => {
 });
 
 function appInit() {
-	config = require(path.join(app.getPath('home'), '.yls/config.json'));
+	config = require(path.join(appPath, 'config.json'));
+	if (!isExtraPackage(config.package.name, config.package.internal)) showError('指定したパッケージが存在しません！');
 	mainWindow = new BrowserWindow({ transparent: true, frame: false, skipTaskbar: true, alwaysOnTop: true, show: false });
-	mainWindow.loadURL(path.join(__dirname, 'app', config.package, 'index.html'));
+	mainWindow.loadURL(path.join((config.package.internal)?path.join(__dirname, 'package'):appPath, config.package.name, 'index.html'));
+	mainWindow.show();
 	mainWindow.on('closed', () => { mainWindow = null; });
 
 	tray = new Tray(nativeImage.createFromPath(path.join(__dirname, '/icon/icon.png')));
@@ -173,7 +176,6 @@ function showError(err) {
 }
 
 function packageInit() {
-	let appPath = path.join(app.getPath('home'), '.yls');
 	if (!fs.existsSync(appPath)) fs.mkdirSync(appPath);
 	let files = fs.readdirSync(path.join(__dirname, 'package'));
 	for (let file of files) {
@@ -181,6 +183,10 @@ function packageInit() {
 			fs.copySync(path.join(__dirname, 'package', file), path.join(appPath, file));
 		}
 	}
+}
+
+function isExtraPackage(name, internal) {
+	return fs.existsSync(path.join((internal)?path.join(__dirname, 'package'):appPath, name, 'index.html'))
 }
 
 function read(msg, name) {
