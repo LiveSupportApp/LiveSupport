@@ -20,7 +20,7 @@ const {
 			fs         = require('fs-extra'),
 			exec       = require('child_process').exec;
 
-let mainWindow, tray, yt, config;
+let mainWindow, tray, yt, config, auth;
 
 app.on('ready', () => {
 	packageInit();
@@ -36,7 +36,7 @@ function appInit() {
 	tray = new Tray(nativeImage.createFromPath(path.join(__dirname, '/icon/icon.png')));
 	tray.setContextMenu(Menu.buildFromTemplate([{
 		label: 'ライブを取得する',
-		click: () => { main(); }
+		click: () => { authorize(); }
 	}, {
 		label: '右下に移動',
 		click: () => {
@@ -67,7 +67,7 @@ function authorize() {
 				msg: 'OAuth認証を行います。',
 				detail: '次のページから認証を行いコードを入力してください。'
 			}, id => {
-				getNewToken(oauth2Client);
+				main(getNewToken(oauth2Client));
 			});
 		} else {
 			oauth2Client.credentials = data;
@@ -86,12 +86,12 @@ function getNewToken(oauth2Client) {
 
 	prompt({ title: 'YouTubeLiveSupport', label: 'コードを入力してください' }).then(res => {
 		oauth2Client.getToken(res, (err, token) => {
-			if (err) return console.log('Error while trying to retrieve access token', err);
+			if (err) showError('Error while trying to retrieve access token', err);
 			oauth2Client.credentials = token;
 			storage.set('token', token, console.error);
-			main(oauth2Client);
+			return oauth2Client;
 		});
-	}).catch(console.error);
+	}).catch(showError);
 }
 
 function main(auth) {
@@ -113,14 +113,14 @@ function main(auth) {
 				btns: ['OK', '再取得'],
 				msg: '配信が見つかりませんでした。',
 				detail: '配信している場合は暫く待って取得してください。'
-			}, id => {if (id==1) main()});return
+			}, id => {if (id==1) main(auth)});return;
 		} else if (err.message=='Can not find chat') {
 			msgbox({
 				type: 'warning',
 				btns: ['OK', '再取得'],
 				msg: 'チャットが取得できませんでした。',
 				detail: '配信している場合は暫く待って取得してください。'
-			}, id => {if (id==1) main()});return
+			}, id => {if (id==1) main(auth)});return;
 		} else {
 			showError(err);
 		}
