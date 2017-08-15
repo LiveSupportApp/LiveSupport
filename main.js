@@ -20,6 +20,11 @@ const {
 			fs         = require('fs-extra'),
 			exec       = require('child_process').exec;
 
+if (app.makeSingleInstance((argv, workingDirectory) => {})) {
+	showError('すでに起動してるっぽいdёsц☆');
+	app.quit();
+}
+
 let mainWindow, tray, yt, config, auth;
 
 app.on('ready', () => {
