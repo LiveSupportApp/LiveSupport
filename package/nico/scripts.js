@@ -6,8 +6,8 @@ const {
 			NicoJS = require('nicoJS'),
 			nico   = new NicoJS({
 				app: document.getElementById('render'),
-				width: set.width,
-				height: set.height,
+				width: window.innerWidth,
+				height: window.innerHeight,
 				font_size: config.size,
 				color: '#'+config.color
 			});
