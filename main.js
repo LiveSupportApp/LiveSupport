@@ -26,7 +26,7 @@ function appInit() {
 	config = package.config;
 	tray = new Tray(nativeImage.createFromPath(path.join(__dirname, '/icon/icon.png')));
 	tray.setContextMenu(Menu.buildFromTemplate([{
-		label: 'ライブを取得する',
+		label: 'ライブを取得',
 		click: () => { authorize(main); }
 	}, {
 		label: '右下に移動',
