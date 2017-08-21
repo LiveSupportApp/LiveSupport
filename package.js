@@ -7,8 +7,8 @@ class Package {
 		if (!fs.existsSync(app.path)) fs.mkdirSync(app.path);
 		let files = fs.readdirSync(path.join(__dirname, 'package'));
 		for (let file of files) {
-			if (!fs.existsSync(path.join(app.path, file))) {
-				fs.copySync(path.join(__dirname, 'package', file), path.join(app.path, file));
+			if (!fs.existsSync(this.getPath(file))) {
+				fs.copySync(path.join(__dirname, 'package', file), this.getPath(file));
 			}
 		}
 	}
