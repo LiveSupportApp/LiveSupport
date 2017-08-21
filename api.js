@@ -6,7 +6,6 @@ const YouTube      = require('./youtube.js'),
 class API extends EventEmitter {
 	constructor(type) {
 		super();
-		this.type = type;
 		switch (type) {
 			case 'youtube':     this.api = new YouTube();     break;
 			case 'twitcasting': this.api = new TwitCasting(); break;
