@@ -1,8 +1,5 @@
 const {
 				app,
-				Menu,
-				Tray,
-				nativeImage,
 				BrowserWindow,
 				globalShortcut
 			}       = require('electron'),
@@ -14,36 +11,16 @@ const API     = require('./api.js'),
 			package = require('./package.js'),
 			App     = require('./app.js');
 
-let mainWindow, tray, api, config;
+let mainWindow, api, config;
 
 app.on('ready', () => {
 	package.init();
-	appInit();
+	config = package.config;
+	app.trayInit();
 	main();
 });
 
-function appInit() {
-	config = package.config;
-	tray = new Tray(nativeImage.createFromPath(path.join(__dirname, '/icon/icon.png')));
-	tray.setContextMenu(Menu.buildFromTemplate([{
-		label: 'ライブを取得',
-		click: () => { authorize(main); }
-	}, {
-		label: '右下に移動',
-		click: () => {
-			const screen = require('electron').screen;
-			const wsize = mainWindow.getSize();
-			const ssize = screen.getPrimaryDisplay().workAreaSize;
-			mainWindow.setPosition(ssize.width-wsize[0], ssize.height-wsize[1]);
-		}
-	}, {
-		label: '終了',
-		click: () => { app.quit(); }
-	}]));
-	tray.setToolTip('LiveSupport');
-}
-
-function main(auth) {
+function main() {
 	if (!package.isExtra(config.package)) showError('指定したパッケージが存在しません！');
 	mainWindow = new BrowserWindow({ transparent: true, frame: false, skipTaskbar: true, alwaysOnTop: true, show: false });
 	mainWindow.loadURL(package.getPath(config.package));
