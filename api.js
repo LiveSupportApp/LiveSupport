@@ -24,6 +24,10 @@ class API extends EventEmitter {
 	listen(timeout) {
 		this.api.listen(timeout);
 	}
+
+	send(message) {
+		this.api.send(message);
+	}
 }
 
 module.exports = API;
