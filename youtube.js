@@ -128,7 +128,7 @@ class YouTube extends EventEmitter {
 		});
 	}
 
-	send(msg) {
+	send(message) {
 		this.youtube.liveChatMessages.insert({
 			auth: this.auth,
 			part: 'snippet',
@@ -137,7 +137,7 @@ class YouTube extends EventEmitter {
 					liveChatId: this.chatId,
 					type: 'textMessageEvent',
 					textMessageDetails: {
-						messageText: msg
+						messageText: message
 					}
 				}
 			}

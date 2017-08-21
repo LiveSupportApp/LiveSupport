@@ -140,7 +140,7 @@ class TwitCasting extends EventEmitter {
 		// });
 	}
 
-	send(msg) {
+	send(message) {
 		request.post({
 			uri: `https://apiv2.twitcasting.tv/movies/${this.movieId}/comments`,
 			headers: {
@@ -148,7 +148,7 @@ class TwitCasting extends EventEmitter {
 				'X-Api-Version': '2.0',
 				'Authorization': 'Bearer '+this.token
 			},
-			form: { comment: msg }
+			form: { comment: message }
 		}, (err, res, data) => {
 			if (err) {
 				this.emit('error', err);
