@@ -44,13 +44,13 @@ function appInit() {
 }
 
 function main(auth) {
-	api = new API(config.type);
-	api.authorize();
-
 	if (!package.isExtra(config.package)) showError('指定したパッケージが存在しません！');
 	mainWindow = new BrowserWindow({ transparent: true, frame: false, skipTaskbar: true, alwaysOnTop: true, show: false });
 	mainWindow.loadURL(package.getPath(config.package));
 	mainWindow.on('closed', () => { mainWindow = null; });
+
+	api = new API(config.type);
+	api.authorize();
 
 	api.on('ready', () => {
 		api.listen(config.timeout);
