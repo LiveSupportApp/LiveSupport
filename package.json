@@ -11,6 +11,7 @@
     "google-auth-library": "^0.10.0",
     "googleapis": "^20.1.0",
     "jquery": "^3.2.1",
+    "nicojs": "^1.1.8",
     "path": "^0.12.7"
   },
   "description": "YouTubeLiveをサポートするソフト",
