@@ -24,6 +24,10 @@ class Package {
 			return path.join((data.internal)?path.join(__dirname, 'package'):app.path, data.name, 'index.html');
 		}
 	}
+
+	static get config() {
+		return require(package.getPath('config.json'));
+	}
 }
 
 module.exports = Package;

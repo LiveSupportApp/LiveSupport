@@ -23,7 +23,7 @@ app.on('ready', () => {
 });
 
 function appInit() {
-	config = require(package.getPath('config.json'));
+	config = package.config;
 	tray = new Tray(nativeImage.createFromPath(path.join(__dirname, '/icon/icon.png')));
 	tray.setContextMenu(Menu.buildFromTemplate([{
 		label: 'ライブを取得する',
