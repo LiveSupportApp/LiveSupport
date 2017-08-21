@@ -36,11 +36,11 @@ class TwitCasting extends EventEmitter {
 					uri: 'https://apiv2.twitcasting.tv/oauth2/access_token',
 					headers: { 'Content-type': 'application/x-www-form-urlencoded' },
 					form: {
-						code: code,
-						grant_type: 'authorization_code',
-						client_id: '2936979350.adce659aa78c281114cefea23bef801ef4570c34ba5a10773c0b7650a8c2b7b3',
-						client_secret: 'a4a7f252cc730bf8719bfd4378d743e18913ba4409a8a446b882fb38470fb5a9',
-						redirect_uri: 'http://localhost'
+						code         : code,
+						grant_type   : 'authorization_code',
+						client_id    : credential.client_id,
+						client_secret: credential.client_secret,
+						redirect_uri : credential.redirect_uri
 					},
 					json: true
 				}, (err, res, data) => {
