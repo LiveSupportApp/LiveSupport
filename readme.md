@@ -1,6 +1,6 @@
-# YouTubeLiveSupport
+# LiveSupport
 
-YouTubeLiveをサポートするソフト
+生配信をサポートするソフト
 
 ## Features
 - YouTube Live Chatの取得、表示
@@ -11,8 +11,8 @@ YouTubeLiveをサポートするソフト
 
 ## Install
 ```
-git clone https://github.com/yuta0381/YouTubeLiveSupport
-cd YouTubeLiveSupport
+git clone https://github.com/yuta0381/LiveSupport
+cd LiveSupport
 npm install
 electron .
 ```
