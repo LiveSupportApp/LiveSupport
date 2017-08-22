@@ -26,7 +26,7 @@ class Package {
 	}
 
 	static get config() {
-		return require(package.getPath('config.json'));
+		return require(this.getPath('config.json'));
 	}
 
 	static load(win, data) {
