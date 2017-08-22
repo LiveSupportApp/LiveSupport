@@ -1,0 +1,34 @@
+{
+  "name": "YouTubeLiveSupport",
+  "version": "2.0.9",
+  "main": "main.js",
+  "dependencies": {
+    "child_process": "^1.0.2",
+    "electron": "^1.7.5",
+    "electron-json-storage": "^3.0.7",
+    "electron-prompt": "^0.3.0",
+    "fs-extra": "^4.0.1",
+    "google-auth-library": "^0.10.0",
+    "googleapis": "^20.1.0",
+    "jquery": "^3.2.1",
+    "nicojs": "^1.1.8",
+    "path": "^0.12.7"
+  },
+  "description": "YouTubeLiveをサポートするソフト",
+  "devDependencies": {
+    "devtron": "^1.4.0"
+  },
+  "scripts": {
+    "test": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuta0801/YouTubeLiveSupport.git"
+  },
+  "author": "yuta0801",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yuta0801/YouTubeLiveSupport/issues"
+  },
+  "homepage": "https://github.com/yuta0801/YouTubeLiveSupport#readme"
+}
