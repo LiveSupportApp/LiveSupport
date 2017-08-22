@@ -6,7 +6,6 @@ const {
 			path    = require('path'),
 			prompt  = require('electron-prompt');
 
-const API     = require('./api.js'),
 const API     = require('./API'),
 			Util    = require('./Util'),
 			Package = require('./Package'),
