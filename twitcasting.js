@@ -3,7 +3,7 @@ const credential    = require('./credential/twitcasting.json');
 const request       = require('request');
 const BrowserWindow = require('electron').BrowserWindow;
 const url           = require('url');
-const util          = require('./util.js');
+const util          = require('./Util');
 const storage       = require('electron-json-storage');
 
 class TwitCasting extends EventEmitter {

@@ -1,6 +1,6 @@
 const fs = require('fs-extra');
 const path = require('path');
-const app = require('./app.js');
+const app = require('./App');
 
 class Package {
 	static init() {

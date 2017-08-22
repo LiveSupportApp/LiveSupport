@@ -5,7 +5,7 @@ const {
 				nativeImage,
 			} = require('electron');
 const path = require('path');
-const util = request('./util.js')
+const util = request('./Util');
 const appPath = path.join(app.getPath('home'), '.ls');
 
 let tray;

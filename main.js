@@ -7,9 +7,10 @@ const {
 			prompt  = require('electron-prompt');
 
 const API     = require('./api.js'),
-			util    = require('./util.js'),
-			package = require('./package.js'),
-			App     = require('./app.js');
+const API     = require('./API'),
+			util    = require('./Util'),
+			package = require('./Package'),
+			App     = require('./App');
 
 let mainWindow, api, config;
 
