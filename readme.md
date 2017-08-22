@@ -3,7 +3,8 @@
 生配信をサポートするソフト
 
 ## Features
-- YouTube Live Chatの取得、表示
+- YouTube
+- ツイキャス
 - 常に最前面にコメント表示
 - OAuth認証
 - アプリ内から返信
@@ -11,7 +12,7 @@
 
 ## Install
 ```
-git clone https://github.com/yuta0381/LiveSupport
+git clone https://github.com/yuta0801/LiveSupport
 cd LiveSupport
 npm install
 electron .
