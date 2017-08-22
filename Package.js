@@ -28,6 +28,13 @@ class Package {
 	static get config() {
 		return require(package.getPath('config.json'));
 	}
+
+	static load(win, data) {
+		if (!this.isExtra(data)) showError('指定したパッケージが存在しません！');
+		win = new BrowserWindow({ transparent: true, frame: false, skipTaskbar: true, show: false });
+		win.loadURL(this.getPath(data));
+		win.on('closed', () => { win = null; });
+	}
 }
 
 module.exports = Package;

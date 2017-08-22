@@ -12,7 +12,7 @@ const API     = require('./API'),
 			Package = require('./Package'),
 			App     = require('./App');
 
-let mainWindow, api, config;
+let windows, api, config;
 
 app.on('ready', () => {
 	init();
@@ -24,10 +24,13 @@ function init() {
 	config = Package.config;
 	app.trayInit();
 
-	if (!Package.isExtra(config.package)) showError('指定したパッケージが存在しません！');
-	mainWindow = new BrowserWindow({ transparent: true, frame: false, skipTaskbar: true, alwaysOnTop: true, show: false });
-	mainWindow.loadURL(Package.getPath(config.package));
-	mainWindow.on('closed', () => { mainWindow = null; });
+	if (config.package.isArray()) {
+		for (let pack of config.package) {
+			Package.load(windows[pack.name], pack);
+		}
+	} else if (typeof config.package == 'object' ) {
+		Package.load(windows[config.package.name], config.package);
+	}
 }
 
 function main() {
