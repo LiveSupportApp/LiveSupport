@@ -1,6 +1,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const App = require('./App');
+const {BrowserWindow} = require('electron');
 
 class Package {
 	/**
@@ -59,12 +60,14 @@ class Package {
 	 * パッケージを読み込む
 	 * @param  {*} win  パッケージを入れる変数
 	 * @param  {Package} data 読み込むパッケージの情報
+	 * @return {BrowserWindow}
 	 */
-	static load(win, data) {
+	static getPackage(data) {
 		if (!this.isExtra(data)) showError('指定したパッケージが存在しません！');
-		win = new BrowserWindow({ transparent: true, frame: false, skipTaskbar: true, show: false });
+		let win = new BrowserWindow({ transparent: true, frame: false, skipTaskbar: true, show: false });
 		win.loadURL(this.getPath(data));
 		win.on('closed', () => { win = null; });
+		return win;
 	}
 }
 

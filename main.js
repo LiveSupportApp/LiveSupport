@@ -1,8 +1,8 @@
 const {
 				app,
 				BrowserWindow,
-				globalShortcut
-const }       = require('electron');
+				globalShortcut,
+			}       = require('electron');
 const path    = require('path');
 const prompt  = require('electron-prompt');
 
@@ -11,9 +11,16 @@ const Util    = require('./Util');
 const Package = require('./Package');
 const App     = require('./App');
 
-let windows, api, config;
+let windows = {};
+let api;
+let config;
 
 app.on('ready', () => {
+	if (app.makeSingleInstance((argv, workingDirectory) => {})) {
+		Util.showError('すでに起動してるっぽいdёsц☆');
+		app.quit();
+	}
+
 	init();
 	main();
 });
@@ -21,14 +28,14 @@ app.on('ready', () => {
 function init() {
 	Package.init();
 	config = Package.config;
-	app.trayInit();
+	App.trayInit();
 
-	if (config.package.isArray()) {
+	if (Array.isArray(config.package)) {
 		for (let pack of config.package) {
-			Package.load(windows[pack.name], pack);
+			windows[pack.name] = Package.getPackage(pack);
 		}
 	} else if (typeof config.package == 'object' ) {
-		Package.load(windows[config.package.name], config.package);
+		windows[config.package.name] = Package.getPackage(config.package);
 	}
 }
 
@@ -70,23 +77,10 @@ function main() {
 
 	api.on('chat', item => {
 		console.log(item.message);
-		let msg, name, author, type;
-		// msg    = item.snippet.displayMessage;
-		// author = item.authorDetails;
-		// name   = item.authorDetails.displayName;
-		// type   = {
-		// 	verified:  author.isVerified,
-		// 	owner:     author.isChatOwner,
-		// 	sponsor:   author.isChatSponsor,
-		// 	moderator: author.isChatModerator
-		// };
-		// if (config.reading.is) read(msg, name);
+		if (config.reading.is) read(`${msg} さん ${name}`);
 		// font size 40 #30 20 px
-		mainWindow.webContents.send('chat', {
-			msg:  item.message,
-			// name: name,
-			// url:  author.profileImageUrl,
-			// type: type
-		});
+		for (let key in windows) {
+			windows[key].webContents.send('chat', item);
+		}
 	});
 }

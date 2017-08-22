@@ -4,7 +4,7 @@ const googleAuth   = require('google-auth-library');
 const credential   = require('./credential/youtube.json');
 const shell        = require('electron').shell;
 const prompt       = require('electron-prompt');
-const util         = require('./Util');
+const util         = require('../Util');
 const storage      = require('electron-json-storage');
 const auth         = new googleAuth();
 const oauth2Client = new auth.OAuth2(credential.installed.client_id, credential.installed.client_secret, credential.installed.redirect_uris[0]);
@@ -122,7 +122,11 @@ class YouTube extends EventEmitter {
 				time = new Date(item.snippet.publishedAt).getTime();
 				if (lastRead < time) {
 					lastRead = time;
-					this.emit('chat', item);
+					this.emit('chat', {
+						message: item.snippet.textMessageDetails.messageText,
+						name: item.authorDetails.displayName,
+						url: item.author.profileImageUrl
+					});
 				}
 			}
 		});

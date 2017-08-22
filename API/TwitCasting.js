@@ -3,7 +3,7 @@ const credential    = require('./credential/twitcasting.json');
 const request       = require('request');
 const BrowserWindow = require('electron').BrowserWindow;
 const url           = require('url');
-const Util          = require('./Util');
+const Util          = require('../Util');
 const storage       = require('electron-json-storage');
 
 class TwitCasting extends EventEmitter {
@@ -125,7 +125,11 @@ class TwitCasting extends EventEmitter {
 			for (let comment of data.comments.reverse()) {
 				if (lastRead < comment.created) {
 					lastRead = comment.created;
-					this.emit('chat', comment);
+					this.emit('chat', {
+						message: comment.message,
+						name: comment.from_user.name,
+						url: comment.from_user.image
+					});
 				}
 			}
 		});

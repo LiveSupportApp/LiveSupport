@@ -5,15 +5,9 @@ const {
 				nativeImage,
 			} = require('electron');
 const path = require('path');
-const Util = request('./Util');
-const appPath = path.join(app.getPath('home'), '.ls');
+const Util = require('./Util');
 
 let tray;
-
-if (app.makeSingleInstance((argv, workingDirectory) => {})) {
-	Util.showError('すでに起動してるっぽいdёsц☆');
-	app.quit();
-}
 
 class App {
 	/**
@@ -21,7 +15,7 @@ class App {
 	 * @return {string}
 	 */
 	static get path() {
-		return appPath;
+		return path.join(app.getPath('home'), '.ls');
 	}
 
 	/**

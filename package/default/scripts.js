@@ -1,6 +1,6 @@
 const {
 				remote,
-				ipcRenderer
+				ipcRenderer,
 			}    = require('electron'),
 			$    = require('jquery'),
 			path = require('path');
@@ -19,6 +19,7 @@ const {
 		localStorage.setItem('bounds', JSON.stringify(win.getBounds()));
 	});
 
+	win.setAlwaysOnTop(true);
 	win.show();
 }
 
@@ -31,7 +32,7 @@ ipcRenderer.on('chat', (event, data) => {
 				<div class="content">
 					<div class="author">${data.name}</div>
 					&#8203;
-					<div class="message">${data.msg}</div>
+					<div class="message">${data.message}</div>
 				</div>
 			</div>`);
 });
