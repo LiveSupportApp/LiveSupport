@@ -37,13 +37,12 @@ class Util {
 		if (err) dialog.showErrorBox('LiveSupport', err);
 	}
 
-	static read(msg, name) {
-		exec(`${config.reading.path} /t "${((config.reading.name)?name+' さん '+text:text).replace('"','\'').replace('\n',' ')}"`);
 	/**
 	 * 棒読みちゃんに読ませる
 	 * @param  {string} text  読ませる内容
 	 */
 	static read(text) {
+		exec(`${config.reading.path} /t "${text.replace('"','\'').replace('\n',' ')}"`);
 	}
 }
 
