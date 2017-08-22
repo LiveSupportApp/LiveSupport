@@ -129,14 +129,6 @@ class TwitCasting extends EventEmitter {
 				}
 			}
 		});
-		// setInterval(()=>{this.getChat()}, timeout);
-		// this.on('json', data => {
-		// 	for (let comment of data.comments) {
-		// 		if (comment.id==this.lastId) continue;
-		// 		this.lastId = comment.id;
-		// 		this.emit('chat', comment);
-		// 	}
-		// });
 	}
 
 	send(message) {
@@ -159,4 +151,3 @@ class TwitCasting extends EventEmitter {
 }
 
 module.exports = TwitCasting;
-
