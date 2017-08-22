@@ -3,6 +3,11 @@ const YouTube      = require('./YouTube'),
 			EventEmitter = require('events').EventEmitter;
 
 class API extends EventEmitter {
+	/**
+	 * APIをまとめるクラス
+	 * @param  {string} type 使用するAPI
+	 * @extends EventEmitter
+	 */
 	constructor(type) {
 		super();
 		switch (type) {
@@ -16,14 +21,25 @@ class API extends EventEmitter {
 		this.api.on('chat',  data => { this.emit('chat',  data) });
 	}
 
+	/**
+	 * 認証する
+	 */
 	authorize() {
 		this.api.authorize();
 	}
 
+	/**
+	 * チャット/コメントを取得する
+	 * @param  {number} timeout 取得間隔
+	 */
 	listen(timeout) {
 		this.api.listen(timeout);
 	}
 
+	/**
+	 * チャット/コメントを送信する
+	 * @param  {string} message 送信するメッセージ
+	 */
 	send(message) {
 		this.api.send(message);
 	}

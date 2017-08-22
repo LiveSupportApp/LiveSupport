@@ -16,10 +16,17 @@ if (app.makeSingleInstance((argv, workingDirectory) => {})) {
 }
 
 class App {
+	/**
+	 * アプリ用ディレクトリのパスを取得する
+	 * @return {string}
+	 */
 	static get path() {
 		return appPath;
 	}
 
+	/**
+	 * タスクトレイアイコンを初期化する
+	 */
 	static trayInit() {
 		tray = new Tray(nativeImage.createFromPath(path.join(__dirname, '/icon/icon.png')));
 		tray.setContextMenu(Menu.buildFromTemplate([{
