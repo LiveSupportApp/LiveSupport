@@ -2,14 +2,14 @@ const {
 				app,
 				BrowserWindow,
 				globalShortcut
-			}       = require('electron'),
-			path    = require('path'),
-			prompt  = require('electron-prompt');
+const }       = require('electron');
+const path    = require('path');
+const prompt  = require('electron-prompt');
 
-const API     = require('./API'),
-			Util    = require('./Util'),
-			Package = require('./Package'),
-			App     = require('./App');
+const API     = require('./API');
+const Util    = require('./Util');
+const Package = require('./Package');
+const App     = require('./App');
 
 let windows, api, config;
 
@@ -39,7 +39,10 @@ function main() {
 	api.on('ready', () => {
 		api.listen(config.timeout||1000);
 		globalShortcut.register('ALT+/', () => {
-			prompt({ title: 'LiveSupport', label: 'メッセージを入力してください' }).then(res => {
+			prompt({
+				title: 'LiveSupport',
+				label: 'メッセージを入力してください'
+			}).then(res => {
 				if (res) api.send(res);
 			});
 		});

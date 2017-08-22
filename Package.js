@@ -41,13 +41,14 @@ class Package {
 		if (typeof data == 'string') {
 			return path.join(App.path, data);
 		} else if (typeof data == 'object') {
-			return path.join((data.internal)?path.join(__dirname, 'package'):App.path, data.name, 'index.html');
+			let dir = (data.internal) ? path.join(__dirname, 'package') : App.path;
+			return path.join(dir, data.name, 'index.html');
 		}
 	}
 
 	/**
 	 * コンフィグを取得する
-	 * @return {Config}
+	 * @return {Object}
 	 * @readonly
 	 */
 	static get config() {
