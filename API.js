@@ -1,7 +1,6 @@
 const YouTube      = require('./YouTube'),
 			TwitCasting  = require('./TwitCasting'),
-			EventEmitter = require('events').EventEmitter,
-			util         = require('./Util');
+			EventEmitter = require('events').EventEmitter;
 
 class API extends EventEmitter {
 	constructor(type) {

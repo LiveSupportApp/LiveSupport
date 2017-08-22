@@ -8,8 +8,8 @@ const {
 
 const API     = require('./api.js'),
 const API     = require('./API'),
-			util    = require('./Util'),
-			package = require('./Package'),
+			Util    = require('./Util'),
+			Package = require('./Package'),
 			App     = require('./App');
 
 let mainWindow, api, config;
@@ -20,13 +20,13 @@ app.on('ready', () => {
 });
 
 function init() {
-	package.init();
-	config = package.config;
+	Package.init();
+	config = Package.config;
 	app.trayInit();
 
-	if (!package.isExtra(config.package)) showError('指定したパッケージが存在しません！');
+	if (!Package.isExtra(config.package)) showError('指定したパッケージが存在しません！');
 	mainWindow = new BrowserWindow({ transparent: true, frame: false, skipTaskbar: true, alwaysOnTop: true, show: false });
-	mainWindow.loadURL(package.getPath(config.package));
+	mainWindow.loadURL(Package.getPath(config.package));
 	mainWindow.on('closed', () => { mainWindow = null; });
 }
 
@@ -45,21 +45,21 @@ function main() {
 
 	api.on('error', err => {
 		if (err.message=='No live was found') {
-			util.msgbox({
+			Util.msgbox({
 				type: 'warning',
 				btns: ['OK', '再取得'],
 				msg: '配信が見つかりませんでした。',
 				detail: '配信している場合は暫く待って取得してください。'
 			}, id => {if (id==1) main()});return;
 		} else if (err.message=='Can not find chat') {
-			util.msgbox({
+			Util.msgbox({
 				type: 'warning',
 				btns: ['OK', '再取得'],
 				msg: 'チャットが取得できませんでした。',
 				detail: '配信している場合は暫く待って取得してください。'
 			}, id => {if (id==1) main()});return;
 		} else {
-			util.showError(err);
+			Util.showError(err);
 		}
 	});
 

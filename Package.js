@@ -1,10 +1,10 @@
 const fs = require('fs-extra');
 const path = require('path');
-const app = require('./App');
+const App = require('./App');
 
 class Package {
 	static init() {
-		if (!fs.existsSync(app.path)) fs.mkdirSync(app.path);
+		if (!fs.existsSync(App.path)) fs.mkdirSync(App.path);
 		let files = fs.readdirSync(path.join(__dirname, 'package'));
 		for (let file of files) {
 			if (!fs.existsSync(this.getPath(file))) {
@@ -19,9 +19,9 @@ class Package {
 
 	static getPath(data) {
 		if (typeof data == 'string') {
-			return path.join(app.path, data);
+			return path.join(App.path, data);
 		} else if (typeof data == 'object') {
-			return path.join((data.internal)?path.join(__dirname, 'package'):app.path, data.name, 'index.html');
+			return path.join((data.internal)?path.join(__dirname, 'package'):App.path, data.name, 'index.html');
 		}
 	}
 

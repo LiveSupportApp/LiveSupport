@@ -3,7 +3,7 @@ const credential    = require('./credential/twitcasting.json');
 const request       = require('request');
 const BrowserWindow = require('electron').BrowserWindow;
 const url           = require('url');
-const util          = require('./Util');
+const Util          = require('./Util');
 const storage       = require('electron-json-storage');
 
 class TwitCasting extends EventEmitter {
@@ -13,7 +13,7 @@ class TwitCasting extends EventEmitter {
 
 	authorize(data) {
 		storage.get('twitcasting', (err, data) => {
-			util.showError(err);
+			Util.showError(err);
 			if (Object.keys(data).length === 0) {
 				this.getNewToken();
 			} else {
@@ -43,7 +43,7 @@ class TwitCasting extends EventEmitter {
 					},
 					json: true
 				}, (err, res, data) => {
-					storage.set('twitcasting', data.access_token, util.showError);
+					storage.set('twitcasting', data.access_token, Util.showError);
 					this.token = data.access_token;
 					this.getUser();
 				});

@@ -5,13 +5,13 @@ const {
 				nativeImage,
 			} = require('electron');
 const path = require('path');
-const util = request('./Util');
+const Util = request('./Util');
 const appPath = path.join(app.getPath('home'), '.ls');
 
 let tray;
 
 if (app.makeSingleInstance((argv, workingDirectory) => {})) {
-	util.showError('すでに起動してるっぽいdёsц☆');
+	Util.showError('すでに起動してるっぽいdёsц☆');
 	app.quit();
 }
 
