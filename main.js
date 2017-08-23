@@ -15,12 +15,14 @@ let windows = {};
 let api;
 let config;
 
-app.on('ready', () => {
-	if (app.makeSingleInstance((argv, workingDirectory) => {})) {
-		Util.showError('すでに起動してるっぽいdёsц☆');
-		app.quit();
-	}
+app.setPath('userData', App.path);
 
+if (app.makeSingleInstance((argv, workingDirectory) => {})) {
+	Util.showError('すでに起動してるっぽいdёsц☆');
+	app.quit();
+}
+
+app.on('ready', () => {
 	init();
 	main();
 });
