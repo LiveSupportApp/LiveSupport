@@ -1,5 +1,5 @@
 {
-  "type": "twitcasting",
+  "type": "youtube",
   "timeout": 1000,
   "package": [
     "default"
