@@ -30,12 +30,8 @@ function init() {
 	config = Package.config;
 	App.trayInit();
 
-	if (Array.isArray(config.package)) {
-		for (let pack of config.package) {
-			windows[pack.name] = Package.getPackage(pack);
-		}
-	} else if (typeof config.package == 'object' ) {
-		windows[config.package.name] = Package.getPackage(config.package);
+	for (let name of config.package) {
+		windows[name] = Package.getPackage(name);
 	}
 }
 

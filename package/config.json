@@ -1,13 +1,12 @@
 {
-	"type": "twitcasting",
-	"timeout": 1000,
-	"package": {
-		"name": "default",
-		"internal": true
-	},
-	"reading": {
-		"is": false,
-		"path": "",
-		"name": false
-	}
+  "type": "twitcasting",
+  "timeout": 1000,
+  "package": [
+    "default"
+  ],
+  "reading": {
+    "is": false,
+    "path": "",
+    "name": false
+  }
 }

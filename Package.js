@@ -9,42 +9,31 @@ class Package {
 	 */
 	static init() {
 		if (!fs.existsSync(App.path)) fs.mkdirSync(App.path);
-		let files = fs.readdirSync(path.join(__dirname, 'package'));
+		let files = fs.readdirSync(this.path);
 		for (let file of files) {
-			if (!fs.existsSync(this.getPath(file))) {
-				fs.copySync(path.join(__dirname, 'package', file), this.getPath(file));
+			let filePath = path.join(App.path, file);
+			if (!fs.existsSync(filePath)) {
+				fs.copySync(path.join(this.path, file), filePath);
 			}
 		}
 	}
 
 	/**
-	 * パッケージを表す情報
-	 * @typedef {Object} Package
-	 * @property {string} name パッケージ名
-	 * @property {boolean} internal 内部パッケージか
-	 */
-
-	/**
 	 * パッケージが存在するか確認する
-	 * @param  {Package}  data パッケージ情報
+	 * @param  {string}  name パッケージ名
 	 * @return {Boolean}
 	 */
-	static isExtra(data) {
-		return fs.existsSync(this.getPath(data));
+	static isExtra(name) {
+		return fs.existsSync(this.getPath(name));
 	}
 
 	/**
 	 * パッケージのパスを取得する
-	 * @param  {string|Package} data パッケージ情報
+	 * @param  {string} name パッケージ名
 	 * @return {string}
 	 */
-	static getPath(data) {
-		if (typeof data == 'string') {
-			return path.join(App.path, data);
-		} else if (typeof data == 'object') {
-			let dir = (data.internal) ? path.join(__dirname, 'package') : App.path;
-			return path.join(dir, data.name, 'index.html');
-		}
+	static getPath(name) {
+		return path.join(App.path, name, 'index.html');
 	}
 
 	/**
@@ -53,21 +42,29 @@ class Package {
 	 * @readonly
 	 */
 	static get config() {
-		return require(this.getPath('config.json'));
+		return require(path.join(App.path, 'config.json'));
 	}
 
 	/**
 	 * パッケージを読み込む
-	 * @param  {*} win  パッケージを入れる変数
-	 * @param  {Package} data 読み込むパッケージの情報
+	 * @param  {string} name パッケージ名
 	 * @return {BrowserWindow}
 	 */
-	static getPackage(data) {
-		if (!this.isExtra(data)) showError('指定したパッケージが存在しません！');
+	static getPackage(name) {
+		if (!this.isExtra(name)) showError('指定したパッケージが存在しません！');
 		let win = new BrowserWindow({ transparent: true, frame: false, skipTaskbar: true, show: false });
-		win.loadURL(this.getPath(data));
+		win.loadURL(this.getPath(name));
 		win.on('closed', () => { win = null; });
 		return win;
+	}
+
+	/**
+	 * パッケージフォルダのパスを取得する
+	 * @return {string}
+	 * @readonly
+	 */
+	static get path() {
+		return path.join(__dirname, 'package');
 	}
 }
 
