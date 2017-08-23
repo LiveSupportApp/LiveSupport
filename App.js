@@ -15,7 +15,7 @@ class App {
 	 * @return {string}
 	 */
 	static get path() {
-		return path.join(app.getPath('home'), '.ls');
+		return path.join(app.getPath('appData'), '.livesupport');
 	}
 
 	/**
