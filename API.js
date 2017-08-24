@@ -24,8 +24,8 @@ class API extends EventEmitter {
 	/**
 	 * 認証する
 	 */
-	authorize() {
-		this.api.authorize();
+	authorize(type) {
+		this.api.authorize(type);
 	}
 
 	/**

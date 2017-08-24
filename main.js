@@ -39,7 +39,7 @@ function init() {
 
 function main() {
 	api = new API(config.type);
-	api.authorize();
+	api.authorize(config.auth);
 
 	api.on('ready', () => {
 		api.listen(config.timeout||1000);

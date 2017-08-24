@@ -1,13 +1,7 @@
-const google       = require('googleapis');
+const google = require('googleapis');
 const EventEmitter = require('events').EventEmitter;
-const googleAuth   = require('google-auth-library');
-const credential   = require('./credential/youtube.json');
-const shell        = require('electron').shell;
-const prompt       = require('electron-prompt');
-const util         = require('../Util');
-const storage      = require('electron-json-storage');
-const auth         = new googleAuth();
-const oauth2Client = new auth.OAuth2(credential.installed.client_id, credential.installed.client_secret, credential.installed.redirect_uris[0]);
+const Util = require('../Util');
+const OAuth = require('./youtube/OAuth');
 
 class YouTube extends EventEmitter {
 	constructor() {
@@ -15,51 +9,12 @@ class YouTube extends EventEmitter {
 		this.youtube = google.youtube('v3')
 	}
 
-	authorize() {
-		storage.get('youtube', (err, data) => {
-			if (err) throw err;
-			if (Object.keys(data).length === 0) {
-				util.msgbox({
-					type: 'info',
-					btns: ['OK'],
-					msg: 'OAuth認証を行います。',
-					detail: '次のページから認証を行いコードを入力してください。'
-				}, id => {
-					this.getNewToken();
-				});
-			} else {
-				oauth2Client.credentials = data;
-				this.auth = oauth2Client;
-				this.getLive();
-			}
+	authorize(type) {
+		let oauth = new OAuth(type);
+		oauth.authorize(auth => {
+			this.auth = auth;
+			this.getLive();
 		});
-	}
-
-	getNewToken() {
-		let authUrl = oauth2Client.generateAuthUrl({
-			access_type: 'offline',
-			scope: 'https://www.googleapis.com/auth/youtube'
-		});
-
-		shell.openExternal(authUrl);
-
-		prompt({ title: 'LiveSupport', label: 'コードを入力してください' }).then(res => {
-			oauth2Client.getToken(res, (err, token) => {
-				if (err) {
-					util.msgbox({
-						type: 'warning',
-						btns: ['再認証'],
-						msg: '認証できませんでした。',
-						detail: err.toString()
-					}, id => { this.getNewToken(); });
-				} else {
-					oauth2Client.credentials = token;
-					this.auth = oauth2Client;
-					storage.set('youtube', token, util.showError);
-					this.getLive();
-				}
-			});
-		}).catch(util.showError);
 	}
 
 	getLive() {

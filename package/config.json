@@ -1,5 +1,6 @@
 {
   "type": "youtube",
+  "auth": "code",
   "timeout": 1000,
   "package": [
     "default"

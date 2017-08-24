@@ -1,53 +1,18 @@
-const EventEmitter  = require('events').EventEmitter;
-const credential    = require('./credential/twitcasting.json');
-const request       = require('request');
-const BrowserWindow = require('electron').BrowserWindow;
-const url           = require('url');
-const Util          = require('../Util');
-const storage       = require('electron-json-storage');
+const EventEmitter = require('events').EventEmitter;
+const credential = require('./credential/twitcasting.json');
+const request = require('request');
+const {BrowserWindow} = require('electron');
+const url = require('url');
+const Util = require('../Util');
+const storage = require('electron-json-storage');
+const OAuth = require('./TwitCasting/OAuth')
 
 class TwitCasting extends EventEmitter {
-	constructor() {
-		super();
-	}
-
-	authorize(data) {
-		storage.get('twitcasting', (err, data) => {
-			Util.showError(err);
-			if (Object.keys(data).length === 0) {
-				this.getNewToken();
-			} else {
-				this.token = data;
-				this.getUser();
-			}
-		});
-	}
-
-	getNewToken() {
-		this.win = new BrowserWindow();
-		this.win.loadURL(`https://ssl.twitcasting.tv/oauth_confirm.php?client_id=${credential.client_id}&response_type=code`);
-		this.win.on('closed', () => { this.win = null; });
-		this.win.webContents.on('did-get-redirect-request', (event, oldUrl, newUrl) => {
-			let code = url.parse(newUrl, true).query.code;
-			if (code) {
-				this.win.close();
-				request.post({
-					uri: 'https://apiv2.twitcasting.tv/oauth2/access_token',
-					headers: { 'Content-type': 'application/x-www-form-urlencoded' },
-					form: {
-						code         : code,
-						grant_type   : 'authorization_code',
-						client_id    : credential.client_id,
-						client_secret: credential.client_secret,
-						redirect_uri : credential.redirect_uri
-					},
-					json: true
-				}, (err, res, data) => {
-					storage.set('twitcasting', data.access_token, Util.showError);
-					this.token = data.access_token;
-					this.getUser();
-				});
-			}
+	authorize(type) {
+		let oauth = new OAuth(type);
+		oauth.authorize(token => {
+			this.token = token;
+			this.getUser();
 		});
 	}
 
