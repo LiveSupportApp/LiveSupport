@@ -1,15 +1,13 @@
 const storage = require('electron-json-storage');
 const Util = require('../../Util');
-const Protocol = require('./Protocol');
 const Server = require('./Server');
 const Window = require('./Window');
 
 class OAuth {
   constructor(type) {
     switch (type) {
-      case 'protocol': this.oauth = new Protocol(); break;
-      case 'server':   this.oauth = new Server();   break;
-      case 'window':   this.oauth = new Window();   break;
+      case 'server': this.oauth = new Server(); break;
+      case 'window': this.oauth = new Window(); break;
       default: throw new Error('OAuth type is not appropriate');
     }
   }
