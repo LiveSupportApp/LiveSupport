@@ -1,5 +1,6 @@
 const exec = require('child_process').exec;
 const dialog = require('electron').dialog;
+const prompt = require('electron-prompt');
 
 class Util {
 	/**
@@ -27,6 +28,17 @@ class Util {
 		}, (res) => {
 			callback(res);
 		});
+	}
+
+	/**
+	 * プロンプトを表示する
+	 * @param  {string}   message  メッセージ
+	 * @param  {Function} callback コールバック
+	 */
+	static prompt(message, callback) {
+		prompt({ title: 'LiveSupport', label: message })
+			.then(callback)
+			.catch(this.showError);
 	}
 
 	/**
