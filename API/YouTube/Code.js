@@ -1,5 +1,5 @@
 const googleAuth = require('google-auth-library');
-const credential = require('../credential/code.json');
+const credential = require('./credential/code.json');
 const {shell} = require('electron');
 const Util = require('../../Util');
 const auth = new googleAuth();
