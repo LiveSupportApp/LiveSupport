@@ -1,10 +1,5 @@
 const {EventEmitter} = require('events');
-const credential = require('./credential/twitcasting.json');
 const request = require('request');
-const {BrowserWindow} = require('electron');
-const url = require('url');
-const Util = require('../Util');
-const storage = require('electron-json-storage');
 const OAuth = require('./TwitCasting/OAuth');
 
 class TwitCasting extends EventEmitter {
