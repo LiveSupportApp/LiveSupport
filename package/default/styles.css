@@ -1,60 +1,60 @@
 html, body {
-	width: 100%;
-	height: 100%;
-	overflow: hidden;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 body {
-	margin: 0;
-	padding: 0;
-	background-color: rgba(24, 24, 24, .7);
-	box-shadow: 0 0 8px 3px #000 inset;
-	-webkit-user-select: none;
-	color: #fff;
+  margin: 0;
+  padding: 0;
+  background-color: rgba(24, 24, 24, .7);
+  box-shadow: 0 0 8px 3px #000 inset;
+  -webkit-user-select: none;
+  color: #fff;
 }
 
 .container {
-	margin: 2px;
-	height: calc(100% - 4px);
-	-webkit-app-region: drag;
+  margin: 2px;
+  height: calc(100% - 4px);
+  -webkit-app-region: drag;
 }
 
 #chat_container {
-	padding: 8px 8px;
-	height: 100%;
-	overflow-y: hidden;
+  padding: 8px 8px;
+  height: 100%;
+  overflow-y: hidden;
 }
 
 .chat + .chat {
-	margin-top: 8px;
+  margin-top: 8px;
 }
 
 .chat, .chat div {
-	display: flex;
+  display: flex;
 }
 
 .chat .icon, .icon img {
-	width: 32px;
-	height: 32px;
+  width: 32px;
+  height: 32px;
 }
 
 .icon img {
-	border-radius: 50%;
+  border-radius: 50%;
 }
 
 .content {
-	margin-left: 8px;
-	align-self: center;
+  margin-left: 8px;
+  align-self: center;
 }
 
 .author {
-	margin-right: 8px;
-	line-height: 32px;
+  margin-right: 8px;
+  line-height: 32px;
 }
 
 .message {
-	margin-right: 32px;
-	line-height: 32px;
-	width: 100%;
-	word-break : break-all;
+  margin-right: 32px;
+  line-height: 32px;
+  width: 100%;
+  word-break : break-all;
 }
