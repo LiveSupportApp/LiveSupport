@@ -1,5 +1,5 @@
 const google = require('googleapis');
-const EventEmitter = require('events').EventEmitter;
+const {EventEmitter} = require('events');
 const Util = require('../Util');
 const OAuth = require('./youtube/OAuth');
 

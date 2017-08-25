@@ -1,8 +1,8 @@
 const {
 				remote,
 				ipcRenderer,
-				screen
-			}      = require('electron'),
+				screen,
+			} = require('electron'),
 			config = require('./config.json')
 			NicoJS = require('nicoJS');
 

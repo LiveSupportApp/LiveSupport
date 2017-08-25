@@ -1,8 +1,8 @@
 const {
 				remote,
 				ipcRenderer,
-			}    = require('electron'),
-			$    = require('jquery'),
+			} = require('electron'),
+			$ = require('jquery'),
 			path = require('path');
 
 {

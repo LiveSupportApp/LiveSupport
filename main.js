@@ -2,14 +2,14 @@ const {
 				app,
 				BrowserWindow,
 				globalShortcut,
-			}       = require('electron');
-const path    = require('path');
-const prompt  = require('electron-prompt');
+			} = require('electron');
+const path = require('path');
+const prompt = require('electron-prompt');
 
-const API     = require('./API');
-const Util    = require('./Util');
+const API = require('./API');
+const Util = require('./Util');
 const Package = require('./Package');
-const App     = require('./App');
+const App = require('./App');
 
 let windows = {};
 let api;

@@ -1,5 +1,5 @@
 const exec = require('child_process').exec;
-const dialog = require('electron').dialog;
+const {dialog} = require('electron');
 const prompt = require('electron-prompt');
 
 class Util {
@@ -12,8 +12,8 @@ class Util {
 
 	/**
 	 * メッセージボックスを表示する
-	 * @param  {MsgBoxParas}   params   メッセージボックスの設定
-	 * @param  {Function} callback メッセージボックスが閉じられたときに実行する関数
+	 * @param {MsgBoxParas} params メッセージボックスの設定
+	 * @param {Function} callback メッセージボックスが閉じられたときに実行する関数
 	 */
 	static msgbox(params, callback) {
 		dialog.showMessageBox({
@@ -32,8 +32,8 @@ class Util {
 
 	/**
 	 * プロンプトを表示する
-	 * @param  {string}   message  メッセージ
-	 * @param  {Function} callback コールバック
+	 * @param {string} message メッセージ
+	 * @param {Function} callback コールバック
 	 */
 	static prompt(message, callback) {
 		prompt({ title: 'LiveSupport', label: message })
@@ -43,7 +43,7 @@ class Util {
 
 	/**
 	 * エラーボックスを表示する
-	 * @param  {string} [err] エラーメッセージ
+	 * @param {string} [err] エラーメッセージ
 	 */
 	static showError(err) {
 		if (err) dialog.showErrorBox('LiveSupport', err);
@@ -51,7 +51,7 @@ class Util {
 
 	/**
 	 * 棒読みちゃんに読ませる
-	 * @param  {string} text  読ませる内容
+	 * @param {string} text 読ませる内容
 	 */
 	static read(text) {
 		exec(`${config.reading.path} /t "${text.replace('"','\'').replace('\n',' ')}"`);

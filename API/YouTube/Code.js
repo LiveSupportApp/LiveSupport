@@ -1,6 +1,6 @@
 const googleAuth = require('google-auth-library');
 const credential = require('../credential/youtube.json');
-const shell = require('electron').shell;
+const {shell} = require('electron');
 const Util = require('../../Util');
 const auth = new googleAuth();
 const oauth2Client = new auth.OAuth2(

@@ -1,11 +1,11 @@
-const YouTube      = require('./API/YouTube');
-const TwitCasting  = require('./API/TwitCasting');
-const EventEmitter = require('events').EventEmitter;
+const YouTube = require('./API/YouTube');
+const TwitCasting = require('./API/TwitCasting');
+const {EventEmitter} = require('events');
 
 class API extends EventEmitter {
 	/**
 	 * APIをまとめるクラス
-	 * @param  {string} type 使用するAPI
+	 * @param {string} type 使用するAPI
 	 * @extends EventEmitter
 	 */
 	constructor(type) {
@@ -30,7 +30,7 @@ class API extends EventEmitter {
 
 	/**
 	 * チャット/コメントを取得する
-	 * @param  {number} timeout 取得間隔
+	 * @param {number} timeout 取得間隔
 	 */
 	listen(timeout) {
 		this.api.listen(timeout);
@@ -38,7 +38,7 @@ class API extends EventEmitter {
 
 	/**
 	 * チャット/コメントを送信する
-	 * @param  {string} message 送信するメッセージ
+	 * @param {string} message 送信するメッセージ
 	 */
 	send(message) {
 		this.api.send(message);

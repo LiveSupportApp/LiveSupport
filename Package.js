@@ -25,7 +25,7 @@ class Package {
 
 	/**
 	 * パッケージのパスを取得する
-	 * @param  {string} name パッケージ名
+	 * @param {string} name パッケージ名
 	 * @return {string}
 	 */
 	static getPath(name) {
@@ -34,7 +34,7 @@ class Package {
 
 	/**
 	 * パッケージが存在するか確認する
-	 * @param  {string}  name パッケージ名
+	 * @param {string} name パッケージ名
 	 * @return {Boolean}
 	 */
 	static isExtra(name) {
@@ -52,7 +52,7 @@ class Package {
 
 	/**
 	 * パッケージを読み込む
-	 * @param  {string} name パッケージ名
+	 * @param {string} name パッケージ名
 	 * @return {BrowserWindow}
 	 */
 	static getPackage(name) {
