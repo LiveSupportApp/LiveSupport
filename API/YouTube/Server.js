@@ -6,10 +6,10 @@ const request = require('request');
 const googleAuth = require('google-auth-library');
 const auth = new googleAuth();
 const oauth2Client = new auth.OAuth2(
-        credential.web.client_id,
-        credential.web.client_secret,
-        credential.web.redirect_uris[0]
-      );
+  credential.web.client_id,
+  credential.web.client_secret,
+  credential.web.redirect_uris[0]
+);
 
 class Server {
   constructor() {

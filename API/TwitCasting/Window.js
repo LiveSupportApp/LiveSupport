@@ -8,11 +8,11 @@ const TwitCasting = require('../TwitCasting');
 class Window {
   constructor() {
     this.win = new BrowserWindow({show:false});
-    this.win.loadURL(`https://ssl.twitcasting.tv/oauth_confirm.php?client_id=${credential.client_id}&response_type=code`);
     this.win.on('closed', () => { this.win = null; });
   }
 
   getNewToken(callback) {
+    this.win.loadURL(`https://ssl.twitcasting.tv/oauth_confirm.php?client_id=${credential.client_id}&response_type=code`);
     this.win.show();
     this.win.webContents.on('did-get-redirect-request', (event, oldUrl, newUrl) => {
       let code = url.parse(newUrl, true).query.code;
