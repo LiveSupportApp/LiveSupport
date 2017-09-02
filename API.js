@@ -8,8 +8,9 @@ class API extends EventEmitter {
    * @param {string} type 使用するAPI
    * @extends EventEmitter
    */
-  constructor(type) {
+  constructor(type, auth) {
     super();
+    this.auth = auth;
     switch (type) {
       case 'youtube':     this.api = new YouTube();     break;
       case 'twitcasting': this.api = new TwitCasting(); break;
@@ -24,8 +25,8 @@ class API extends EventEmitter {
   /**
    * 認証する
    */
-  authorize(type) {
-    this.api.authorize(type);
+  authorize() {
+    this.api.authorize(this.auth);
   }
 
   /**
@@ -42,6 +43,10 @@ class API extends EventEmitter {
    */
   send(message) {
     this.api.send(message);
+  }
+
+  reacquire() {
+    this.api.getLive();
   }
 }
 

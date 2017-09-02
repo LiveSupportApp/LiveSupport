@@ -59,7 +59,7 @@ class Package {
     if (!this.isExtra(name)) Util.showError('指定したパッケージが存在しません！');
     let win = new BrowserWindow({ transparent: true, frame: false, skipTaskbar: true, show: false });
     win.loadURL(this.getPath(name));
-    win.on('closed', () => { console.log(1, this);win = null; });
+    win.on('closed', () => { win = null; });
     return win;
   }
 

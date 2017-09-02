@@ -13,7 +13,7 @@ const Util = require('./Util');
 
 let api;
 let config;
-let windows = {};
+let windows = [];
 
 app.setPath('userData', App.path);
 
@@ -33,16 +33,18 @@ function init() {
   App.trayInit();
 
   for (let name of config.package) {
-    windows[name] = Package.getPackage(name);
+    windows.push(Package.getPackage(name));
   }
+
+  api = new API(config.type, config.auth);
+  api.authorize();
+
+  main();
 }
 
 function main() {
-  api = new API(config.type);
-  api.authorize(config.auth);
-
   api.on('ready', () => {
-    api.listen(config.timeout||1000);
+    api.listen(config.timeout);
     globalShortcut.register('ALT+/', () => {
       Util.prompt('メッセージを入力してください', res => {
         if (res) api.send(res);
@@ -57,14 +59,14 @@ function main() {
         btns: ['OK', '再取得'],
         msg: '配信が見つかりませんでした。',
         detail: '配信している場合は暫く待って取得してください。'
-      }, id => {if (id==1) main()});
+      }, id => { if (id==1) api.reacquire(); });
     } else if (err.message=='Can not find chat') {
       Util.msgbox({
         type: 'warning',
         btns: ['OK', '再取得'],
         msg: 'チャットが取得できませんでした。',
         detail: '配信している場合は暫く待って取得してください。'
-      }, id => {if (id==1) main()});
+      }, id => { if (id==1) api.reacquire(); });
     } else {
       Util.showError(err);
     }
@@ -73,9 +75,8 @@ function main() {
   api.on('chat', item => {
     console.log(item.message);
     if (config.reading.is) read(`${msg} さん ${name}`);
-    // font size 40 #30 20 px
-    for (let key in windows) {
-      windows[key].webContents.send('chat', item);
+    for (let win of windows) {
+      win.webContents.send('chat', item);
     }
   });
 }
