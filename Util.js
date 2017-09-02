@@ -46,6 +46,7 @@ class Util {
    * @param {string} [err] エラーメッセージ
    */
   static showError(err) {
+    console.log(err);
     if (err) dialog.showErrorBox('LiveSupport', err);
   }
 

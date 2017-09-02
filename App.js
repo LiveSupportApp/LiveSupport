@@ -1,9 +1,9 @@
 const {
-        app,
-        Menu,
-        Tray,
-        nativeImage,
-      } = require('electron');
+  Menu,
+  Tray,
+  app,
+  nativeImage,
+} = require('electron');
 const path = require('path');
 const Util = require('./Util');
 
