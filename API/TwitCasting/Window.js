@@ -3,7 +3,7 @@ const request = require('request');
 const {BrowserWindow} = require('electron');
 const url = require('url');
 const Util = require('../../Util');
-const TwitCasting = require('../TwitCasting');
+const TwitCasting = require('../TwitCasting.js');
 
 class Window {
   constructor() {
@@ -19,7 +19,7 @@ class Window {
       if (code) {
         this.win.close();
         request.post({
-          uri: TwitCasting.baseUrl+'/oauth2/access_token',
+          uri: `${TwitCasting.baseUrl}/oauth2/access_token`,
           headers: { 'Content-type': 'application/x-www-form-urlencoded' },
           form: {
             code: code,
@@ -28,7 +28,7 @@ class Window {
             client_secret: credential.client_secret,
             redirect_uri: credential.redirect_uri,
           },
-          json: true
+          json: true,
         }, (err, res, data) => {
           callback(data);
         });

@@ -1,5 +1,6 @@
 const YouTube = require('./API/YouTube');
 const TwitCasting = require('./API/TwitCasting');
+const Twitch = require('./API/Twitch');
 const {EventEmitter} = require('events');
 
 class API extends EventEmitter {
@@ -15,11 +16,12 @@ class API extends EventEmitter {
       case 'youtube':     this.api = new YouTube();     break;
       case 'twitcasting': this.api = new TwitCasting(); break;
       default: throw new Error('Type is not appropriate');
+      default: Util.showError(new Error('Type is not appropriate'));
     }
-    this.api.on('error', data => { this.emit('error', data) });
-    this.api.on('ready', data => { this.emit('ready', data) });
-    this.api.on('json',  data => { this.emit('json',  data) });
-    this.api.on('chat',  data => { this.emit('chat',  data) });
+    this.api.on('error', data => { this.emit('error', data); });
+    this.api.on('ready', data => { this.emit('ready', data); });
+    this.api.on('json',  data => { this.emit('json',  data); });
+    this.api.on('chat',  data => { this.emit('chat',  data); });
   }
 
   /**
@@ -31,7 +33,7 @@ class API extends EventEmitter {
 
   /**
    * チャット/コメントを取得する
-   * @param {number} timeout 取得間隔
+   * @param {number} timeout 更新間隔
    */
   listen(timeout) {
     this.api.listen(timeout);
@@ -45,8 +47,11 @@ class API extends EventEmitter {
     this.api.send(message);
   }
 
+  /**
+   * 再取得する
+   */
   reacquire() {
-    this.api.getLive();
+    this.api.reacquire();
   }
 }
 

@@ -12,7 +12,7 @@ class Server {
   getNewToken(callback) {
     let authUrl = `https://ssl.twitcasting.tv/oauth_confirm.php?client_id=${credential.client_id}&response_type=code`;
     shell.openExternal(authUrl);
-    this.server.listen('localhost',7170);
+    this.server.listen(7170);
     this.server.on('request', (req, res) => {
       this.handler(req, res, callback);
     });

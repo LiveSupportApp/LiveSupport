@@ -48,7 +48,7 @@ class YouTube extends EventEmitter {
         this.emit('error', new Error('Can not find chat'));
       } else {
         this.chatId = res.items[0].liveStreamingDetails.activeLiveChatId;
-        this.emit('ready', null);
+        this.emit('ready');
       }
     });
   }
@@ -64,7 +64,9 @@ class YouTube extends EventEmitter {
       if (err) {
         this.emit('error', err);
       } else {
-        this.emit('json', res);
+        this.emit('json', {
+          youtube: res,
+        });
       }
     });
   }
@@ -73,14 +75,14 @@ class YouTube extends EventEmitter {
     setInterval(()=>{this.getChat()}, timeout);
     let lastRead = 0, item = {}, time = 0;
     this.on('json', json => {
-      for (let item of json.items) {
+      for (let item of json.youtube.items) {
         time = new Date(item.snippet.publishedAt).getTime();
         if (lastRead < time) {
           lastRead = time;
           this.emit('chat', {
             message: item.snippet.textMessageDetails.messageText,
             name: item.authorDetails.displayName,
-            url: item.author.profileImageUrl
+            image: item.author.profileImageUrl
           });
         }
       }
@@ -101,6 +103,10 @@ class YouTube extends EventEmitter {
         }
       }
     })
+  }
+
+  reacquire() {
+    this.getLive();
   }
 }
 

@@ -5,19 +5,20 @@ const Window = require('./Window');
 
 class OAuth {
   constructor(type) {
+    this.type = type;
     switch (type) {
       case 'server': this.oauth = new Server(); break;
       case 'window': this.oauth = new Window(); break;
-      default: throw new Error('OAuth type is not appropriate');
+      default: Util.showError(new Error('OAuth type is not appropriate'));
     }
   }
 
   authorize(callback) {
-    storage.get('twitcasting', (err, data) => {
+    storage.get(`twitcasting-${this.type}`, (err, data) => {
       if (err) Util.showError(err);
       if (Object.keys(data).length === 0) {
         this.oauth.getNewToken(data => {
-          storage.set('twitcasting', data.access_token, Util.showError);
+          storage.set(`twitcasting-${this.type}`, data, Util.showError);
           callback(data.access_token);
         });
       } else {

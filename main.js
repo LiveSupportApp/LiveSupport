@@ -22,10 +22,7 @@ if (app.makeSingleInstance((argv, workingDirectory) => {})) {
   app.quit();
 }
 
-app.on('ready', () => {
-  init();
-  main();
-});
+app.on('ready', init);
 
 function init() {
   Package.init();
@@ -74,7 +71,7 @@ function main() {
 
   api.on('chat', item => {
     console.log(item.message);
-    if (config.reading.is) read(`${msg} さん ${name}`);
+    // if (config.reading.is) read(`${msg} さん ${name}`);
     for (let win of windows) {
       win.webContents.send('chat', item);
     }

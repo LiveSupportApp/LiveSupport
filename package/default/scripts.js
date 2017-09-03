@@ -1,9 +1,9 @@
 const {
-        remote,
-        ipcRenderer,
-      } = require('electron'),
-      $ = require('jquery'),
-      path = require('path');
+  remote,
+  ipcRenderer,
+} = require('electron');
+const $ = require('jquery');
+const path = require('path');
 
 {
   const win = remote.getCurrentWindow();
@@ -27,7 +27,7 @@ ipcRenderer.on('chat', (event, data) => {
   $('#chat_container').prepend(`
       <div class="chat">
         <div class="icon">
-          <img src="${data.url}">
+          <img src="${data.image}">
         </div>
         <div class="content">
           <div class="author">${data.name}</div>

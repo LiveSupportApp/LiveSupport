@@ -1,10 +1,10 @@
 const {
-        remote,
-        ipcRenderer,
-        screen,
-      } = require('electron'),
-      config = require('./config.json')
-      NicoJS = require('nicoJS');
+  remote,
+  ipcRenderer,
+  screen,
+} = require('electron');
+const config = require('./config.json');
+const NicoJS = require('nicoJS');
 
 let nico;
 
@@ -20,7 +20,7 @@ let nico;
     width: size[0],
     height: size[1],
     font_size: config.size,
-    color: '#'+config.color
+    color: `#${config.color}`
   });
 }
 

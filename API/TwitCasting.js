@@ -17,9 +17,9 @@ class TwitCasting extends EventEmitter {
       headers: {
         'Accept': 'application/json',
         'X-Api-Version': '2.0',
-        'Authorization': 'Bearer '+this.token
+        'Authorization': `Bearer ${this.token}`
       },
-      json: true
+      json: true,
     }, (err, res, data) => {
       if (err) {
         this.emit('error', err);
@@ -40,9 +40,9 @@ class TwitCasting extends EventEmitter {
       headers: {
         'Accept': 'application/json',
         'X-Api-Version': '2.0',
-        'Authorization': 'Bearer '+this.token
+        'Authorization': `Bearer ${this.token}`
       },
-      json: true
+      json: true,
     }, (err, res, data) => {
       if (err) {
         this.emit('error', err);
@@ -61,19 +61,21 @@ class TwitCasting extends EventEmitter {
       headers: {
         'Accept': 'application/json',
         'X-Api-Version': '2.0',
-        'Authorization': 'Bearer '+this.token
+        'Authorization': `Bearer ${this.token}`
       },
       form: {
         limit: 50,
       },
-      json: true
+      json: true,
     }, (err, res, data) => {
       if (err) {
         this.emit('error', err);
       } else if (res.statusCode != 200) {
         this.emit('error', data);
       } else {
-        this.emit('json', data);
+        this.emit('json', {
+          twitcasting: data,
+        });
       }
     });
   }
@@ -88,7 +90,7 @@ class TwitCasting extends EventEmitter {
           this.emit('chat', {
             message: comment.message,
             name: comment.from_user.name,
-            url: comment.from_user.image
+            image: comment.from_user.image,
           });
         }
       }
@@ -101,7 +103,7 @@ class TwitCasting extends EventEmitter {
       headers: {
         'Accept': 'application/json',
         'X-Api-Version': '2.0',
-        'Authorization': 'Bearer '+this.token
+        'Authorization': `Bearer ${this.token}`
       },
       form: { comment: message }
     }, (err, res, data) => {
@@ -115,6 +117,10 @@ class TwitCasting extends EventEmitter {
 
   static get baseUrl() {
     return 'https://apiv2.twitcasting.tv';
+  }
+
+  reacquire() {
+    this.getUser();
   }
 }
 
