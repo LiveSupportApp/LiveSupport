@@ -1,0 +1,11 @@
+{
+  "name": "default",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "author": "yuta0801",
+  "license": "MIT",
+  "dependencies": {
+    "nicojs": "yuta0801/nicoJS#forLiveSupport"
+  }
+}

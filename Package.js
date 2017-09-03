@@ -3,23 +3,30 @@ const path = require('path');
 const App = require('./App');
 const Util = require('./Util');
 const {BrowserWindow} = require('electron');
+const install = require('exec-npm-install');
 
 class Package {
   /**
    * パッケージを初期化する
+   * @param  {Function} callback コールバック関数
    */
-  static init() {
-    let PackagePath = path.join(__dirname, 'package');
-    if (fs.existsSync(this.path)) {
-      let files = fs.readdirSync(PackagePath);
-      for (let file of files) {
-        let filePath = path.join(this.path, file);
-        if (!fs.existsSync(filePath)) {
-          fs.copySync(path.join(PackagePath, file), filePath);
-        }
+  static init(callback) {
+    if (!fs.existsSync(this.path)) {
+      fs.copySync(path.join(__dirname, 'package'), this.path);
+      let packs = fs.readdirSync(this.path);
+      for (let pack of packs) {
+        let packpath = path.join(this.path, pack);
+        if (!fs.existsSync(packpath)||!fs.statSync(packpath).isDirectory()) continue;
+        let modules = Object.keys(fs.readJsonSync(path.join(packpath, 'package.json')).dependencies);
+        console.log(pack, modules, packpath);
+        install({
+          modules: modules,
+          prefix: packpath,
+        }, err => {
+          if (err) Util.showError(err);
+        });
       }
-    } else {
-      fs.copySync(PackagePath, this.path);
+      // callback();
     }
   }
 

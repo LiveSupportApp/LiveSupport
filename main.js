@@ -25,18 +25,19 @@ if (app.makeSingleInstance((argv, workingDirectory) => {})) {
 app.on('ready', init);
 
 function init() {
-  Package.init();
-  config = Package.config;
-  App.trayInit();
+  Package.init(() => {
+    config = Package.config;
+    App.trayInit();
 
-  for (let name of config.package) {
-    windows.push(Package.getPackage(name));
-  }
+    for (let name of config.package) {
+      windows.push(Package.getPackage(name));
+    }
+    windows[0].show();
+    api = new API(config.type, config.auth);
+    api.authorize();
 
-  api = new API(config.type, config.auth);
-  api.authorize();
-
-  main();
+    main();
+  });
 }
 
 function main() {
