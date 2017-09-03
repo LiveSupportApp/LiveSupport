@@ -15,7 +15,7 @@ class API extends EventEmitter {
     switch (type) {
       case 'youtube':     this.api = new YouTube();     break;
       case 'twitcasting': this.api = new TwitCasting(); break;
-      default: throw new Error('Type is not appropriate');
+      case 'twitch':      this.api = new Twitch();      break;
       default: Util.showError(new Error('Type is not appropriate'));
     }
     this.api.on('error', data => { this.emit('error', data); });
