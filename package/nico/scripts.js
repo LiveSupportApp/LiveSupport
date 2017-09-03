@@ -27,5 +27,20 @@ let nico;
 nico.listen();
 
 ipcRenderer.on('chat', (event, data) => {
-  nico.send(data.msg);
+  let params = {
+    text: data.message,
+    font_size: config.size,
+    color: `#${config.color}`,
+    layout: 'naka',
+  };
+  let command = data.msg.match(/[[{].+[\]}]/);
+  if (config.command && command) {
+    for (let key in opt) {
+      for (let cmd in config.command[key]) {
+        let item = config.command[key][cmd];
+        if (data.msg.match(new RegExp(item, 'i'))) size = cmd;
+      }
+    }
+  }
+  nico.send(params);
 });
