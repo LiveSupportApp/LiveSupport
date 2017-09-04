@@ -79,7 +79,7 @@ class YouTube extends EventEmitter {
         time = new Date(item.snippet.publishedAt).getTime();
         if (lastRead < time) {
           lastRead = time;
-          this.emit('chat', {
+          this.emit('message', {
             message: item.snippet.textMessageDetails.messageText,
             name: item.authorDetails.displayName,
             image: item.author.profileImageUrl

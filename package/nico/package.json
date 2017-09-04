@@ -1,8 +1,8 @@
 {
-  "name": "default",
+  "name": "nico",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.html",
+  "description": "The package to view chat/comment like Niconico.",
+  "main": "main.js",
   "author": "yuta0801",
   "license": "MIT",
   "dependencies": {

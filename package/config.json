@@ -2,12 +2,9 @@
   "type": "youtube",
   "auth": "code",
   "timeout": 1000,
-  "package": [
-    "default"
-  ],
-  "reading": {
-    "is": false,
-    "path": "",
-    "name": false
+  "package": [ "default" ],
+  "update": {
+    "is": true,
+    "all": true
   }
 }

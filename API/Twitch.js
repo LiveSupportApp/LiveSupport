@@ -98,7 +98,7 @@ class Twitch extends EventEmitter {
           self: self,
         },
       });
-      this.emit('chat', {
+      this.emit('message', {
         message: message,
         name: userstate.username,
         image: getLogoUrl(userstate.username),

@@ -3,17 +3,16 @@ const {
   app,
   globalShortcut,
 } = require('electron');
-const path = require('path');
-const prompt = require('electron-prompt');
 
 const API = require('./API');
 const App = require('./App');
 const Package = require('./Package');
+const Settings = require('./Settings');
 const Util = require('./Util');
 
 let api;
 let config;
-let windows = [];
+let packages = [];
 
 app.setPath('userData', App.path);
 
@@ -25,14 +24,10 @@ if (app.makeSingleInstance((argv, workingDirectory) => {})) {
 app.on('ready', init);
 
 function init() {
-  Package.init(() => {
+  Settings.init(() => {
     config = Package.config;
     App.trayInit();
 
-    for (let name of config.package) {
-      windows.push(Package.getPackage(name));
-    }
-    windows[0].show();
     api = new API(config.type, config.auth);
     api.authorize();
 
@@ -42,7 +37,12 @@ function init() {
 
 function main() {
   api.on('ready', () => {
+    for (let name of config.package) {
+      packages.push(Package.getPackage(name));
+    }
+
     api.listen(config.timeout);
+
     globalShortcut.register('ALT+/', () => {
       Util.prompt('メッセージを入力してください', res => {
         if (res) api.send(res);
@@ -70,11 +70,10 @@ function main() {
     }
   });
 
-  api.on('chat', item => {
+  api.on('message', item => {
     console.log(item.message);
-    // if (config.reading.is) read(`${msg} さん ${name}`);
-    for (let win of windows) {
-      win.webContents.send('chat', item);
+    for (let pack of packages) {
+      pack.win.webContents.send('chat', item);
     }
   });
 }

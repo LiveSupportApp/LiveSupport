@@ -87,7 +87,7 @@ class TwitCasting extends EventEmitter {
       for (let comment of data.comments.reverse()) {
         if (lastRead < comment.created) {
           lastRead = comment.created;
-          this.emit('chat', {
+          this.emit('message', {
             message: comment.message,
             name: comment.from_user.name,
             image: comment.from_user.image,

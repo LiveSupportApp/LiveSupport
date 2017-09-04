@@ -21,7 +21,7 @@ class API extends EventEmitter {
     this.api.on('error', data => { this.emit('error', data); });
     this.api.on('ready', data => { this.emit('ready', data); });
     this.api.on('json',  data => { this.emit('json',  data); });
-    this.api.on('chat',  data => { this.emit('chat',  data); });
+    this.api.on('message',  data => { this.emit('message',  data); });
   }
 
   /**
@@ -32,7 +32,7 @@ class API extends EventEmitter {
   }
 
   /**
-   * チャット/コメントを取得する
+   * chat/commentを取得する
    * @param {number} timeout 更新間隔
    */
   listen(timeout) {
@@ -40,7 +40,7 @@ class API extends EventEmitter {
   }
 
   /**
-   * チャット/コメントを送信する
+   * chat/commentを送信する
    * @param {string} message 送信するメッセージ
    */
   send(message) {

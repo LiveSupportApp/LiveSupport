@@ -51,14 +51,6 @@ class Util {
       dialog.showErrorBox('LiveSupport', err);
     }
   }
-
-  /**
-   * 棒読みちゃんに読ませる
-   * @param {string} text 読ませる内容
-   */
-  static read(text) {
-    exec(`${config.reading.path} /t "${text.replace('"','\'').replace('\n',' ')}"`);
-  }
 }
 
 module.exports = Util;

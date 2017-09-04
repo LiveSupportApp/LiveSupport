@@ -3,7 +3,6 @@ const {
   ipcRenderer,
 } = require('electron');
 const $ = require('jquery');
-const path = require('path');
 
 {
   const win = remote.getCurrentWindow();
@@ -11,19 +10,16 @@ const path = require('path');
   if (localStorage.getItem('bounds')) {
     const bounds = JSON.parse(localStorage.getItem('bounds'));
     win.setBounds(bounds);
-  } else {
-    win.setSize(600, 200);
   }
 
   win.on('move', () => {
     localStorage.setItem('bounds', JSON.stringify(win.getBounds()));
   });
 
-  win.setAlwaysOnTop(true);
   win.show();
 }
 
-ipcRenderer.on('chat', (event, data) => {
+ipcRenderer.on('message', (event, data) => {
   $('#chat_container').prepend(`
       <div class="chat">
         <div class="icon">

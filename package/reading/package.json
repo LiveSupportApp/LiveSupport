@@ -1,0 +1,11 @@
+{
+  "name": "reading",
+  "version": "1.0.0",
+  "description": "The package to read chat/comment in BouyomiChan.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "yuta0801",
+  "license": "MIT"
+}
