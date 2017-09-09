@@ -1,7 +1,7 @@
 const {EventEmitter} = require('events');
 const OAuth = require('./Twitter/OAuth');
 const Util = require('../Util');
-const hashtag = require('../package/settings.js').twitter.hashtag;
+const hashtag = require('../package/settings').twitter.hashtag;
 
 class Twitter extends EventEmitter {
   constructor() {

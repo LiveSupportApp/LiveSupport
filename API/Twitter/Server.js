@@ -45,7 +45,6 @@ class Server {
                   detail: err.toString()
                 }, id => { this.getNewToken(callback); });
               } else {
-                console.log(10);
                 callback(access_token_key, access_token_secret);
               }
           });

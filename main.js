@@ -9,7 +9,7 @@ const App = require('./App');
 const Package = require('./Package');
 const Util = require('./Util');
 
-const config = require('./package/settings.js');
+const config = require('./package/settings');
 
 let api;
 let packages = [];

@@ -3,7 +3,7 @@ const request = require('request');
 const {BrowserWindow} = require('electron');
 const url = require('url');
 const Util = require('../../Util');
-const TwitCasting = require('../TwitCasting.js');
+const TwitCasting = require('../TwitCasting');
 
 class Window {
   constructor() {

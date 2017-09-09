@@ -1,7 +1,7 @@
 const google = require('googleapis');
 const {EventEmitter} = require('events');
 const Util = require('../Util');
-const OAuth = require('./YouTube/OAuth.js');
+const OAuth = require('./YouTube/OAuth');
 
 class YouTube extends EventEmitter {
   constructor() {

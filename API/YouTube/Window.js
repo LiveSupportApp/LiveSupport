@@ -3,7 +3,7 @@ const request = require('request');
 const {BrowserWindow} = require('electron');
 const url = require('url');
 const Util = require('../../Util');
-const YouTube = require('../YouTube.js');
+const YouTube = require('../YouTube');
 const googleAuth = require('google-auth-library');
 const auth = new googleAuth();
 
