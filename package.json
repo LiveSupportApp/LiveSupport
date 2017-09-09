@@ -3,18 +3,16 @@
   "version": "2.0.9",
   "main": "main.js",
   "dependencies": {
-    "child_process": "^1.0.2",
     "electron": "^1.7.5",
     "electron-json-storage": "^3.0.7",
     "electron-prompt": "^0.3.0",
-    "exec-npm-install": "^1.0.4",
     "fs-extra": "^4.0.1",
     "google-auth-library": "^0.10.0",
     "googleapis": "^20.1.0",
     "path": "^0.12.7",
     "tmi.js": "^1.2.1"
   },
-  "description": "YouTubeLiveをサポートするソフト",
+  "description": "A software for support live broadcast.",
   "devDependencies": {
     "devtron": "^1.4.0"
   },

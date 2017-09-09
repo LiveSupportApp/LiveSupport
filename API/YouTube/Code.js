@@ -4,10 +4,10 @@ const {shell} = require('electron');
 const Util = require('../../Util');
 const auth = new googleAuth();
 const oauth2Client = new auth.OAuth2(
-        credential.installed.client_id,
-        credential.installed.client_secret,
-        credential.installed.redirect_uris[0]
-      );
+  credential.installed.client_id,
+  credential.installed.client_secret,
+  credential.installed.redirect_uris[0]
+);
 
 class Code {
   authorize(data, callback) {

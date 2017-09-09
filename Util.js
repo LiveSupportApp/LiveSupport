@@ -1,5 +1,7 @@
-const exec = require('child_process').exec;
-const {dialog} = require('electron');
+const {
+  dialog,
+  shell,
+} = require('electron');
 const prompt = require('electron-prompt');
 
 class Util {
@@ -50,6 +52,10 @@ class Util {
       console.log(err);
       dialog.showErrorBox('LiveSupport', err);
     }
+  }
+
+  static open(url) {
+    shell.openExternal(url);
   }
 }
 

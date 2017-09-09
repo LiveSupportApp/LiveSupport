@@ -1,7 +1,9 @@
-const YouTube = require('./API/YouTube');
+const {EventEmitter} = require('events');
 const TwitCasting = require('./API/TwitCasting');
 const Twitch = require('./API/Twitch');
-const {EventEmitter} = require('events');
+const Twitter = require('./API/Twitter');
+const YouTube = require('./API/YouTube');
+const Util = require('./Util');
 
 class API extends EventEmitter {
   /**
@@ -13,10 +15,11 @@ class API extends EventEmitter {
     super();
     this.auth = auth;
     switch (type) {
-      case 'youtube':     this.api = new YouTube();     break;
       case 'twitcasting': this.api = new TwitCasting(); break;
       case 'twitch':      this.api = new Twitch();      break;
-      default: Util.showError(new Error('Type is not appropriate'));
+      case 'twitter':     this.api = new Twitter();     break;
+      case 'youtube':     this.api = new YouTube();     break;
+      default: Util.showError('OAuth type is not appropriate');
     }
     this.api.on('error', data => { this.emit('error', data); });
     this.api.on('ready', data => { this.emit('ready', data); });

@@ -21,9 +21,7 @@ if (app.makeSingleInstance((argv, workingDirectory) => {})) {
   app.quit();
 }
 
-app.on('ready', init);
-
-function init() {
+app.on('ready', () => {
   Settings.init(() => {
     config = Package.config;
     App.trayInit();
@@ -33,7 +31,9 @@ function init() {
 
     main();
   });
-}
+});
+
+app.on('window-all-closed', () => {});
 
 function main() {
   api.on('ready', () => {
