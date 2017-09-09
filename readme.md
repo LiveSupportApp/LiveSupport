@@ -4,18 +4,17 @@
 
 ## Features
 - 複数サービスへの対応
-  - YouTube
   - TwitCasting
   - Twitch
+  - Twitter
+  - YouTube
 - カスタマイズ可能なコメント表示
 - アプリ内からコメント送信
 - 複数タイプのOAuth認証
-  - ブラウザからの認証
-    - [x]ローカルサーバーを使用する方法
-    - [x]コードを使用する方法
-  - ウィンドウ内からの認証
-    - [x]更新イベントを監視する方法
-    - [ ]ローカルサーバーを使用する方法
+  - ウィンドウ
+  - ブラウザー
+    - サーバー
+    - コード
 - パッケージ作成・導入
 
 ## Install
@@ -27,4 +26,4 @@ electron .
 ```
 
 ## Lisence
-MIT
+[MIT](https://github.com/yuta0801/LiveSupport/blob/master/LICENSE)
