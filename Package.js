@@ -40,15 +40,6 @@ class Package {
   }
 
   /**
-   * コンフィグを取得する
-   * @return {Object} コンフィグ
-   * @readonly
-   */
-  static get config() {
-    return require(path.join(App.path, 'settings', 'config.json'));
-  }
-
-  /**
    * パッケージフォルダのパスを取得する
    * @return {string}
    * @readonly

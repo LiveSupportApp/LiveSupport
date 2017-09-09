@@ -11,14 +11,6 @@ let tray;
 
 class App {
   /**
-   * アプリ用ディレクトリのパスを取得する
-   * @return {string}
-   */
-  static get path() {
-    return path.join(app.getPath('appData'), '.livesupport');
-  }
-
-  /**
    * タスクトレイアイコンを初期化する
    */
   static trayInit() {

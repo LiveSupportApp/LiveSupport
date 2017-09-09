@@ -7,33 +7,28 @@ const {
 const API = require('./API');
 const App = require('./App');
 const Package = require('./Package');
-const Settings = require('./Settings');
 const Util = require('./Util');
 
-let api;
-let config;
-let packages = [];
+const config = require('./package/config.json');
 
-app.setPath('userData', App.path);
+let api;
+let packages = [];
 
 if (app.makeSingleInstance((argv, workingDirectory) => {})) {
   Util.showError('すでに起動してるっぽいdёsц☆');
   app.quit();
 }
 
-app.on('ready', () => {
-  Settings.init(() => {
-    config = Package.config;
-    App.trayInit();
-
-    api = new API(config.type, config.auth);
-    api.authorize();
-
-    main();
-  });
-});
-
 app.on('window-all-closed', () => {});
+
+app.on('ready', () => {
+  App.trayInit();
+
+  api = new API(config.type, config.auth);
+  api.authorize();
+
+  main();
+});
 
 function main() {
   api.on('ready', () => {
