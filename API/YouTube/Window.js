@@ -6,49 +6,40 @@ const Util = require('../../Util');
 const YouTube = require('../YouTube.js');
 const googleAuth = require('google-auth-library');
 const auth = new googleAuth();
-const oauth2Client = new auth.OAuth2(
-  credential.web.client_id,
-  credential.web.client_secret,
-  credential.web.redirect_uris[0]
-);
-
 
 class Window {
   constructor() {
     this.win = new BrowserWindow({ show: false });
     this.win.on('closed', () => { this.win = null; });
+    this.client = new auth.OAuth2(
+      credential.web.client_id,
+      credential.web.client_secret,
+      credential.web.redirect_uris[0]
+    );
   }
 
   authorize(data, callback) {
-    oauth2Client.credentials = data;
-    callback(oauth2Client);
+    this.client.credentials = data;
+    callback(this.client);
   }
 
   getNewToken(callback) {
-    let authUrl = oauth2Client.generateAuthUrl({
+    let authUrl = this.client.generateAuthUrl({
       access_type: 'online',
       scope: 'https://www.googleapis.com/auth/youtube'
     });
     this.win.loadURL(authUrl);
     this.win.show();
-    this.win.webContents.on('did-get-redirect-request', (event, oldUrl, newUrl) => {
-      let code = url.parse(newUrl, true).query.code;
-      if (code) {
-        this.win.close();
-        oauth2Client.getToken(code, (err, token) => {
-          if (err) {
-            Util.msgbox({
-              type: 'warning',
-              btns: ['再認証'],
-              msg: '認証できませんでした。',
-              detail: err.toString()
-            }, id => { this.getNewToken(callback); });
-          } else {
-            oauth2Client.credentials = token;
-            callback(oauth2Client, token);
-          }
-        });
-      }
+    this.win.webContents.on('will-navigate', (event, url) => {
+      event.preventDefault();
+      let code = url.parse(url, true).query.code;
+      if (!code) return this.win.reload();
+      this.win.close();
+      this.client.getToken(code, (err, token) => {
+        if (err) return this.win.reload();
+        this.client.credentials = token;
+        callback(this.client, token);
+      });
     });
   }
 }

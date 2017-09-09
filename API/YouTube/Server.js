@@ -2,7 +2,6 @@ const credential = require('./credential.json');
 const http = require('http');
 const url = require('url');
 const {shell} = require('electron');
-const request = require('request');
 const googleAuth = require('google-auth-library');
 const auth = new googleAuth();
 const oauth2Client = new auth.OAuth2(

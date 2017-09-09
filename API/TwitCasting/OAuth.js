@@ -14,11 +14,11 @@ class OAuth {
   }
 
   authorize(callback) {
-    storage.get(`twitcasting-${this.type}`, (err, data) => {
+    storage.get('twitcasting', (err, data) => {
       if (err) Util.showError(err);
       if (Object.keys(data).length === 0) {
         this.oauth.getNewToken(data => {
-          storage.set(`twitcasting-${this.type}`, data, Util.showError);
+          storage.set('twitcasting', data, Util.showError);
           callback(data.access_token);
         });
       } else {
