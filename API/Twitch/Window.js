@@ -1,4 +1,4 @@
-const credential = require('./credential/window.json');
+const credential = require('./credential.json');
 const request = require('request');
 const {BrowserWindow} = require('electron');
 const url = require('url');

@@ -1,4 +1,4 @@
-const credential = require('./credential/server.json');
+const credential = require('./credential.json');
 const http = require('http');
 const url = require('url');
 const {shell} = require('electron');
