@@ -28,7 +28,7 @@ class Main extends EventEmitter {
     }).catch(err => {
       Util.msgbox({
         type: 'warning',
-        btns: ['再認証'],
+        btns: ['再試行'],
         msg: '棒読みちゃんが見つかりません',
         detail: err.toString()
       }, this.getPath)

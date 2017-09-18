@@ -13,7 +13,7 @@ class TwitCasting extends EventEmitter {
 
   getUser() {
     request.get({
-      uri: `${this.baseUrl}/verify_credentials`,
+      uri: `${this.baseURL}/verify_credentials`,
       headers: {
         'Accept': 'application/json',
         'X-Api-Version': '2.0',
@@ -36,7 +36,7 @@ class TwitCasting extends EventEmitter {
 
   getLive() {
     request.get({
-      uri: `${this.baseUrl}/users/${this.userId}/current_live`,
+      uri: `${this.baseURL}/users/${this.userId}/current_live`,
       headers: {
         'Accept': 'application/json',
         'X-Api-Version': '2.0',
@@ -57,7 +57,7 @@ class TwitCasting extends EventEmitter {
 
   getChat() {
     request.get({
-      uri: `${this.baseUrl}/movies/${this.movieId}/comments`,
+      uri: `${this.baseURL}/movies/${this.movieId}/comments`,
       headers: {
         'Accept': 'application/json',
         'X-Api-Version': '2.0',
@@ -74,6 +74,7 @@ class TwitCasting extends EventEmitter {
         this.emit('error', data)
       } else {
         this.emit('json', {
+          service: 'twitcasting',
           twitcasting: data,
         })
       }
@@ -99,7 +100,7 @@ class TwitCasting extends EventEmitter {
 
   send(message) {
     request.post({
-      uri: `${this.baseUrl}/movies/${this.movieId}/comments`,
+      uri: `${this.baseURL}/movies/${this.movieId}/comments`,
       headers: {
         'Accept': 'application/json',
         'X-Api-Version': '2.0',
@@ -115,7 +116,7 @@ class TwitCasting extends EventEmitter {
     })
   }
 
-  static get baseUrl() {
+  static get baseURL() {
     return 'https://apiv2.twitcasting.tv'
   }
 

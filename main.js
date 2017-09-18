@@ -8,22 +8,19 @@ const App = require('./App')
 const Package = require('./Package')
 const Util = require('./Util')
 
-const config = require('./package/settings')
+const settings = require('./settings')
 
 let api
 let packages = []
 
-if (app.makeSingleInstance()) {
-  Util.showError('すでに起動してるっぽいdёsц☆')
-  app.quit()
-}
+if (app.makeSingleInstance(() => {})) app.quit()
 
 app.on('window-all-closed', () => {})
 
 app.on('ready', () => {
   App.trayInit()
 
-  api = new API(config.type, config.auth)
+  api = new API()
   api.authorize()
 
   main()
@@ -31,11 +28,11 @@ app.on('ready', () => {
 
 function main() {
   api.on('ready', () => {
-    for (let name of config.package) {
+    for (let name of settings.package) {
       packages.push(Package.getPackage(name))
     }
 
-    api.listen(config.timeout)
+    api.listen()
 
     globalShortcut.register('ALT+/', () => {
       Util.prompt('メッセージを入力してください', res => {
@@ -66,7 +63,7 @@ function main() {
 
   api.on('message', item => {
     for (let pack of packages) {
-      pack.win.webContents.send('chat', item)
+      pack.emit('chat', item)
     }
   })
 }

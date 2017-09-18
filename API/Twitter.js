@@ -1,7 +1,7 @@
 const {EventEmitter} = require('events')
 const OAuth = require('./Twitter/OAuth')
 const Util = require('../Util')
-const hashtag = require('../package/settings').twitter.hashtag
+const hashtag = require('../settings').twitter.hashtag
 
 class Twitter extends EventEmitter {
   constructor() {
@@ -21,6 +21,7 @@ class Twitter extends EventEmitter {
     this.client.stream('statuses/filter', { track: hashtag }, (stream) => {
       stream.on('data', data => {
         this.emit('json', {
+          service: 'twitter',
           twitter: data,
         })
         this.emit('message', {

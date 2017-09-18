@@ -26,9 +26,9 @@ class Server {
 
   getNewToken(callback) {
     this.client.getRequestToken((err, req_token, req_token_secret) => {
-      let authURL = this.client.getAuthUrl(req_token)
+      let oauthURL = this.client.getAuthUrl(req_token)
 
-      Util.open(authURL)
+      Util.open(oauthURL)
       this.server.listen(7170)
       this.server.on('request', (req, res) => {
         this.handler(req, res, verifier => {

@@ -25,9 +25,9 @@ class Window {
 
   getNewToken(callback) {
     this.client.getRequestToken((err, req_token, req_token_secret) => {
-      let authURL = this.client.getAuthUrl(req_token)
+      let oauthURL = this.client.getAuthUrl(req_token)
 
-      this.win.loadURL(authURL)
+      this.win.loadURL(oauthURL)
       this.win.show()
 
       this.win.webContents.on('will-navigate', (event, url) => {

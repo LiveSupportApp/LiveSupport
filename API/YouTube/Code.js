@@ -21,11 +21,11 @@ class Code {
       msg: 'OAuth認証を行います。',
       detail: '次のページから認証を行いコードを入力してください。'
     }, () => {
-      let authURL = oauth2Client.generateAuthUrl({
+      let oauthURL = oauth2Client.generateAuthUrl({
         access_type: 'offline',
         scope: 'https://www.googleapis.com/auth/youtube'
       })
-      Util.open(authURL)
+      Util.open(oauthURL)
       Util.prompt('コードを入力してください', code => {
         oauth2Client.getToken(code, (err, token) => {
           if (err) {

@@ -10,15 +10,15 @@ class YouTube extends EventEmitter {
 
   authorize(type) {
     let oauth = new OAuth(type)
-    oauth.authorize(auth => {
-      this.auth = auth
+    oauth.authorize(oauth => {
+      this.oauth = oauth
       this.getLive()
     })
   }
 
   getLive() {
     this.youtube.liveBroadcasts.list({
-      auth: this.auth,
+      auth: this.oauth,
       part: 'id,status',
       mine: true,
       broadcastType: 'all',
@@ -37,7 +37,7 @@ class YouTube extends EventEmitter {
 
   getChatId() {
     this.youtube.videos.list({
-      auth: this.auth,
+      auth: this.oauth,
       part: 'liveStreamingDetails',
       id: this.liveId,
     }, (err, res) => {
@@ -54,7 +54,7 @@ class YouTube extends EventEmitter {
 
   getChat() {
     this.youtube.liveChatMessages.list({
-      auth: this.auth,
+      auth: this.oauth,
       liveChatId: this.chatId,
       part: 'snippet,authorDetails',
       hl: 'ja',
@@ -64,6 +64,7 @@ class YouTube extends EventEmitter {
         this.emit('error', err)
       } else {
         this.emit('json', {
+          service: 'youtube',
           youtube: res,
         })
       }
@@ -90,7 +91,7 @@ class YouTube extends EventEmitter {
 
   send(message) {
     this.youtube.liveChatMessages.insert({
-      auth: this.auth,
+      auth: this.oauth,
       part: 'snippet',
       resource: {
         snippet: {

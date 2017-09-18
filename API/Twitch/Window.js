@@ -9,12 +9,12 @@ class Window {
   }
 
   getNewToken(callback) {
-    let authURL = 'https://api.twitch.tv/kraken/oauth2/authorize'+
+    let oauthURL = 'https://api.twitch.tv/kraken/oauth2/authorize'+
       `?client_id=${credential.client_id}&`+
       `redirect_uri=${credential.redirect_uri}&`+
       'response_type=code&'+
       'scope=user_read chat_login'
-    this.win.loadURL(authURL)
+    this.win.loadURL(oauthURL)
     this.win.show()
     this.win.webContents.on('will-navigate', (event, url) => {
       event.preventDefault()

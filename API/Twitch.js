@@ -59,7 +59,7 @@ class Twitch extends EventEmitter {
     })
   }
 
-  getLogoUrl(userId) {
+  getLogoURL(userId) {
     request.get({
       uri: `https://api.twitch.tv/kraken/users/${userId}`,
       headers: {
@@ -91,6 +91,7 @@ class Twitch extends EventEmitter {
 
     client.on('message', (channel, userstate, message, self) => {
       this.emit('json', {
+        service: 'twitch',
         twitch: {
           message: message,
           user: userstate,
@@ -101,7 +102,7 @@ class Twitch extends EventEmitter {
       this.emit('message', {
         message: message,
         name: userstate.username,
-        // TODO: image: getLogoUrl(userstate.username),
+        image: this.getLogoURL(userstate.username),
       })
     })
   }

@@ -1,4 +1,5 @@
 const {
+  app,
   dialog,
   shell,
 } = require('electron')
@@ -51,6 +52,7 @@ class Util {
     if (err) {
       console.log(err)
       dialog.showErrorBox('LiveSupport', err)
+      app.quit()
     }
   }
 

@@ -18,7 +18,7 @@ class OAuth {
       this.oauth = new Window()
       break
     default:
-      Util.showError('OAuth type is not appropriate')
+      Util.showError('認証タイプ名が正しくありません')
     }
   }
 
@@ -26,9 +26,9 @@ class OAuth {
     storage.get(`youtube-${this.type}`, (err, data) => {
       if (err) Util.showError(err)
       if (Object.keys(data).length === 0) {
-        this.oauth.getNewToken((auth, token) => {
+        this.oauth.getNewToken((oauth, token) => {
           storage.set(`youtube-${this.type}`, token, Util.showError)
-          callback(auth)
+          callback(oauth)
         })
       } else {
         this.oauth.authorize(data, callback)

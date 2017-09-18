@@ -10,12 +10,12 @@ class Server {
   }
 
   getNewToken(callback) {
-    let authURL = 'https://api.twitch.tv/kraken/oauth2/authorize'+
+    let oauthURL = 'https://api.twitch.tv/kraken/oauth2/authorize'+
       `?client_id=${credential.client_id}&`+
       `redirect_uri=${credential.redirect_uri}&`+
       'response_type=code&'+
       'scope=user_read chat_login'
-    Util.open(authURL)
+    Util.open(oauthURL)
     this.server.listen(7170)
     this.server.on('request', (req, res) => {
       this.handler(req, res, code => {

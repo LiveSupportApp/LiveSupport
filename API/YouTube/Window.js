@@ -20,11 +20,11 @@ class Window {
   }
 
   getNewToken(callback) {
-    let authURL = this.client.generateAuthUrl({
+    let oauthURL = this.client.generateAuthUrl({
       access_type: 'online',
       scope: 'https://www.googleapis.com/auth/youtube'
     })
-    this.win.loadURL(authURL)
+    this.win.loadURL(oauthURL)
     this.win.show()
     this.win.webContents.on('will-navigate', (event, url) => {
       event.preventDefault()

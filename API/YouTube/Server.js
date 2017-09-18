@@ -21,11 +21,11 @@ class Server {
   }
 
   getNewToken(callback) {
-    let authURL = oauth2Client.generateAuthUrl({
+    let oauthURL = oauth2Client.generateAuthUrl({
       access_type: 'online',
       scope: 'https://www.googleapis.com/auth/youtube'
     })
-    Util.open(authURL)
+    Util.open(oauthURL)
     this.server.listen(7170)
     this.server.on('request', (req, res) => {
       this.handler(req, res, code => {

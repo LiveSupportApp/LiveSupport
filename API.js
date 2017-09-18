@@ -5,21 +5,23 @@ const Twitter = require('./API/Twitter')
 const YouTube = require('./API/YouTube')
 const Util = require('./Util')
 
+const settings = require('./settings')
+
 class API extends EventEmitter {
   /**
    * APIをまとめるクラス
-   * @param {string} type 使用するAPI
    * @extends EventEmitter
    */
-  constructor(type, auth) {
+  constructor() {
     super()
-    this.auth = auth
-    switch (type) {
+    this.service = settings.app.service
+    this.oauth = settings[this.service].oauth
+    switch (this.service) {
     case 'twitcasting': this.api = new TwitCasting(); break
     case 'twitch':      this.api = new Twitch();      break
     case 'twitter':     this.api = new Twitter();     break
     case 'youtube':     this.api = new YouTube();     break
-    default: Util.showError('OAuth type is not appropriate')
+    default: Util.showError('サービス名が正しくありません')
     }
     this.api.on('error',   data => { this.emit('error',   data) })
     this.api.on('ready',   data => { this.emit('ready',   data) })
@@ -31,7 +33,7 @@ class API extends EventEmitter {
    * 認証する
    */
   authorize() {
-    this.api.authorize(this.auth)
+    this.api.authorize(this.oauth)
   }
 
   /**

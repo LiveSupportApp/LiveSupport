@@ -2,9 +2,9 @@ const {
   remote,
   ipcRenderer,
 } = require('electron')
-const config = require('./config.json')
+const settings = require('./settings.json')
 const NicoJS = require('nicoJS')
-const command = config.command
+const command = settings.command
 
 let nico
 
@@ -19,8 +19,8 @@ let nico
     app: document.getElementById('render'),
     width: size[0],
     height: size[1],
-    font_size: config.size,
-    color: `#${config.color}`
+    font_size: settings.size,
+    color: `#${settings.color}`
   })
 }
 
@@ -29,8 +29,8 @@ nico.listen()
 ipcRenderer.on('message', (event, data) => {
   let params = {
     text: data.message,
-    font_size: config.size,
-    color: `#${config.color}`,
+    font_size: settings.size,
+    color: `#${settings.color}`,
     layout: 'naka',
   }
   if (command.is) {

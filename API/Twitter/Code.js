@@ -29,9 +29,9 @@ class Code {
       detail: '次のページから認証を行いコードを入力してください。'
     }, () => {
       this.client.getRequestToken((err, req_token, req_token_secret) => {
-        let authURL = this.client.getAuthUrl(req_token)
+        let oauthURL = this.client.getAuthUrl(req_token)
 
-        Util.open(authURL)
+        Util.open(oauthURL)
 
         Util.prompt('コードを入力してください', code => {
           this.client.getAccessToken(

@@ -10,9 +10,9 @@ class Window {
   }
 
   getNewToken(callback) {
-    let authURL = 'https://ssl.twitcasting.tv/oauth_confirm.php?'+
+    let oauthURL = 'https://ssl.twitcasting.tv/oauth_confirm.php?'+
       `client_id=${credential.client_id}&response_type=code`
-    this.win.loadURL(authURL)
+    this.win.loadURL(oauthURL)
     this.win.show()
     this.win.webContents.on('will-navigate', (event, url) => {
       event.preventDefault()
@@ -20,7 +20,7 @@ class Window {
       if (!code) return this.win.reload()
       this.win.close()
       request.post({
-        uri: `${TwitCasting.baseUrl}/oauth2/access_token`,
+        uri: `${TwitCasting.baseURL}/oauth2/access_token`,
         headers: { 'Content-type': 'application/x-www-form-urlencoded' },
         form: {
           code: code,

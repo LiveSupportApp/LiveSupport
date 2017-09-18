@@ -18,7 +18,7 @@ class OAuth {
       this.oauth = new Window()
       break
     default:
-      Util.showError('OAuth type is not appropriate')
+      Util.showError('認証タイプ名が正しくありません')
     }
   }
 
