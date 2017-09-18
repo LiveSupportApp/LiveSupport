@@ -1,6 +1,6 @@
 {
   "name": "LiveSupport",
-  "version": "2.0.9",
+  "version": "2.14.5",
   "main": "main.js",
   "dependencies": {
     "electron": "^1.7.5",

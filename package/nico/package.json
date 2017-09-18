@@ -2,7 +2,7 @@
   "name": "nico",
   "version": "1.0.0",
   "description": "The package to view chat/comment like Niconico.",
-  "main": "main.js",
+  "main": "index.js",
   "author": "yuta0801",
   "license": "MIT",
   "dependencies": {
