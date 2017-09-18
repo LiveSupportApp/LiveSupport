@@ -1,8 +1,8 @@
 const {
   dialog,
   shell,
-} = require('electron');
-const prompt = require('electron-prompt');
+} = require('electron')
+const prompt = require('electron-prompt')
 
 class Util {
   /**
@@ -28,8 +28,8 @@ class Util {
       cancelId: -1,
       noLink: true
     }, (res) => {
-      callback(res);
-    });
+      callback(res)
+    })
   }
 
   /**
@@ -40,7 +40,7 @@ class Util {
   static prompt(message, callback) {
     prompt({ title: 'LiveSupport', label: message })
       .then(callback)
-      .catch(this.showError);
+      .catch(this.showError)
   }
 
   /**
@@ -49,14 +49,14 @@ class Util {
    */
   static showError(err) {
     if (err) {
-      console.log(err);
-      dialog.showErrorBox('LiveSupport', err);
+      console.log(err)
+      dialog.showErrorBox('LiveSupport', err)
     }
   }
 
   static open(url) {
-    shell.openExternal(url);
+    shell.openExternal(url)
   }
 }
 
-module.exports = Util;
+module.exports = Util

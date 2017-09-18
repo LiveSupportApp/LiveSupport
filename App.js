@@ -3,24 +3,23 @@ const {
   Tray,
   app,
   nativeImage,
-} = require('electron');
-const path = require('path');
-const Util = require('./Util');
+} = require('electron')
+const path = require('path')
 
-let tray;
+let tray
 
 class App {
   /**
    * タスクトレイアイコンを初期化する
    */
   static trayInit() {
-    tray = new Tray(nativeImage.createFromPath(path.join(__dirname, '/icon/icon.png')));
+    tray = new Tray(nativeImage.createFromPath(path.join(__dirname, '/icon/icon.png')))
     tray.setContextMenu(Menu.buildFromTemplate([{
       label: '終了',
-      click: () => { app.quit(); }
-    }]));
-    tray.setToolTip('LiveSupport');
+      click: app.quit
+    }]))
+    tray.setToolTip('LiveSupport')
   }
 }
 
-module.exports = App;
+module.exports = App

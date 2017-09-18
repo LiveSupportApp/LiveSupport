@@ -2,31 +2,33 @@
   "size": 30,
   "color": "FFF",
   "command": {
+    "regExp": "[｛「[{].+[｝」\\]}]",
+    "delimiter": " ",
     "is": false,
-    "size": {
-      "20": "small",
-      "30": "medium",
-      "40": "big"
+    "content": {
+      "font_size": {
+        "20": "small",
+        "30": "medium",
+        "40": "big"
+      },
+      "color": {
+        "white": "white",
+        "red": "red",
+        "pink": "pink",
+        "orange": "orange",
+        "yellow": "yellow",
+        "green": "green",
+        "cyan": "cyan",
+        "blue": "blue",
+        "purple": "purple",
+        "black": "black"
+      }
     },
-    "color": {
-      "white": "white",
-      "red": "red",
-      "pink": "pink",
-      "orange": "orange",
-      "yellow": "yellow",
-      "green": "green",
-      "cyan": "cyan",
-      "blue": "blue",
-      "purple": "purple",
-      "black": "black",
-      "code": "#[A-Fa-f0-9]{6}",
-      "code": "#[A-Fa-f0-9]{3}"
+    "layout": {
+      "top": "ue",
+      "main": "naka",
+      "bottom": "shita"
     }
-  },
-  "layout": {
-    "top": "ue",
-    "main": "naka",
-    "bottom": "shita"
   }
 }
 

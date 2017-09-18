@@ -1,20 +1,19 @@
-const google = require('googleapis');
-const {EventEmitter} = require('events');
-const Util = require('../Util');
-const OAuth = require('./YouTube/OAuth');
+const google = require('googleapis')
+const {EventEmitter} = require('events')
+const OAuth = require('./YouTube/OAuth')
 
 class YouTube extends EventEmitter {
   constructor() {
-    super();
+    super()
     this.youtube = google.youtube('v3')
   }
 
   authorize(type) {
-    let oauth = new OAuth(type);
+    let oauth = new OAuth(type)
     oauth.authorize(auth => {
-      this.auth = auth;
-      this.getLive();
-    });
+      this.auth = auth
+      this.getLive()
+    })
   }
 
   getLive() {
@@ -26,14 +25,14 @@ class YouTube extends EventEmitter {
       maxResults: 1,
     }, (err, res) => {
       if (err) {
-        this.emit('error', err);
+        this.emit('error', err)
       } else if (!res.items[0]||res.items[0].status.recordingStatus!=='recording') {
-        this.emit('error', new Error('No live was found'));
+        this.emit('error', new Error('No live was found'))
       } else {
-        this.liveId = res.items[0].id;
-        this.getChatId();
+        this.liveId = res.items[0].id
+        this.getChatId()
       }
-    });
+    })
   }
 
   getChatId() {
@@ -43,14 +42,14 @@ class YouTube extends EventEmitter {
       id: this.liveId,
     }, (err, res) => {
       if (err) {
-        this.emit('error', err);
+        this.emit('error', err)
       } else if (!res.items.length) {
-        this.emit('error', new Error('Can not find chat'));
+        this.emit('error', new Error('Can not find chat'))
       } else {
-        this.chatId = res.items[0].liveStreamingDetails.activeLiveChatId;
-        this.emit('ready');
+        this.chatId = res.items[0].liveStreamingDetails.activeLiveChatId
+        this.emit('ready')
       }
-    });
+    })
   }
 
   getChat() {
@@ -62,31 +61,31 @@ class YouTube extends EventEmitter {
       maxResults: 2000,
     }, (err, res) => {
       if (err) {
-        this.emit('error', err);
+        this.emit('error', err)
       } else {
         this.emit('json', {
           youtube: res,
-        });
+        })
       }
-    });
+    })
   }
 
   listen(timeout) {
-    setInterval(()=>{this.getChat()}, timeout);
-    let lastRead = 0, item = {}, time = 0;
+    setInterval(()=>{this.getChat()}, timeout)
+    let lastRead = 0, time = 0
     this.on('json', json => {
       for (let item of json.youtube.items) {
-        time = new Date(item.snippet.publishedAt).getTime();
+        time = new Date(item.snippet.publishedAt).getTime()
         if (lastRead < time) {
-          lastRead = time;
+          lastRead = time
           this.emit('message', {
             message: item.snippet.textMessageDetails.messageText,
             name: item.authorDetails.displayName,
             image: item.author.profileImageUrl
-          });
+          })
         }
       }
-    });
+    })
   }
 
   send(message) {
@@ -106,8 +105,8 @@ class YouTube extends EventEmitter {
   }
 
   reacquire() {
-    this.getLive();
+    this.getLive()
   }
 }
 
-module.exports = YouTube;
+module.exports = YouTube

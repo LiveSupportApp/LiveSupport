@@ -1,20 +1,20 @@
-const {EventEmitter} = require('events');
-const OAuth = require('./Twitter/OAuth');
-const Util = require('../Util');
-const hashtag = require('../package/settings').twitter.hashtag;
+const {EventEmitter} = require('events')
+const OAuth = require('./Twitter/OAuth')
+const Util = require('../Util')
+const hashtag = require('../package/settings').twitter.hashtag
 
 class Twitter extends EventEmitter {
   constructor() {
-    super();
-    if (!hashtag) Util.showError('ハッシュタグを設定してください');
+    super()
+    if (!hashtag) Util.showError('ハッシュタグを設定してください')
   }
 
   authorize(type) {
-    let oauth = new OAuth(type);
+    let oauth = new OAuth(type)
     oauth.authorize(client => {
-      this.client = client;
-      this.getTweet();
-    });
+      this.client = client
+      this.getTweet()
+    })
   }
 
   getTweet() {
@@ -22,19 +22,19 @@ class Twitter extends EventEmitter {
       stream.on('data', data => {
         this.emit('json', {
           twitter: data,
-        });
+        })
         this.emit('message', {
           message: data.text,
           name: data.user.name,
           image: data.user.profile_image_url,
-        });
-      });
+        })
+      })
 
       stream.on('error', err => {
-        this.emit('error', err);
-      });
-    });
+        this.emit('error', err)
+      })
+    })
   }
 }
 
-module.exports = Twitter;
+module.exports = Twitter

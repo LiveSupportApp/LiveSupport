@@ -1,14 +1,14 @@
-const {EventEmitter} = require('events');
-const request = require('request');
-const OAuth = require('./TwitCasting/OAuth');
+const {EventEmitter} = require('events')
+const request = require('request')
+const OAuth = require('./TwitCasting/OAuth')
 
 class TwitCasting extends EventEmitter {
   authorize(type) {
-    let oauth = new OAuth(type);
+    let oauth = new OAuth(type)
     oauth.authorize(token => {
-      this.token = token;
-      this.getUser();
-    });
+      this.token = token
+      this.getUser()
+    })
   }
 
   getUser() {
@@ -22,16 +22,16 @@ class TwitCasting extends EventEmitter {
       json: true,
     }, (err, res, data) => {
       if (err) {
-        this.emit('error', err);
+        this.emit('error', err)
       } else if (res.statusCode != 200) {
-        this.emit('error', data);
+        this.emit('error', data)
       } else if (!data.user.is_live) {
-        this.emit('error', new Error('No live was found'));
+        this.emit('error', new Error('No live was found'))
       } else {
-        this.userId = data.user.id;
-        this.getLive();
+        this.userId = data.user.id
+        this.getLive()
       }
-    });
+    })
   }
 
   getLive() {
@@ -45,14 +45,14 @@ class TwitCasting extends EventEmitter {
       json: true,
     }, (err, res, data) => {
       if (err) {
-        this.emit('error', err);
+        this.emit('error', err)
       } else if (res.statusCode != 200) {
-        this.emit('error', data);
+        this.emit('error', data)
       } else {
-        this.movieId = data.movie.id;
-        this.emit('ready');
+        this.movieId = data.movie.id
+        this.emit('ready')
       }
-    });
+    })
   }
 
   getChat() {
@@ -69,32 +69,32 @@ class TwitCasting extends EventEmitter {
       json: true,
     }, (err, res, data) => {
       if (err) {
-        this.emit('error', err);
+        this.emit('error', err)
       } else if (res.statusCode != 200) {
-        this.emit('error', data);
+        this.emit('error', data)
       } else {
         this.emit('json', {
           twitcasting: data,
-        });
+        })
       }
-    });
+    })
   }
 
   listen(timeout) {
-    setInterval(()=>{this.getChat()}, timeout);
-    let lastRead = 0;
+    setInterval(()=>{this.getChat()}, timeout)
+    let lastRead = 0
     this.on('json', data => {
       for (let comment of data.comments.reverse()) {
         if (lastRead < comment.created) {
-          lastRead = comment.created;
+          lastRead = comment.created
           this.emit('message', {
             message: comment.message,
             name: comment.from_user.name,
             image: comment.from_user.image,
-          });
+          })
         }
       }
-    });
+    })
   }
 
   send(message) {
@@ -108,20 +108,20 @@ class TwitCasting extends EventEmitter {
       form: { comment: message }
     }, (err, res, data) => {
       if (err) {
-        this.emit('error', err);
+        this.emit('error', err)
       } else if (res.statusCode != 200) {
-        this.emit('error', data);
+        this.emit('error', data)
       }
-    });
+    })
   }
 
   static get baseUrl() {
-    return 'https://apiv2.twitcasting.tv';
+    return 'https://apiv2.twitcasting.tv'
   }
 
   reacquire() {
-    this.getUser();
+    this.getUser()
   }
 }
 
-module.exports = TwitCasting;
+module.exports = TwitCasting

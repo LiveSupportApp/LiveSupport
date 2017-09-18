@@ -1,18 +1,18 @@
-const {EventEmitter} = require('events');
-const request = require('request');
-const tmi = require('tmi.js');
-const OAuth = require('./Twitch/OAuth');
+const {EventEmitter} = require('events')
+const request = require('request')
+const tmi = require('tmi.js')
+const OAuth = require('./Twitch/OAuth')
 
-let client;
+let client
 
 class Twitch extends EventEmitter {
   authorize(type) {
-    let oauth = new OAuth(type);
+    let oauth = new OAuth(type)
     oauth.authorize((token, clientId) => {
-      this.token = token;
-      this.clientId = clientId;
-      this.getUser();
-    });
+      this.token = token
+      this.clientId = clientId
+      this.getUser()
+    })
   }
 
   getUser() {
@@ -25,15 +25,15 @@ class Twitch extends EventEmitter {
       json: true,
     }, (err, res, data) => {
       if (err) {
-        this.emit('error', err);
+        this.emit('error', err)
       } else if (res.statusCode != 200) {
-        this.emit('error', data);
+        this.emit('error', data)
       } else {
-        this.userId = data._id;
-        this.username = data.name;
-        this.getLive();
+        this.userId = data._id
+        this.username = data.name
+        this.getLive()
       }
-    });
+    })
   }
 
   getLive() {
@@ -46,17 +46,17 @@ class Twitch extends EventEmitter {
       json: true,
     }, (err, res, data) => {
       if (err) {
-        this.emit('error', err);
+        this.emit('error', err)
       } else if (res.statusCode != 200) {
-        this.emit('error', data);
+        this.emit('error', data)
       } else if (!data.stream) {
-        this.emit('error', new Error('No live was found'));
+        this.emit('error', new Error('No live was found'))
       } else {
-        this.channelId = data.stream.channel._id;
-        this.channelName = data.stream.channel.name;
-        this.emit('ready');
+        this.channelId = data.stream.channel._id
+        this.channelName = data.stream.channel.name
+        this.emit('ready')
       }
-    });
+    })
   }
 
   getLogoUrl(userId) {
@@ -69,13 +69,13 @@ class Twitch extends EventEmitter {
       json: true,
     }, (err, res, data) => {
       if (err) {
-        this.emit('error', err);
+        this.emit('error', err)
       } else if (res.statusCode != 200) {
-        this.emit('error', data);
+        this.emit('error', data)
       } else {
-        return data.logo;
+        return data.logo
       }
-    });
+    })
   }
 
   listen() {
@@ -85,9 +85,9 @@ class Twitch extends EventEmitter {
         password: `oauth:${this.token}`
       },
       channels: [`#${this.username}`]
-    });
+    })
 
-    client.connect();
+    client.connect()
 
     client.on('message', (channel, userstate, message, self) => {
       this.emit('json', {
@@ -97,22 +97,22 @@ class Twitch extends EventEmitter {
           channel: channel,
           self: self,
         },
-      });
+      })
       this.emit('message', {
         message: message,
         name: userstate.username,
-        image: getLogoUrl(userstate.username),
-      });
-    });
+        // TODO: image: getLogoUrl(userstate.username),
+      })
+    })
   }
 
   send(message) {
-    client.action(`#${this.username}`, message);
+    client.action(`#${this.username}`, message)
   }
 
   reacquire() {
-    this.getUser();
+    this.getUser()
   }
 }
 
-module.exports = Twitch;
+module.exports = Twitch

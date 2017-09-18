@@ -1,22 +1,22 @@
 const {
   remote,
   ipcRenderer,
-} = require('electron');
-const $ = require('jquery');
+} = require('electron')
+const $ = require('jquery')
 
 {
-  const win = remote.getCurrentWindow();
+  const win = remote.getCurrentWindow()
 
   if (localStorage.getItem('bounds')) {
-    const bounds = JSON.parse(localStorage.getItem('bounds'));
-    win.setBounds(bounds);
+    const bounds = JSON.parse(localStorage.getItem('bounds'))
+    win.setBounds(bounds)
   }
 
   win.on('move', () => {
-    localStorage.setItem('bounds', JSON.stringify(win.getBounds()));
-  });
+    localStorage.setItem('bounds', JSON.stringify(win.getBounds()))
+  })
 
-  win.show();
+  win.show()
 }
 
 ipcRenderer.on('message', (event, data) => {
@@ -30,5 +30,5 @@ ipcRenderer.on('message', (event, data) => {
           &#8203;
           <div class="message">${data.message}</div>
         </div>
-      </div>`);
-});
+      </div>`)
+})

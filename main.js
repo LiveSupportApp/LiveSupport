@@ -1,49 +1,48 @@
 const {
-  BrowserWindow,
   app,
   globalShortcut,
-} = require('electron');
+} = require('electron')
 
-const API = require('./API');
-const App = require('./App');
-const Package = require('./Package');
-const Util = require('./Util');
+const API = require('./API')
+const App = require('./App')
+const Package = require('./Package')
+const Util = require('./Util')
 
-const config = require('./package/settings');
+const config = require('./package/settings')
 
-let api;
-let packages = [];
+let api
+let packages = []
 
-if (app.makeSingleInstance((argv, workingDirectory) => {})) {
-  Util.showError('すでに起動してるっぽいdёsц☆');
-  app.quit();
+if (app.makeSingleInstance()) {
+  Util.showError('すでに起動してるっぽいdёsц☆')
+  app.quit()
 }
 
-app.on('window-all-closed', () => {});
+app.on('window-all-closed', () => {})
 
 app.on('ready', () => {
-  App.trayInit();
+  App.trayInit()
 
-  api = new API(config.type, config.auth);
-  api.authorize();
+  api = new API(config.type, config.auth)
+  api.authorize()
 
-  main();
-});
+  main()
+})
 
 function main() {
   api.on('ready', () => {
     for (let name of config.package) {
-      packages.push(Package.getPackage(name));
+      packages.push(Package.getPackage(name))
     }
 
-    api.listen(config.timeout);
+    api.listen(config.timeout)
 
     globalShortcut.register('ALT+/', () => {
       Util.prompt('メッセージを入力してください', res => {
-        if (res) api.send(res);
-      });
-    });
-  });
+        if (res) api.send(res)
+      })
+    })
+  })
 
   api.on('error', err => {
     if (err.message=='No live was found') {
@@ -52,23 +51,22 @@ function main() {
         btns: ['OK', '再取得'],
         msg: '配信が見つかりませんでした。',
         detail: '配信している場合は暫く待って取得してください。'
-      }, id => { if (id==1) api.reacquire(); });
+      }, id => { if (id==1) api.reacquire() })
     } else if (err.message=='Can not find chat') {
       Util.msgbox({
         type: 'warning',
         btns: ['OK', '再取得'],
         msg: 'チャットが取得できませんでした。',
         detail: '配信している場合は暫く待って取得してください。'
-      }, id => { if (id==1) api.reacquire(); });
+      }, id => { if (id==1) api.reacquire() })
     } else {
-      Util.showError(err);
+      Util.showError(err)
     }
-  });
+  })
 
   api.on('message', item => {
-    console.log(item.message);
     for (let pack of packages) {
-      pack.win.webContents.send('chat', item);
+      pack.win.webContents.send('chat', item)
     }
-  });
+  })
 }
