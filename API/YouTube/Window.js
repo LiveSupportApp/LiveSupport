@@ -22,7 +22,7 @@ class Window {
   getNewToken(callback) {
     let oauthURL = this.client.generateAuthUrl({
       access_type: 'online',
-      scope: 'https://www.googleapis.com/auth/youtube'
+      scope: 'https://www.googleapis.com/auth/youtube',
     })
     this.win.loadURL(oauthURL)
     this.win.show()

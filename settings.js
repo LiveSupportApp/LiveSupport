@@ -15,7 +15,7 @@ module.exports = {
      * @type {String[]}
      */
     package: [
-      'default'
+      'default',
     ],
   },
 

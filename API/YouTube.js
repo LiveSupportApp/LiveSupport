@@ -82,7 +82,7 @@ class YouTube extends EventEmitter {
           this.emit('message', {
             message: item.snippet.textMessageDetails.messageText,
             name: item.authorDetails.displayName,
-            image: item.author.profileImageUrl
+            image: item.author.profileImageUrl,
           })
         }
       }
@@ -98,10 +98,10 @@ class YouTube extends EventEmitter {
           liveChatId: this.chatId,
           type: 'textMessageEvent',
           textMessageDetails: {
-            messageText: message
-          }
-        }
-      }
+            messageText: message,
+          },
+        },
+      },
     })
   }
 

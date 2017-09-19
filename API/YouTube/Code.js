@@ -19,11 +19,11 @@ class Code {
       type: 'info',
       btns: ['OK'],
       msg: 'OAuth認証を行います。',
-      detail: '次のページから認証を行いコードを入力してください。'
+      detail: '次のページから認証を行いコードを入力してください。',
     }, () => {
       let oauthURL = oauth2Client.generateAuthUrl({
         access_type: 'offline',
-        scope: 'https://www.googleapis.com/auth/youtube'
+        scope: 'https://www.googleapis.com/auth/youtube',
       })
       Util.open(oauthURL)
       Util.prompt('コードを入力してください', code => {
@@ -33,7 +33,7 @@ class Code {
               type: 'warning',
               btns: ['再認証'],
               msg: '認証できませんでした。',
-              detail: err.toString()
+              detail: err.toString(),
             }, () => { this.getNewToken(callback) })
           } else {
             oauth2Client.credentials = token

@@ -16,7 +16,7 @@ class App {
     tray = new Tray(nativeImage.createFromPath(path.join(__dirname, '/icon/icon.png')))
     tray.setContextMenu(Menu.buildFromTemplate([{
       label: '終了',
-      click: app.quit
+      click: app.quit,
     }]))
     tray.setToolTip('LiveSupport')
   }

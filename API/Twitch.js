@@ -82,9 +82,9 @@ class Twitch extends EventEmitter {
     client = new tmi.client({
       identity: {
         username: this.username,
-        password: `oauth:${this.token}`
+        password: `oauth:${this.token}`,
       },
-      channels: [`#${this.username}`]
+      channels: [`#${this.username}`],
     })
 
     client.connect()

@@ -17,7 +17,7 @@ class TwitCasting extends EventEmitter {
       headers: {
         'Accept': 'application/json',
         'X-Api-Version': '2.0',
-        'Authorization': `Bearer ${this.token}`
+        'Authorization': `Bearer ${this.token}`,
       },
       json: true,
     }, (err, res, data) => {
@@ -40,7 +40,7 @@ class TwitCasting extends EventEmitter {
       headers: {
         'Accept': 'application/json',
         'X-Api-Version': '2.0',
-        'Authorization': `Bearer ${this.token}`
+        'Authorization': `Bearer ${this.token}`,
       },
       json: true,
     }, (err, res, data) => {
@@ -61,7 +61,7 @@ class TwitCasting extends EventEmitter {
       headers: {
         'Accept': 'application/json',
         'X-Api-Version': '2.0',
-        'Authorization': `Bearer ${this.token}`
+        'Authorization': `Bearer ${this.token}`,
       },
       form: {
         limit: 50,
@@ -104,9 +104,9 @@ class TwitCasting extends EventEmitter {
       headers: {
         'Accept': 'application/json',
         'X-Api-Version': '2.0',
-        'Authorization': `Bearer ${this.token}`
+        'Authorization': `Bearer ${this.token}`,
       },
-      form: { comment: message }
+      form: { comment: message },
     }, (err, res, data) => {
       if (err) {
         this.emit('error', err)

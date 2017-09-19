@@ -20,7 +20,7 @@ let nico
     width: size[0],
     height: size[1],
     font_size: settings.size,
-    color: `#${settings.color}`
+    color: `#${settings.color}`,
   })
 }
 

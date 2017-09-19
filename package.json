@@ -27,7 +27,7 @@
   },
   "scripts": {
     "test": "electron .",
-    "lint": "eslint **"
+    "lint": "eslint **/*.js"
   },
   "repository": {
     "type": "git",

@@ -29,7 +29,7 @@ class Util {
       message: params.msg,
       detail: params.detail || '',
       cancelId: -1,
-      noLink: true
+      noLink: true,
     }, (res) => {
       callback(res)
     })
@@ -75,7 +75,7 @@ class Util {
         type: 'warning',
         btns: ['再試行'],
         msg: 'ソフトークが見つかりません',
-        detail: error.toString()
+        detail: error.toString(),
       }, id => { if (id == 0) this.getPath(name) })
     })
   }

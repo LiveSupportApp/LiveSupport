@@ -42,7 +42,7 @@ class Server {
                   type: 'warning',
                   btns: ['再認証'],
                   msg: '認証できませんでした。',
-                  detail: err.toString()
+                  detail: err.toString(),
                 }, () => { this.getNewToken(callback) })
               } else {
                 callback(access_token_key, access_token_secret)

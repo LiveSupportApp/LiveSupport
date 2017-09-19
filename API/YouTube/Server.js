@@ -23,7 +23,7 @@ class Server {
   getNewToken(callback) {
     let oauthURL = oauth2Client.generateAuthUrl({
       access_type: 'online',
-      scope: 'https://www.googleapis.com/auth/youtube'
+      scope: 'https://www.googleapis.com/auth/youtube',
     })
     Util.open(oauthURL)
     this.server.listen(7170)
@@ -35,7 +35,7 @@ class Server {
               type: 'warning',
               btns: ['再認証'],
               msg: '認証できませんでした。',
-              detail: err.toString()
+              detail: err.toString(),
             }, () => { this.getNewToken(callback) })
           } else {
             oauth2Client.credentials = token

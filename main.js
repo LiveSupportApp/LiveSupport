@@ -47,14 +47,14 @@ function main() {
         type: 'warning',
         btns: ['OK', '再取得'],
         msg: '配信が見つかりませんでした。',
-        detail: '配信している場合は暫く待って取得してください。'
+        detail: '配信している場合は暫く待って取得してください。',
       }, id => { if (id==1) api.reacquire() })
     } else if (err.message=='Can not find chat') {
       Util.msgbox({
         type: 'warning',
         btns: ['OK', '再取得'],
         msg: 'チャットが取得できませんでした。',
-        detail: '配信している場合は暫く待って取得してください。'
+        detail: '配信している場合は暫く待って取得してください。',
       }, id => { if (id==1) api.reacquire() })
     } else {
       Util.showError(err)

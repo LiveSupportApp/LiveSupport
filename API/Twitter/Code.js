@@ -26,7 +26,7 @@ class Code {
       type: 'info',
       btns: ['OK'],
       msg: 'OAuth認証を行います。',
-      detail: '次のページから認証を行いコードを入力してください。'
+      detail: '次のページから認証を行いコードを入力してください。',
     }, () => {
       this.client.getRequestToken((err, req_token, req_token_secret) => {
         let oauthURL = this.client.getAuthUrl(req_token)
@@ -44,7 +44,7 @@ class Code {
                   type: 'warning',
                   btns: ['再認証'],
                   msg: '認証できませんでした。',
-                  detail: err.toString()
+                  detail: err.toString(),
                 }, () => { this.getNewToken(callback) })
               } else {
                 callback(access_token_key, access_token_secret)
