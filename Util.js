@@ -4,6 +4,8 @@ const {
   shell,
 } = require('electron')
 const prompt = require('electron-prompt')
+const path = require('path')
+const PowerShell = require('node-powershell')
 
 class Util {
   /**
@@ -58,6 +60,24 @@ class Util {
 
   static open(url) {
     shell.openExternal(url)
+  }
+
+  static getPath(name) {
+    let ps = new PowerShell({ debugMsg: false })
+    ps.addCommand(`Get-Process ${name} | Select-Object path`)
+    ps.invoke().then(output => {
+      ps.dispose()
+      return output.split('\r\n').filter(v => path.isAbsolute(v))[0]
+    }).catch(error => {
+      ps.dispose()
+      console.log('getPath Error', error)
+      Util.msgbox({
+        type: 'warning',
+        btns: ['再試行'],
+        msg: 'ソフトークが見つかりません',
+        detail: error.toString()
+      }, id => { if (id == 0) this.getPath(name) })
+    })
   }
 }
 
