@@ -1,4 +1,3 @@
-const PowerShell = require('node-powershell')
 const {exec} = require('child_process')
 const path = require('path')
 const Util = require('../../Util')
@@ -6,7 +5,6 @@ const settings = require('../../settings').bouyomichan
 
 class BouyomiChan {
   constructor() {
-    this.ps = new PowerShell({ debugMsg: false })
     this.path = path.join(path.dirname(Util.getPath('BouyomiChan')), 'RemoteTalk', 'RemoteTalk.exe')
     this.args = `${settings.speed} ${settings.interval} ${settings.volume} ${settings.quality}`
   }
