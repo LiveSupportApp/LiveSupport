@@ -9,7 +9,7 @@ class Util {
   /**
    * メッセージボックスの設定
    * @typedef {Object} MsgBoxParas
-   * @property {string} type メッセージボックスの種類
+   * @property {String} type メッセージボックスの種類
    * @property {Array} btns メッセージボックスに表示するボタン
    */
 
@@ -35,7 +35,7 @@ class Util {
 
   /**
    * プロンプトを表示する
-   * @param {string} message メッセージ
+   * @param {String} message メッセージ
    * @param {Function} callback コールバック
    */
   static prompt(message, callback) {
@@ -46,7 +46,7 @@ class Util {
 
   /**
    * エラーボックスを表示する
-   * @param {string} [err] エラーメッセージ
+   * @param {String} [err] エラーメッセージ
    */
   static showError(err) {
     if (err) {

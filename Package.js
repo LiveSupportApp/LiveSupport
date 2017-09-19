@@ -5,8 +5,8 @@ const Util = require('./Util')
 class Package {
   /**
    * パッケージのパスを取得する
-   * @param {string} name パッケージ名
-   * @return {string}
+   * @param {String} name パッケージ名
+   * @return {String}
    */
   static getPath(name) {
     let packpath = path.join(this.path, name)
@@ -16,7 +16,7 @@ class Package {
 
   /**
    * パッケージが存在するか確認する
-   * @param {string} name パッケージ名
+   * @param {String} name パッケージ名
    * @return {Boolean}
    */
   static isExtra(name) {
@@ -25,7 +25,7 @@ class Package {
 
   /**
    * パッケージを読み込む
-   * @param {string} name パッケージ名
+   * @param {String} name パッケージ名
    * @return {BrowserWindow}
    */
   static getPackage(name) {
@@ -39,7 +39,7 @@ class Package {
 
   /**
    * パッケージフォルダのパスを取得する
-   * @return {string}
+   * @return {String}
    * @readonly
    */
   static get path() {

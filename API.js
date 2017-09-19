@@ -38,7 +38,7 @@ class API extends EventEmitter {
 
   /**
    * chat/commentを取得する
-   * @param {number} timeout 更新間隔
+   * @param {Number} timeout 更新間隔
    */
   listen(timeout) {
     this.api.listen(timeout)
@@ -46,7 +46,7 @@ class API extends EventEmitter {
 
   /**
    * chat/commentを送信する
-   * @param {string} message 送信するメッセージ
+   * @param {String} message 送信するメッセージ
    */
   send(message) {
     this.api.send(message)
