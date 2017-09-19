@@ -1,23 +1,17 @@
-const {EventEmitter} = require('events')
 const PowerShell = require('node-powershell')
 const path = require('path')
 const Util = require('../../Util')
 
-class Main extends EventEmitter {
+class Main {
   constructor() {
-    super()
     this.ps = new PowerShell({ debugMsg: false })
     this.getPath()
-    this.on('message', item => {
-      this.read(item)
-    })
   }
 
-  read(text) {
-    if (this.path) {
-      this.ps.addCommand(`${this.path} /t "${(text.replace('"',' ').replace('\n',' '))}"`)
-      this.ps.invoke()
-    }
+  message(item) {
+    if (!this.path || !item.message) return
+    this.ps.addCommand(`${this.path} /t "${(item.message.replace('"',' ').replace('\n',' '))}"`)
+    this.ps.invoke()
   }
 
   getPath() {

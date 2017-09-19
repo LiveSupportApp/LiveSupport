@@ -63,7 +63,7 @@ function main() {
 
   api.on('message', item => {
     for (let pack of packages) {
-      pack.emit('chat', item)
+      pack.message(item)
     }
   })
 }
