@@ -25,14 +25,12 @@ class Code {
     Util.msgbox({
       type: 'info',
       buttons: ['OK'],
-      msg: 'OAuth認証を行います。',
+      message: 'OAuth認証を行います。',
       detail: '次のページから認証を行いコードを入力してください。',
-    }, () => {
+    }).then(() => {
       this.client.getRequestToken((err, req_token, req_token_secret) => {
         let oauthURL = this.client.getAuthUrl(req_token)
-
         Util.open(oauthURL)
-
         Util.prompt('コードを入力してください', code => {
           this.client.getAccessToken(
             req_token,
@@ -43,9 +41,9 @@ class Code {
                 Util.msgbox({
                   type: 'warning',
                   buttons: ['再認証'],
-                  msg: '認証できませんでした。',
+                  message: '認証できませんでした。',
                   detail: err.toString(),
-                }, () => { this.getNewToken(callback) })
+                }).then(() => { this.getNewToken(callback) })
               } else {
                 callback(access_token_key, access_token_secret)
               }

@@ -13,38 +13,44 @@ class Util {
    * メッセージボックスの設定
    * @typedef {Object} MsgBoxParas
    * @property {String} type メッセージボックスの種類
-   * @property {Array} btns メッセージボックスに表示するボタン
+   * @property {Array} buttons メッセージボックスに表示するボタン
+   * @property {Number} id デフォルトID
+   * @property {String} message メッセージ
+   * @property {String} detail 詳細
    */
 
   /**
    * メッセージボックスを表示する
    * @param {MsgBoxParas} params メッセージボックスの設定
-   * @param {Function} callback メッセージボックスが閉じられたときに実行する関数
+   * @returns {Promise}
    */
-  static msgbox(params, callback) {
-    dialog.showMessageBox({
-      type: params.type,
-      buttons: params.btns,
-      defaultId: params.id || 0,
-      title: 'LiveSupport',
-      message: params.msg,
-      detail: params.detail || '',
-      cancelId: -1,
-      noLink: true,
-    }, res => {
-      callback(res)
+  static msgbox(params) {
+    return new Promise(resolve => {
+      dialog.showMessageBox({
+        type: params.type,
+        buttons: params.buttons,
+        defaultId: params.id || 0,
+        title: 'LiveSupport',
+        message: params.message,
+        detail: params.detail || '',
+        cancelId: -1,
+      }, res => {
+        resolve(res)
+      })
     })
   }
 
   /**
    * プロンプトを表示する
    * @param {String} message メッセージ
-   * @param {Function} callback コールバック
+   * @returns {Promise}
    */
-  static prompt(message, callback) {
-    prompt({ title: 'LiveSupport', label: message })
-      .then(callback)
-      .catch(this.showError)
+  static prompt(message) {
+    return new Promise(resolve => {
+      prompt({ title: 'LiveSupport', label: message })
+        .then(resolve)
+        .catch(this.showError)
+    })
   }
 
   /**
@@ -70,6 +76,7 @@ class Util {
   /**
    * 実行しているプロセスのディレクトリを取得する
    * @param  {String} name プロセス名
+   * @returns {String}
    */
   static getPath(name) {
     let ps = new PowerShell({ debugMsg: false })
@@ -83,14 +90,15 @@ class Util {
       this.msgbox({
         type: 'warning',
         buttons: ['再試行'],
-        msg: `${name}.exeが見つかりません`,
+        message: `${name}.exeが見つかりません`,
         detail: error.toString(),
-      }, id => { if (id == 0) this.getPath(name) })
+      }).then(id => { if (id == 0) this.getPath(name) })
     })
   }
 
   /**
    * 設定ファイルを取得する
+   * @returns {Object}
    */
   static get settings() {
     let json = fs.readFileSync(path.join(__dirname, 'settings.json'))

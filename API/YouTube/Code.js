@@ -18,9 +18,9 @@ class Code {
     Util.msgbox({
       type: 'info',
       buttons: ['OK'],
-      msg: 'OAuth認証を行います。',
+      message: 'OAuth認証を行います。',
       detail: '次のページから認証を行いコードを入力してください。',
-    }, () => {
+    }).then(() => {
       let oauthURL = oauth2Client.generateAuthUrl({
         access_type: 'offline',
         scope: 'https://www.googleapis.com/auth/youtube',
@@ -32,9 +32,9 @@ class Code {
             Util.msgbox({
               type: 'warning',
               buttons: ['再認証'],
-              msg: '認証できませんでした。',
+              message: '認証できませんでした。',
               detail: err.toString(),
-            }, () => { this.getNewToken(callback) })
+            }).then(() => { this.getNewToken(callback) })
           } else {
             oauth2Client.credentials = token
             callback(oauth2Client, token)

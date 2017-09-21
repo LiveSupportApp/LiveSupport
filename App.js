@@ -46,7 +46,7 @@ class App {
       type: 'question',
       buttons: services,
       message: '使用するサービスを選択してください',
-    }, res => {
+    }).then(res => {
       return services[res]
     })
   }
@@ -56,7 +56,7 @@ class App {
       type: 'question',
       buttons: oauthes,
       message: '使用するサービスを選択してください',
-    }, res => {
+    }).then(res => {
       return oauthes[res]
     })
   }

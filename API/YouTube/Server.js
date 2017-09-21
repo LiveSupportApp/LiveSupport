@@ -34,9 +34,9 @@ class Server {
             Util.msgbox({
               type: 'warning',
               buttons: ['再認証'],
-              msg: '認証できませんでした。',
+              message: '認証できませんでした。',
               detail: err.toString(),
-            }, () => { this.getNewToken(callback) })
+            }).then(() => { this.getNewToken(callback) })
           } else {
             oauth2Client.credentials = token
             callback(oauth2Client, token)

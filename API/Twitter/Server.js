@@ -27,7 +27,6 @@ class Server {
   getNewToken(callback) {
     this.client.getRequestToken((err, req_token, req_token_secret) => {
       let oauthURL = this.client.getAuthUrl(req_token)
-
       Util.open(oauthURL)
       this.server.listen(7170)
       this.server.on('request', (req, res) => {
@@ -41,9 +40,9 @@ class Server {
                 Util.msgbox({
                   type: 'warning',
                   buttons: ['再認証'],
-                  msg: '認証できませんでした。',
+                  message: '認証できませんでした。',
                   detail: err.toString(),
-                }, () => { this.getNewToken(callback) })
+                }).then(() => { this.getNewToken(callback) })
               } else {
                 callback(access_token_key, access_token_secret)
               }
