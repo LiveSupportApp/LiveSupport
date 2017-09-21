@@ -1,0 +1,23 @@
+{
+  "app": {
+    "service": "",
+    "package": [
+      "default"
+    ]
+  },
+  "twitcasting": {
+    "oauth": "",
+    "timeout": 1000
+  },
+  "twitch": {
+    "oauth": ""
+  },
+  "twitter": {
+    "oauth": "",
+    "hashtag": ""
+  },
+  "youtube": {
+    "oauth": "",
+    "timeout": 1000
+  }
+}
