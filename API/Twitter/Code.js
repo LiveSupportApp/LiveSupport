@@ -24,7 +24,7 @@ class Code {
   getNewToken(callback) {
     Util.msgbox({
       type: 'info',
-      btns: ['OK'],
+      buttons: ['OK'],
       msg: 'OAuth認証を行います。',
       detail: '次のページから認証を行いコードを入力してください。',
     }, () => {
@@ -42,7 +42,7 @@ class Code {
               if (err) {
                 Util.msgbox({
                   type: 'warning',
-                  btns: ['再認証'],
+                  buttons: ['再認証'],
                   msg: '認証できませんでした。',
                   detail: err.toString(),
                 }, () => { this.getNewToken(callback) })

@@ -40,7 +40,7 @@ class Server {
               if (err) {
                 Util.msgbox({
                   type: 'warning',
-                  btns: ['再認証'],
+                  buttons: ['再認証'],
                   msg: '認証できませんでした。',
                   detail: err.toString(),
                 }, () => { this.getNewToken(callback) })

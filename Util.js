@@ -24,13 +24,13 @@ class Util {
     dialog.showMessageBox({
       type: params.type,
       buttons: params.btns,
-      defaultId: 0,
+      defaultId: params.id || 0,
       title: 'LiveSupport',
       message: params.msg,
       detail: params.detail || '',
       cancelId: -1,
       noLink: true,
-    }, (res) => {
+    }, res => {
       callback(res)
     })
   }
@@ -71,9 +71,9 @@ class Util {
     }).catch(error => {
       ps.dispose()
       console.log('getPath Error', error)
-      Util.msgbox({
+      this.msgbox({
         type: 'warning',
-        btns: ['再試行'],
+        buttons: ['再試行'],
         msg: 'ソフトークが見つかりません',
         detail: error.toString(),
       }, id => { if (id == 0) this.getPath(name) })
