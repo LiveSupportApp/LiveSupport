@@ -59,10 +59,18 @@ class Util {
     }
   }
 
+  /**
+   * URLを開く
+   * @param  {String} url 開くURL
+   */
   static open(url) {
     shell.openExternal(url)
   }
 
+  /**
+   * 実行しているプロセスのディレクトリを取得する
+   * @param  {String} name プロセス名
+   */
   static getPath(name) {
     let ps = new PowerShell({ debugMsg: false })
     ps.addCommand(`Get-Process ${name} | Select-Object path`)
@@ -75,17 +83,23 @@ class Util {
       this.msgbox({
         type: 'warning',
         buttons: ['再試行'],
-        msg: 'ソフトークが見つかりません',
+        msg: `${name}.exeが見つかりません`,
         detail: error.toString(),
       }, id => { if (id == 0) this.getPath(name) })
     })
   }
 
+  /**
+   * 設定ファイルを取得する
+   */
   static get settings() {
     let json = fs.readFileSync(path.join(__dirname, 'settings.json'))
     return JSON.parse(json)
   }
 
+  /**
+   * 設定ファイルを更新する
+   */
   static set settings(json) {
     let data = JSON.stringify(json)
     fs.writeFileSync(path.join(__dirname, 'settings.json'), data)
