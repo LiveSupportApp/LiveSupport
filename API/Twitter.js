@@ -1,12 +1,19 @@
 const {EventEmitter} = require('events')
 const OAuth = require('./Twitter/OAuth')
 const Util = require('../Util')
-const hashtag = require('../settings').twitter.hashtag
 
 class Twitter extends EventEmitter {
   constructor() {
     super()
-    if (!hashtag) Util.showError('ハッシュタグを設定してください')
+    let settings = Util.settings
+    this.hashtag = settings.twitter.hashtag
+    if (!this.hashtag) {
+      Util.prompt('ハッシュタグを入力してください', res => {
+        this.hashtag = (res.match(/^[#＃]/)) ? res.replace(/^＃/, '#') : `#${res}`
+        settings.twitter.hashtag = this.hashtag
+        Util.settings = settings
+      })
+    }
   }
 
   authorize(type) {
@@ -18,7 +25,7 @@ class Twitter extends EventEmitter {
   }
 
   getTweet() {
-    this.client.stream('statuses/filter', { track: hashtag }, (stream) => {
+    this.client.stream('statuses/filter', { track: this.hashtag }, (stream) => {
       stream.on('data', data => {
         this.emit('json', {
           service: 'twitter',

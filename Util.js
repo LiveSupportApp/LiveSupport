@@ -6,6 +6,7 @@ const {
 const prompt = require('electron-prompt')
 const path = require('path')
 const PowerShell = require('node-powershell')
+const fs = require('fs')
 
 class Util {
   /**
@@ -78,6 +79,16 @@ class Util {
         detail: error.toString(),
       }, id => { if (id == 0) this.getPath(name) })
     })
+  }
+
+  static get settings() {
+    let json = fs.readFileSync(path.join(__dirname, 'settings.json'))
+    return JSON.parse(json)
+  }
+
+  static set settings(json) {
+    let data = JSON.stringify(json)
+    fs.writeFileSync(path.join(__dirname, 'settings.json'), data)
   }
 }
 

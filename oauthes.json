@@ -1,0 +1,20 @@
+{
+  "twitcasting": [
+    "server",
+    "window"
+  ],
+  "twitch": [
+    "server",
+    "window"
+  ],
+  "twitter": [
+    "code",
+    "server",
+    "window"
+  ],
+  "youtube": [
+    "code",
+    "server",
+    "window"
+  ]
+}

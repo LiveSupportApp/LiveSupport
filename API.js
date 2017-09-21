@@ -5,8 +5,6 @@ const Twitter = require('./API/Twitter')
 const YouTube = require('./API/YouTube')
 const Util = require('./Util')
 
-const settings = require('./settings')
-
 class API extends EventEmitter {
   /**
    * APIをまとめるクラス
@@ -14,6 +12,7 @@ class API extends EventEmitter {
    */
   constructor() {
     super()
+    let settings = Util.settings
     this.service = settings.app.service
     this.oauth = settings[this.service].oauth
     switch (this.service) {
