@@ -1,12 +1,18 @@
 const {exec} = require('child_process')
+const Process = require('Process')
+const Settings = require('../../../Settings')
+const settings = new Settings('../../settings')
+
 const path = require('path')
-const Util = require('../../Util')
-const settings = require('../../settings').bouyomichan
 
 class BouyomiChan {
   constructor() {
-    this.path = path.join(path.dirname(Util.getPath('BouyomiChan')), 'RemoteTalk', 'RemoteTalk.exe')
-    this.args = `${settings.speed} ${settings.interval} ${settings.volume} ${settings.quality}`
+    let process = Process.getPath()
+    if (!process.running) exec(process.path)
+    this.path = path.join(path.dirname(process.path), 'RemoteTalk', 'RemoteTalk.exe')
+    settings.updateSettings('.Softalk.path', this.path)
+    let opt = settings.getSettings('.BouyomiChan')
+    this.args = `${opt.speed} ${opt.interval} ${opt.volume} ${opt.quality}`
   }
 
   message(text) {

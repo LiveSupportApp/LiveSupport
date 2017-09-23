@@ -1,16 +1,21 @@
 const {exec} = require('child_process')
-const Util = require('../../Util')
-const settings = require('../../settings').softalk
+const Process = require('Process')
+const Settings = require('../../../Settings')
+const settings = new Settings('../../settings')
 
 class Softalk {
   constructor() {
-    this.path = Util.getPath('Softalk')
-    this.args = `/O:${settings.interval} /Q:${settings.quality} /S:${settings.speed} /T:${settings.library} /U:${settings.voice} /V:${settings.volume} /X:${settings.show}`
+    let process = Process.getPath()
+    this.path = process.path
+    settings.updateSettings('.Softalk.path', this.path)
+    let opt = settings.getSettings('.Softalk')
+    this.args = `/O:${opt.interval} /Q:${opt.quality} /S:${opt.speed} /T:${opt.library} /U:${opt.voice} /V:${opt.volume}`
+    if (!process.running && opt.hide) exec(`${this.path} /X:1`)
   }
 
   message(text) {
     if (!this.path || !text) return
-    exec(`${this.path} ${this.args} /W:"${(text.replace('"',' ').replace('\n',' '))}"`)
+    exec(`${this.path} ${this.args} /W:${(text.replace('|',' '))}`)
   }
 }
 
