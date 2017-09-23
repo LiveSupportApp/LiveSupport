@@ -7,6 +7,7 @@ const {
 const path = require('path')
 const Util = require('./Util')
 const Settings = require('./Settings')
+const settings = new Settings('./settings')
 
 let tray
 
@@ -25,20 +26,18 @@ class App {
 
   static init() {
     return new Promise(resolve => {
-      let settings = Settings.settings
       let oauthes = require('./oauthes')
-      let service = settings.app.service
-      let oauth = settings.services[service].oauth
+      let service = settings.getSettings('.app.service')
+      let oauth = settings.getSettings('.services[service].oauth')
       if (!service) {
         service = this.selectService(Object.keys(oauthes))
-        settings.app.service = service
+        settings.updateSettings('.app.service', service)
       }
       if (!oauthes[service].includes(oauth)) {
         oauth = this.selectOAuth(oauthes[service])
-        settings.services[service].oauth = oauth
+        settings.updateSettings('.services[service].oauth', oauth)
       }
-      Util.settings = settings
-      resolve(settings)
+      resolve(settings.settings)
     })
   }
 

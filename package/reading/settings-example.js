@@ -1,15 +1,15 @@
 module.exports = {
   /**
    * 使用するソフト
-   * bouyomichan softalk のどれか一つ
+   * BouyomiChan Softalk のどれか一つ
    * @type {String}
    */
-  software: 'softalk',
+  software: '',
 
   // ソフトークに関する設定
-  softalk: {
+  Softalk: {
     /**
-    * SofTalk.exeのパス (空欄の場合はプロセスから検索)
+    * Softalk.exeのパス (空欄の場合はプロセスから検索)
     * @type {String}
     */
     path: '',
@@ -61,15 +61,15 @@ module.exports = {
     volume: 50,
 
     /**
-     * 画面表示 (0～1)
-     * 0:表示 1:非表示
-     * @type {Number}
+     * 非表示 (0～1)
+     * false:表示 true:非表示
+     * @type {Boolean}
      */
-    show: 0,
+    hide: false,
   },
 
   // 棒読みちゃんに関する設定
-  bouyomichan: {
+  BouyomiChan: {
     /**
     * RemoteTalk.exeのパス (空欄の場合はプロセスから検索)
     * @type {String}

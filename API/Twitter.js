@@ -1,16 +1,17 @@
 const {EventEmitter} = require('events')
 const OAuth = require('./Twitter/OAuth')
 const Util = require('../Util')
-const Settings = require('./Settings')
+const Settings = require('../Settings')
+const settings = new Settings('../settings')
 
 class Twitter extends EventEmitter {
   constructor() {
     super()
-    this.hashtag = Settings.getSettings('.settings.twitter.hashtag')
+    this.hashtag = settings.getSettings('.settings.twitter.hashtag')
     if (!this.hashtag) {
       Util.prompt('ハッシュタグを入力してください', res => {
         this.hashtag = (res.match(/^[#＃]/)) ? res.replace(/^＃/, '#') : `#${res}`
-        Settings.updateSettings('.twitter.hashtag', this.hashtag)
+        settings.updateSettings('.twitter.hashtag', this.hashtag)
       })
     }
   }

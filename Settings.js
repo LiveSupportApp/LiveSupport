@@ -1,8 +1,8 @@
 const fs = require('fs')
-const path = require('path')
 
 class Settings {
-  constructor() {
+  constructor(path) {
+    this.path = path
     fs.watch(this.path, () => {
       this.settings = JSON.parse(fs.readFileSync(this.path))
     })
@@ -36,10 +36,6 @@ class Settings {
     eval(`settings${location} = item`)
     this.settings = settings
   }
-
-  get path() {
-    path.join(__dirname, 'settings.json')
-  }
 }
 
-module.exports = new Settings()
+module.exports = Settings
