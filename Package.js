@@ -9,8 +9,8 @@ class Package {
    * @return {String}
    */
   static getPath(name) {
-    let packpath = path.join(this.path, name)
-    let mainpath = fs.readJsonSync(path.join(packpath, 'package.json')).main
+    const packpath = path.join(this.path, name)
+    const mainpath = fs.readJsonSync(path.join(packpath, 'package.json')).main
     return path.join(packpath, mainpath)
   }
 
@@ -32,7 +32,7 @@ class Package {
     if (!this.isExtra(name)) {
       Util.showError('指定したパッケージが存在しません！')
     } else {
-      let Pack = require(this.getPath(name))
+      const Pack = require(this.getPath(name))
       return new Pack()
     }
   }

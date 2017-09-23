@@ -5,10 +5,10 @@ const settings = new Settings('../../settings')
 
 class Softalk {
   constructor() {
-    let process = Process.getPath()
+    const process = Process.getPath()
     this.path = process.path
     settings.updateSettings('.Softalk.path', this.path)
-    let opt = settings.getSettings('.Softalk')
+    const opt = settings.getSettings('.Softalk')
     this.args = `/O:${opt.interval} /Q:${opt.quality} /S:${opt.speed} /T:${opt.library} /U:${opt.voice} /V:${opt.volume}`
     if (!process.running && opt.hide) exec(`${this.path} /X:1`)
   }

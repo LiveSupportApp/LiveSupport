@@ -17,7 +17,7 @@ class Twitter extends EventEmitter {
   }
 
   authorize(type) {
-    let oauth = new OAuth(type)
+    const oauth = new OAuth(type)
     oauth.authorize(client => {
       this.client = client
       this.getTweet()

@@ -21,7 +21,7 @@ class Server {
   }
 
   getNewToken(callback) {
-    let oauthURL = oauth2Client.generateAuthUrl({
+    const oauthURL = oauth2Client.generateAuthUrl({
       access_type: 'online',
       scope: 'https://www.googleapis.com/auth/youtube',
     })
@@ -48,12 +48,12 @@ class Server {
 
   handler(req, res, callback) {
     res.writeHead(200, {'Content-Type': 'text/plain; charset=UTF-8'})
-    let qs = url.parse(req.url, true).query
+    const qs = url.parse(req.url, true).query
     let message = 'LiveSupport\n'
     if (qs.code) {
       message += '認証しました'
       callback(qs.code)
-    } else if (qs.result == 'denied') {
+    } else if (qs.result === 'denied') {
       message += 'アクセスが拒否されました'
     }
     res.write(`${message}\nこれでこのウィンドウまたはタブを閉じてもかまいません。`)

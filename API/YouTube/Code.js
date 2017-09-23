@@ -21,7 +21,7 @@ class Code {
       message: 'OAuth認証を行います。',
       detail: '次のページから認証を行いコードを入力してください。',
     }).then(() => {
-      let oauthURL = oauth2Client.generateAuthUrl({
+      const oauthURL = oauth2Client.generateAuthUrl({
         access_type: 'offline',
         scope: 'https://www.googleapis.com/auth/youtube',
       })

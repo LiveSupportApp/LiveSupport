@@ -12,7 +12,7 @@ class Settings {
    * 設定ファイルを更新する
    */
   set settings(json) {
-    let data = JSON.stringify(json)
+    const data = JSON.stringify(json)
     fs.writeFileSync(this.path, data)
   }
 
@@ -32,7 +32,7 @@ class Settings {
    */
   updateSettings(location, item) {
     if (!item) return
-    let settings = this.settings
+    const settings = this.settings
     eval(`settings${location} = item`)
     this.settings = settings
   }

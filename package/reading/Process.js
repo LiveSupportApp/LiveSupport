@@ -15,7 +15,7 @@ class Processes {
   }
 
   getPath() {
-    let isRunning = isRunning()
+    const isRunning = isRunning()
     if (this.isExistFile(this.path))
       return { path: this.path, running: isRunning }
     if (isRunning) this.getProcessPath()
@@ -82,7 +82,7 @@ class Processes {
         properties: ['openFile'],
       }, paths => {
         if (paths[0]) {
-          let isTarget = paths[0].endsWith(`${name}.exe`)
+          const isTarget = paths[0].endsWith(`${name}.exe`)
           if (isTarget) resolve(paths[0])
           else reject()
         } else reject()

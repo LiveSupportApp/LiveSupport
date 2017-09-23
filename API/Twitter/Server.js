@@ -26,7 +26,7 @@ class Server {
 
   getNewToken(callback) {
     this.client.getRequestToken((err, req_token, req_token_secret) => {
-      let oauthURL = this.client.getAuthUrl(req_token)
+      const oauthURL = this.client.getAuthUrl(req_token)
       Util.open(oauthURL)
       this.server.listen(7170)
       this.server.on('request', (req, res) => {
@@ -54,7 +54,7 @@ class Server {
 
   handler(req, res, callback) {
     res.writeHead(200, {'Content-Type': 'text/plain; charset=UTF-8'})
-    let qs = url.parse(req.url, true).query
+    const qs = url.parse(req.url, true).query
     let message = 'LiveSupport\n'
     if (qs.oauth_verifier) {
       message += '認証しました'

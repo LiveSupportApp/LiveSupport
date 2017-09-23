@@ -9,7 +9,7 @@ class Window {
   }
 
   getNewToken(callback) {
-    let oauthURL = 'https://api.twitch.tv/kraken/oauth2/authorize'+
+    const oauthURL = 'https://api.twitch.tv/kraken/oauth2/authorize'+
       `?client_id=${credential.client_id}&`+
       `redirect_uri=${credential.redirect_uri}&`+
       'response_type=code&'+
@@ -18,7 +18,7 @@ class Window {
     this.win.show()
     this.win.webContents.on('will-navigate', (event, url) => {
       event.preventDefault()
-      let code = url.parse(url, true).query.code
+      const code = url.parse(url, true).query.code
       if (!code) return this.win.reload()
       this.win.close()
       request.post({

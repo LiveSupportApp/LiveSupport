@@ -25,14 +25,14 @@ class Window {
 
   getNewToken(callback) {
     this.client.getRequestToken((err, req_token, req_token_secret) => {
-      let oauthURL = this.client.getAuthUrl(req_token)
+      const oauthURL = this.client.getAuthUrl(req_token)
 
       this.win.loadURL(oauthURL)
       this.win.show()
 
       this.win.webContents.on('will-navigate', (event, url) => {
         event.preventDefault()
-        let verifier = url.parse(url, true).query.oauth_verifier
+        const verifier = url.parse(url, true).query.oauth_verifier
         if (!verifier) return this.win.reload()
         this.win.close()
         this.client.getAccessToken(

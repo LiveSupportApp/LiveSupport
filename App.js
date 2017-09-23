@@ -26,7 +26,7 @@ class App {
 
   static init() {
     return new Promise(resolve => {
-      let oauthes = require('./oauthes')
+      const oauthes = require('./oauthes')
       let service = settings.getSettings('.app.service')
       let oauth = settings.getSettings('.services[service].oauth')
       if (!service) {

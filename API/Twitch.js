@@ -7,7 +7,7 @@ let client
 
 class Twitch extends EventEmitter {
   authorize(type) {
-    let oauth = new OAuth(type)
+    const oauth = new OAuth(type)
     oauth.authorize((token, clientId) => {
       this.token = token
       this.clientId = clientId
@@ -26,7 +26,7 @@ class Twitch extends EventEmitter {
     }, (err, res, data) => {
       if (err) {
         this.emit('error', err)
-      } else if (res.statusCode != 200) {
+      } else if (res.statusCode === 200) {
         this.emit('error', data)
       } else {
         this.userId = data._id
@@ -47,7 +47,7 @@ class Twitch extends EventEmitter {
     }, (err, res, data) => {
       if (err) {
         this.emit('error', err)
-      } else if (res.statusCode != 200) {
+      } else if (res.statusCode === 200) {
         this.emit('error', data)
       } else if (!data.stream) {
         this.emit('error', new Error('No live was found'))
@@ -70,7 +70,7 @@ class Twitch extends EventEmitter {
     }, (err, res, data) => {
       if (err) {
         this.emit('error', err)
-      } else if (res.statusCode != 200) {
+      } else if (res.statusCode === 200) {
         this.emit('error', data)
       } else {
         return data.logo

@@ -9,7 +9,7 @@ class YouTube extends EventEmitter {
   }
 
   authorize(type) {
-    let oauth = new OAuth(type)
+    const oauth = new OAuth(type)
     oauth.authorize(oauth => {
       this.oauth = oauth
       this.getLive()
@@ -75,7 +75,7 @@ class YouTube extends EventEmitter {
     setInterval(()=>{this.getChat()}, timeout)
     let lastRead = 0, time = 0
     this.on('json', json => {
-      for (let item of json.youtube.items) {
+      for (const item of json.youtube.items) {
         time = new Date(item.snippet.publishedAt).getTime()
         if (lastRead < time) {
           lastRead = time

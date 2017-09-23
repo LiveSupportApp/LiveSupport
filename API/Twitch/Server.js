@@ -10,7 +10,7 @@ class Server {
   }
 
   getNewToken(callback) {
-    let oauthURL = 'https://api.twitch.tv/kraken/oauth2/authorize'+
+    const oauthURL = 'https://api.twitch.tv/kraken/oauth2/authorize'+
       `?client_id=${credential.client_id}&`+
       `redirect_uri=${credential.redirect_uri}&`+
       'response_type=code&'+
@@ -37,7 +37,7 @@ class Server {
 
   handler(req, res, callback) {
     res.writeHead(200, {'Content-Type': 'text/plain; charset=UTF-8'})
-    let qs = url.parse(req.url, true).query
+    const qs = url.parse(req.url, true).query
     let message = 'LiveSupport\n'
     if (qs.code) {
       message += '認証しました'

@@ -20,7 +20,7 @@ class Window {
   }
 
   getNewToken(callback) {
-    let oauthURL = this.client.generateAuthUrl({
+    const oauthURL = this.client.generateAuthUrl({
       access_type: 'online',
       scope: 'https://www.googleapis.com/auth/youtube',
     })
@@ -28,7 +28,7 @@ class Window {
     this.win.show()
     this.win.webContents.on('will-navigate', (event, url) => {
       event.preventDefault()
-      let code = url.parse(url, true).query.code
+      const code = url.parse(url, true).query.code
       if (!code) return this.win.reload()
       this.win.close()
       this.client.getToken(code, (err, token) => {

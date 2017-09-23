@@ -10,13 +10,13 @@ class Window {
   }
 
   getNewToken(callback) {
-    let oauthURL = 'https://ssl.twitcasting.tv/oauth_confirm.php?'+
+    const oauthURL = 'https://ssl.twitcasting.tv/oauth_confirm.php?'+
       `client_id=${credential.client_id}&response_type=code`
     this.win.loadURL(oauthURL)
     this.win.show()
     this.win.webContents.on('will-navigate', (event, url) => {
       event.preventDefault()
-      let code = url.parse(url, true).query.code
+      const code = url.parse(url, true).query.code
       if (!code) return this.win.reload()
       this.win.close()
       request.post({

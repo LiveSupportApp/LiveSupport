@@ -8,8 +8,9 @@ const App = require('./App')
 const Package = require('./Package')
 const Util = require('./Util')
 
+const packages = []
+
 let api
-let packages = []
 let settings
 
 if (app.makeSingleInstance(() => {})) app.quit()
@@ -31,7 +32,7 @@ app.on('ready', () => {
 
 function main() {
   api.on('ready', () => {
-    for (let name of settings.package) {
+    for (const name of settings.package) {
       packages.push(Package.getPackage(name))
     }
 
@@ -45,27 +46,27 @@ function main() {
   })
 
   api.on('error', err => {
-    if (err.message=='No live was found') {
+    if (err.message==='No live was found') {
       Util.msgbox({
         type: 'warning',
         buttons: ['OK', '再取得'],
         message: '配信が見つかりませんでした。',
         detail: '配信している場合は暫く待って取得してください。',
-      }).then(id => { if (id==1) api.reacquire() })
-    } else if (err.message=='Can not find chat') {
+      }).then(id => { if (id===1) api.reacquire() })
+    } else if (err.message==='Can not find chat') {
       Util.msgbox({
         type: 'warning',
         buttons: ['OK', '再取得'],
         message: 'チャットが取得できませんでした。',
         detail: '配信している場合は暫く待って取得してください。',
-      }).then(id => { if (id==1) api.reacquire() })
+      }).then(id => { if (id===1) api.reacquire() })
     } else {
       Util.showError(err)
     }
   })
 
   api.on('message', item => {
-    for (let pack of packages) {
+    for (const pack of packages) {
       pack.message(item)
     }
   })

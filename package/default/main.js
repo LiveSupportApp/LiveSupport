@@ -7,7 +7,7 @@ const $ = require('jquery')
 {
   const win = remote.getCurrentWindow()
 
-  let bounds = localStorage.getItem('bounds')
+  const bounds = localStorage.getItem('bounds')
   if (bounds) win.setBounds(JSON.parse(bounds))
 
   win.on('move', () => {

@@ -9,7 +9,7 @@ class Server {
   }
 
   getNewToken(callback) {
-    let oauthURL = 'https://ssl.twitcasting.tv/oauth_confirm.php?'+
+    const oauthURL = 'https://ssl.twitcasting.tv/oauth_confirm.php?'+
       `client_id=${credential.client_id}&response_type=code`
     Util.open(oauthURL)
     this.server.listen(7170)
@@ -20,12 +20,12 @@ class Server {
 
   handler(req, res, callback) {
     res.writeHead(200, {'Content-Type': 'text/plain; charset=UTF-8'})
-    let qs = url.parse(req.url, true).query
+    const qs = url.parse(req.url, true).query
     let message = 'LiveSupport\n'
     if (qs.code) {
       message += '認証しました'
       callback(qs.code)
-    } else if (qs.result == 'denied') {
+    } else if (qs.result === 'denied') {
       message += 'アクセスが拒否されました'
     }
     res.write(`${message}\nこれでこのウィンドウまたはタブを閉じてもかまいません。`)

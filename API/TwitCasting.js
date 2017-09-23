@@ -4,7 +4,7 @@ const OAuth = require('./TwitCasting/OAuth')
 
 class TwitCasting extends EventEmitter {
   authorize(type) {
-    let oauth = new OAuth(type)
+    const oauth = new OAuth(type)
     oauth.authorize(token => {
       this.token = token
       this.getUser()
@@ -23,7 +23,7 @@ class TwitCasting extends EventEmitter {
     }, (err, res, data) => {
       if (err) {
         this.emit('error', err)
-      } else if (res.statusCode != 200) {
+      } else if (res.statusCode === 200) {
         this.emit('error', data)
       } else if (!data.user.is_live) {
         this.emit('error', new Error('No live was found'))
@@ -46,7 +46,7 @@ class TwitCasting extends EventEmitter {
     }, (err, res, data) => {
       if (err) {
         this.emit('error', err)
-      } else if (res.statusCode != 200) {
+      } else if (res.statusCode === 200) {
         this.emit('error', data)
       } else {
         this.movieId = data.movie.id
@@ -70,7 +70,7 @@ class TwitCasting extends EventEmitter {
     }, (err, res, data) => {
       if (err) {
         this.emit('error', err)
-      } else if (res.statusCode != 200) {
+      } else if (res.statusCode === 200) {
         this.emit('error', data)
       } else {
         this.emit('json', {
@@ -85,7 +85,7 @@ class TwitCasting extends EventEmitter {
     setInterval(()=>{this.getChat()}, timeout)
     let lastRead = 0
     this.on('json', data => {
-      for (let comment of data.comments.reverse()) {
+      for (const comment of data.comments.reverse()) {
         if (lastRead < comment.created) {
           lastRead = comment.created
           this.emit('message', {
@@ -110,7 +110,7 @@ class TwitCasting extends EventEmitter {
     }, (err, res, data) => {
       if (err) {
         this.emit('error', err)
-      } else if (res.statusCode != 200) {
+      } else if (res.statusCode === 200) {
         this.emit('error', data)
       }
     })

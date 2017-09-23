@@ -19,7 +19,6 @@ module.exports = {
     ],
   },
 
-
   // ツイキャスに関する設定
   twitcasting: {
     /**

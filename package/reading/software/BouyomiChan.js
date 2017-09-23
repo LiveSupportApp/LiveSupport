@@ -7,11 +7,11 @@ const path = require('path')
 
 class BouyomiChan {
   constructor() {
-    let process = Process.getPath()
+    const process = Process.getPath()
     if (!process.running) exec(process.path)
     this.path = path.join(path.dirname(process.path), 'RemoteTalk', 'RemoteTalk.exe')
     settings.updateSettings('.Softalk.path', this.path)
-    let opt = settings.getSettings('.BouyomiChan')
+    const opt = settings.getSettings('.BouyomiChan')
     this.args = `${opt.speed} ${opt.interval} ${opt.volume} ${opt.quality}`
   }
 

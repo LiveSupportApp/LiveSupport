@@ -29,7 +29,7 @@ class Code {
       detail: '次のページから認証を行いコードを入力してください。',
     }).then(() => {
       this.client.getRequestToken((err, req_token, req_token_secret) => {
-        let oauthURL = this.client.getAuthUrl(req_token)
+        const oauthURL = this.client.getAuthUrl(req_token)
         Util.open(oauthURL)
         Util.prompt('コードを入力してください', code => {
           this.client.getAccessToken(

@@ -27,17 +27,17 @@ let nico
 nico.listen()
 
 ipcRenderer.on('message', (event, data) => {
-  let params = {
+  const params = {
     text: data.message,
     font_size: settings.size,
     color: `#${settings.color}`,
     layout: 'naka',
   }
   if (command.is) {
-    let cmds = data.message.match(new RegExp(command.regExp)).split(command.delimiter)
+    const cmds = data.message.match(new RegExp(command.regExp)).split(command.delimiter)
     if (cmds) {
-      for (let cmd in command.content) {
-        for (let key in command.content[cmd]) {
+      for (const cmd in command.content) {
+        for (const key in command.content[cmd]) {
           if (cmd.includes(cmd)) params[cmd] = key
         }
       }
