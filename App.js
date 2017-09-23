@@ -6,6 +6,7 @@ const {
 } = require('electron')
 const path = require('path')
 const Util = require('./Util')
+const Settings = require('./Settings')
 
 let tray
 
@@ -24,7 +25,7 @@ class App {
 
   static init() {
     return new Promise(resolve => {
-      let settings = Util.settings
+      let settings = Settings.settings
       let oauthes = require('./oauthes')
       let service = settings.app.service
       let oauth = settings.services[service].oauth

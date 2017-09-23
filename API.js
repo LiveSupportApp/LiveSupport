@@ -4,6 +4,7 @@ const Twitch = require('./API/Twitch')
 const Twitter = require('./API/Twitter')
 const YouTube = require('./API/YouTube')
 const Util = require('./Util')
+const Settings = require('./Settings')
 
 class API extends EventEmitter {
   /**
@@ -12,9 +13,8 @@ class API extends EventEmitter {
    */
   constructor() {
     super()
-    let settings = Util.settings
-    this.service = settings.app.service
-    this.oauth = settings[this.service].oauth
+    this.service = Settings.getSettings('.app.service')
+    this.oauth = Settings.getSettings('[this.service].oauth')
     switch (this.service) {
     case 'twitcasting': this.api = new TwitCasting(); break
     case 'twitch':      this.api = new Twitch();      break
