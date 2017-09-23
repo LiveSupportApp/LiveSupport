@@ -6,9 +6,9 @@ const Softalk = require('./software/Softalk')
 class Index {
   constructor() {
     switch (setting.software) {
-    case 'bouyomichan': this.software = new BouyomiChan(); break
-    case 'softalk':     this.software = new Softalk();     break
-    default: Util.showError('認証タイプ名が正しくありません')
+    case 'BouyomiChan': this.software = new BouyomiChan(); break
+    case 'Softalk':     this.software = new Softalk();     break
+    default: Util.showError('ソフトが正しくありません')
     }
   }
 

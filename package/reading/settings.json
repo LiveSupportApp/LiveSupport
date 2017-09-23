@@ -1,6 +1,6 @@
 {
-  "software": "softalk",
-  "softalk": {
+  "software": "",
+  "Softalk": {
     "path": "",
     "interval": 100,
     "quality": 3,
@@ -8,9 +8,9 @@
     "library": 7,
     "voice": 0,
     "volume": 50,
-    "show": 0
+    "hide": false
   },
-  "bouyomichan": {
+  "Bouyomichan": {
     "path": "",
     "speed": -1,
     "interval": -1,

@@ -2,7 +2,7 @@ const {
   remote,
   ipcRenderer,
 } = require('electron')
-const settings = require('./settings.json')
+const settings = require('./settings')
 const NicoJS = require('nicoJS')
 const command = settings.command
 
