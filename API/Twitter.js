@@ -5,8 +5,9 @@ const Settings = require('../Settings')
 const settings = new Settings('./settings.json')
 
 class Twitter extends EventEmitter {
-  constructor() {
+  constructor(oauth) {
     super()
+    this.oauth = oauth
     this.hashtag = settings.get.twitter.hashtag
     if (!this.hashtag) {
       Util.prompt('ハッシュタグを入力してください', res => {
@@ -16,8 +17,8 @@ class Twitter extends EventEmitter {
     }
   }
 
-  authorize(type) {
-    const oauth = new OAuth(type)
+  authorize() {
+    const oauth = new OAuth(this.oauth)
     oauth.authorize(client => {
       this.client = client
       this.getTweet()

@@ -15,35 +15,42 @@ class API extends EventEmitter {
    */
   constructor() {
     super()
-    this.service = settings.get.app.service
-    this.oauth = settings.get[this.service].oauth
-    switch (this.service) {
-    case 'niconico':    this.api = new Niconico();    break
-    case 'twitcasting': this.api = new TwitCasting(); break
-    case 'twitch':      this.api = new Twitch();      break
-    case 'twitter':     this.api = new Twitter();     break
-    case 'youtube':     this.api = new YouTube();     break
-    default: Util.showError('サービス名が正しくありません')
+    this.names = settings.get.app.service
+    this.services = {}
+    for (const service of this.names) {
+      const oauth = settings.get[service].oauth
+      switch (service) {
+      case 'niconico':    this.services.niconico    = new Niconico(oauth);    break
+      case 'twitcasting': this.services.twitcasting = new TwitCasting(oauth); break
+      case 'twitch':      this.services.twitch      = new Twitch(oauth);      break
+      case 'twitter':     this.services.twitter     = new Twitter(oauth);     break
+      case 'youtube':     this.services.youtube     = new YouTube(oauth);     break
+      default: Util.showError(`サービス名が正しくありません - ${service}`)
+      }
     }
-    this.api.on('error',   data => { this.emit('error',   data) })
-    this.api.on('ready',   data => { this.emit('ready',   data) })
-    this.api.on('json',    data => { this.emit('json',    data) })
-    this.api.on('message', data => { this.emit('message', data) })
+    for (const service of Object.values(this.services)) {
+      service.on('error',   data => { this.emit('error',   data) })
+      service.on('ready',   data => { this.emit('ready',   data) })
+      service.on('json',    data => { this.emit('json',    data) })
+      service.on('message', data => { this.emit('message', data) })
+    }
   }
 
   /**
    * 認証する
    */
   authorize() {
-    this.api.authorize(this.oauth)
+    for (const service of Object.values(this.services))
+      service.authorize()
   }
 
   /**
    * chat/commentを取得する
-   * @param {Number} timeout 更新間隔
+   * @param {Number} [timeout] 更新間隔
    */
   listen(timeout) {
-    this.api.listen(timeout)
+    for (const service of Object.values(this.services))
+      service.listen(timeout)
   }
 
   /**
@@ -51,14 +58,19 @@ class API extends EventEmitter {
    * @param {String} message 送信するメッセージ
    */
   send(message) {
-    this.api.send(message)
+    for (const service of Object.values(this.services))
+      service.send(message)
   }
 
   /**
    * 再取得する
    */
-  reacquire() {
-    this.api.reacquire()
+  reacquire(service) {
+    this.services[service].reacquire()
+  }
+
+  get services() {
+    return this.names
   }
 }
 

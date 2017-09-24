@@ -2,7 +2,6 @@ const Nico = require('node-nicovideo-api')
 const {EventEmitter} = require('events')
 const storage = require('electron-json-storage')
 const Util = require('../Util')
-const Settings = require('../Settings')
 
 class Niconico extends EventEmitter {
   authorize() {

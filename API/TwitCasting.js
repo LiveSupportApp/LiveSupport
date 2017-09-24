@@ -3,8 +3,13 @@ const request = require('request')
 const OAuth = require('./TwitCasting/OAuth')
 
 class TwitCasting extends EventEmitter {
-  authorize(type) {
-    const oauth = new OAuth(type)
+  constructor(oauth) {
+    super()
+    this.oauth = oauth
+  }
+
+  authorize() {
+    const oauth = new OAuth(this.oauth)
     oauth.authorize(token => {
       this.token = token
       this.getUser()

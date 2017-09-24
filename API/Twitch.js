@@ -6,8 +6,13 @@ const OAuth = require('./Twitch/OAuth')
 let client
 
 class Twitch extends EventEmitter {
-  authorize(type) {
-    const oauth = new OAuth(type)
+  constructor(oauth) {
+    super()
+    this.oauth = oauth
+  }
+
+  authorize() {
+    const oauth = new OAuth(this.oauth)
     oauth.authorize((token, clientId) => {
       this.token = token
       this.clientId = clientId
