@@ -30,8 +30,7 @@ class Niconico extends EventEmitter {
         detail: 'アカウント情報は暗号化されずにPC内に保存されます。',
       })
     }).then(id => {
-      if (id === 0) Settings.updateSetting('.app.service', null)
-      else if (id === 1) return Util.prompt('ニコニコアカウントのIDを入力してください')
+      if (id === 1) return Util.prompt('ニコニコアカウントのIDを入力してください')
     }).then(id => {
       this.id = id
       return Util.prompt('ニコニコアカウントのパスワードを入力してください')

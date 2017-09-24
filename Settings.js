@@ -13,30 +13,16 @@ class Settings {
     this.setting = JSON.parse(file)
   }
 
-  get settings() {
+  get get() {
     return this.setting
   }
 
   /**
    * 設定ファイルを更新する
    */
-  set settings(json) {
+  set set(json) {
     const data = JSON.stringify(json, '', 2)
     fs.writeFileSync(this.path, data)
-  }
-
-  /**
-   * 設定ファイルを部分的に取得する
-   * @param  {String} location 書き換えるパス
-   * @type {*}
-   */
-  getSetting(location) {
-    console.log(this.setting)
-    console.log('location', location)
-    const keys = this.location(location)
-    let setting = this.setting
-    for (const key of keys) setting = setting[key]
-    return setting
   }
 
   /**
@@ -48,7 +34,7 @@ class Settings {
     const settings = this.setting
     eval(`settings${location} = ${item}`)
     console.log(`settings${location} = ${item}`)
-    this.settings = settings
+    this.set = settings
   }
 
   location(location) {

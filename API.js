@@ -15,8 +15,8 @@ class API extends EventEmitter {
    */
   constructor() {
     super()
-    this.service = settings.getSetting('.app.service')
-    this.oauth = settings.getSetting(`${this.service}.oauth`)
+    this.service = settings.get.app.service
+    this.oauth = settings.get[this.service].oauth
     switch (this.service) {
     case 'niconico':    this.api = new Niconico();    break
     case 'twitcasting': this.api = new TwitCasting(); break

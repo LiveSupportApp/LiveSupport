@@ -8,7 +8,7 @@ class Softalk {
     const process = Process.getPath()
     this.path = process.path
     settings.updateSetting('.Softalk.path', this.path)
-    const opt = settings.getSetting('.Softalk')
+    const opt = settings.get.Softalk
     this.args = `/O:${opt.interval} /Q:${opt.quality} /S:${opt.speed} /T:${opt.library} /U:${opt.voice} /V:${opt.volume}`
     if (!process.running && opt.hide) exec(`${this.path} /X:1`)
   }

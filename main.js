@@ -76,4 +76,4 @@ function main() {
   })
 }
 
-process.on('unhandledRejection', console.log)
+process.on('unhandledRejection', Util.showError)
