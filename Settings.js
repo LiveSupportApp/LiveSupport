@@ -30,7 +30,7 @@ class Settings {
    * @param  {String} location 書き換えるパス
    * @type {*}
    */
-  getSettings(location) {
+  getSetting(location) {
     console.log(this.setting)
     console.log('location', location)
     const keys = this.location(location)
@@ -44,10 +44,9 @@ class Settings {
    * @param  {String} location 書き換えるパス
    * @param  {[type]} item     書き換える内容
    */
-  updateSettings(location, item) {
-    if (!item) return
+  updateSetting(location, item) {
     const settings = this.setting
-    eval(`settings${location} = item`)
+    eval(`settings${location} = ${item}`)
     this.settings = settings
   }
 

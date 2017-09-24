@@ -10,8 +10,8 @@ class BouyomiChan {
     const process = Process.getPath()
     if (!process.running) exec(process.path)
     this.path = path.join(path.dirname(process.path), 'RemoteTalk', 'RemoteTalk.exe')
-    settings.updateSettings('.Softalk.path', this.path)
-    const opt = settings.getSettings('.BouyomiChan')
+    settings.updateSetting('.Softalk.path', this.path)
+    const opt = settings.getSetting('.BouyomiChan')
     this.args = `${opt.speed} ${opt.interval} ${opt.volume} ${opt.quality}`
   }
 

@@ -27,14 +27,14 @@ class App {
   static init() {
     const oauthes = require('./oauthes')
     return new Promise(resolve => {
-      let service = settings.getSettings('.app.service')
+      let service = settings.getSetting('.app.service')
       this.selectService(service, Object.keys(oauthes)).then(_service => {
         service = _service
-        settings.updateSettings('.app.service', service)
-        const oauth = settings.getSettings(`.${service}.oauth`)
+        settings.updateSetting('.app.service', service)
+        const oauth = settings.getSetting(`.${service}.oauth`)
         return this.selectOAuth(oauth, oauthes[service])
       }).then(_oauth => {
-        settings.updateSettings(`.${service}.oauth`, _oauth)
+        settings.updateSetting(`.${service}.oauth`, _oauth)
         resolve(settings.settings)
       }).catch(() => Util.showError('App.init Error'))
     })

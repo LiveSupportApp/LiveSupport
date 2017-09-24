@@ -7,11 +7,11 @@ const settings = new Settings('./settings.json')
 class Twitter extends EventEmitter {
   constructor() {
     super()
-    this.hashtag = settings.getSettings('.settings.twitter.hashtag')
+    this.hashtag = settings.getSetting('.settings.twitter.hashtag')
     if (!this.hashtag) {
       Util.prompt('ハッシュタグを入力してください', res => {
         this.hashtag = (res.match(/^[#＃]/)) ? res.replace(/^＃/, '#') : `#${res}`
-        settings.updateSettings('.twitter.hashtag', this.hashtag)
+        settings.updateSetting('.twitter.hashtag', this.hashtag)
       })
     }
   }
