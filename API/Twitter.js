@@ -2,7 +2,7 @@ const {EventEmitter} = require('events')
 const OAuth = require('./Twitter/OAuth')
 const Util = require('../Util')
 const Settings = require('../Settings')
-const settings = new Settings('../settings')
+const settings = new Settings('./settings.json')
 
 class Twitter extends EventEmitter {
   constructor() {

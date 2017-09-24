@@ -1,7 +1,7 @@
 const {exec} = require('child_process')
 const Process = require('Process')
 const Settings = require('../../../Settings')
-const settings = new Settings('../../settings')
+const settings = new Settings('./settings.json')
 
 class Softalk {
   constructor() {

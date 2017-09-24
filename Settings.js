@@ -1,18 +1,27 @@
 const fs = require('fs')
+const path = require('path')
 
 class Settings {
-  constructor(path) {
-    this.path = path
-    fs.watch(this.path, () => {
-      this.settings = JSON.parse(fs.readFileSync(this.path))
-    })
+  constructor(file) {
+    this.path = path.join(__dirname, file)
+    this.reload()
+    fs.watch(this.path, () => this.reload())
+  }
+
+  reload() {
+    const file = fs.readFileSync(this.path, 'utf-8')
+    this.setting = JSON.parse(file)
+  }
+
+  get settings() {
+    return this.setting
   }
 
   /**
    * 設定ファイルを更新する
    */
   set settings(json) {
-    const data = JSON.stringify(json)
+    const data = JSON.stringify(json, '', 2)
     fs.writeFileSync(this.path, data)
   }
 
@@ -22,7 +31,12 @@ class Settings {
    * @type {*}
    */
   getSettings(location) {
-    eval(`return this.settings${location}`)
+    console.log(this.setting)
+    console.log('location', location)
+    const keys = this.location(location)
+    let setting = this.setting
+    for (const key of keys) setting = setting[key]
+    return setting
   }
 
   /**
@@ -32,9 +46,13 @@ class Settings {
    */
   updateSettings(location, item) {
     if (!item) return
-    const settings = this.settings
+    const settings = this.setting
     eval(`settings${location} = item`)
     this.settings = settings
+  }
+
+  location(location) {
+    return location.match(/[^.]+/g)
   }
 }
 

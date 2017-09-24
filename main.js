@@ -18,7 +18,9 @@ if (app.makeSingleInstance(() => {})) app.quit()
 app.on('window-all-closed', () => {})
 
 app.on('ready', () => {
+  console.log('ready')
   App.init().then(setting => {
+    console.log('setting', setting)
     App.trayInit()
 
     settings = setting
@@ -31,7 +33,9 @@ app.on('ready', () => {
 })
 
 function main() {
+  console.log('main')
   api.on('ready', () => {
+    console.log('Api ready')
     for (const name of settings.package) {
       packages.push(Package.getPackage(name))
     }
@@ -71,3 +75,5 @@ function main() {
     }
   })
 }
+
+process.on('unhandledRejection', console.log)

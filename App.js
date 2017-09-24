@@ -7,7 +7,7 @@ const {
 const path = require('path')
 const Util = require('./Util')
 const Settings = require('./Settings')
-const settings = new Settings('./settings')
+const settings = new Settings('./settings.json')
 
 let tray
 
@@ -25,39 +25,50 @@ class App {
   }
 
   static init() {
+    const oauthes = require('./oauthes')
     return new Promise(resolve => {
-      const oauthes = require('./oauthes')
       let service = settings.getSettings('.app.service')
-      let oauth = settings.getSettings('.services[service].oauth')
-      if (!service) {
-        service = this.selectService(Object.keys(oauthes))
+      this.selectService(service, Object.keys(oauthes)).then(_service => {
+        service = _service
         settings.updateSettings('.app.service', service)
-      }
-      if (!oauthes[service].includes(oauth)) {
-        oauth = this.selectOAuth(oauthes[service])
-        settings.updateSettings('.services[service].oauth', oauth)
-      }
-      resolve(settings.settings)
+        const oauth = settings.getSettings(`.${service}.oauth`)
+        return this.selectOAuth(oauth, oauthes[service])
+      }).then(_oauth => {
+        settings.updateSettings(`.${service}.oauth`, _oauth)
+        resolve(settings.settings)
+      }).catch(() => Util.showError('App.init Error'))
     })
   }
 
-  static selectService(services) {
-    Util.msgbox({
-      type: 'question',
-      buttons: services,
-      message: '使用するサービスを選択してください',
-    }).then(res => {
-      return services[res]
+  static selectService(service, services) {
+    return new Promise((resolve, reject) => {
+      if (services.includes(service)) resolve(service)
+      else {
+        Util.msgbox({
+          type: 'question',
+          buttons: services,
+          message: '使用するサービスを選択してください',
+        }).then(res => {
+          if (res >= 0) resolve(services[res])
+          else reject()
+        })
+      }
     })
   }
 
-  static selectOAuth(oauthes) {
-    Util.msgbox({
-      type: 'question',
-      buttons: oauthes,
-      message: '使用するサービスを選択してください',
-    }).then(res => {
-      return oauthes[res]
+  static selectOAuth(oauth, oauthes) {
+    return new Promise((resolve, reject) => {
+      if (oauthes.includes(oauth)) resolve(oauth)
+      else {
+        Util.msgbox({
+          type: 'question',
+          buttons: oauthes,
+          message: '使用する認証方法を選択してください',
+        }).then(res => {
+          if (res >= 0) resolve(oauthes[res])
+          else reject()
+        })
+      }
     })
   }
 }
