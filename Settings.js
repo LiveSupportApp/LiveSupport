@@ -47,6 +47,7 @@ class Settings {
   updateSetting(location, item) {
     const settings = this.setting
     eval(`settings${location} = ${item}`)
+    console.log(`settings${location} = ${item}`)
     this.settings = settings
   }
 
