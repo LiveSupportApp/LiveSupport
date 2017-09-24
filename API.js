@@ -1,4 +1,5 @@
 const {EventEmitter} = require('events')
+const Niconico = require('./API/Niconico')
 const TwitCasting = require('./API/TwitCasting')
 const Twitch = require('./API/Twitch')
 const Twitter = require('./API/Twitter')
@@ -17,6 +18,7 @@ class API extends EventEmitter {
     this.service = settings.getSetting('.app.service')
     this.oauth = settings.getSetting(`${this.service}.oauth`)
     switch (this.service) {
+    case 'niconico':    this.api = new Niconico();    break
     case 'twitcasting': this.api = new TwitCasting(); break
     case 'twitch':      this.api = new Twitch();      break
     case 'twitter':     this.api = new Twitter();     break

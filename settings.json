@@ -5,6 +5,8 @@
       "default"
     ]
   },
+  "niconico": {
+  },
   "twitcasting": {
     "oauth": "",
     "timeout": 1000
