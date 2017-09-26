@@ -7,9 +7,6 @@
       "default"
     ]
   },
-  "niconico": {
-    "oauth": ""
-  },
   "twitcasting": {
     "oauth": "",
     "timeout": 1000
