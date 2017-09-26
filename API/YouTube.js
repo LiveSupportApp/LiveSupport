@@ -84,6 +84,7 @@ class YouTube extends EventEmitter {
             message: item.snippet.textMessageDetails.messageText,
             name: item.authorDetails.displayName,
             image: item.author.profileImageUrl,
+            json: json,
           })
         }
       }

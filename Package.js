@@ -43,7 +43,7 @@ class Package {
    * @readonly
    */
   static get path() {
-    return path.join(__dirname, 'package')
+    return path.join(__dirname, 'packages')
   }
 }
 

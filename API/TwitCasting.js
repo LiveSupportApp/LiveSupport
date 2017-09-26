@@ -89,14 +89,15 @@ class TwitCasting extends EventEmitter {
   listen(timeout) {
     setInterval(()=>{this.getChat()}, timeout)
     let lastRead = 0
-    this.on('json', data => {
-      for (const comment of data.comments.reverse()) {
+    this.on('json', json => {
+      for (const comment of json.comments.reverse()) {
         if (lastRead < comment.created) {
           lastRead = comment.created
           this.emit('message', {
             message: comment.message,
             name: comment.from_user.name,
             image: comment.from_user.image,
+            json: json,
           })
         }
       }

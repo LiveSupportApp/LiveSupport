@@ -95,19 +95,16 @@ class Twitch extends EventEmitter {
     client.connect()
 
     client.on('message', (channel, userstate, message, self) => {
-      this.emit('json', {
-        service: 'twitch',
-        twitch: {
+      this.emit('message', {
+        message: message,
+        name: userstate.username,
+        image: this.getLogoURL(userstate.username),
+        json: {
           message: message,
           user: userstate,
           channel: channel,
           self: self,
         },
-      })
-      this.emit('message', {
-        message: message,
-        name: userstate.username,
-        image: this.getLogoURL(userstate.username),
       })
     })
   }

@@ -1,3 +1,4 @@
+// TODO: Redo write
 const Nico = require('node-nicovideo-api')
 const {EventEmitter} = require('events')
 const storage = require('electron-json-storage')
@@ -55,6 +56,7 @@ class Niconico extends EventEmitter {
 
   getComment() {
     this.provider.onDidReceiveComment(comment => {
+      // TODO: message event
       this.emit('json', {
         service: 'niconico',
         niconico: comment,

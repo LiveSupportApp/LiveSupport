@@ -28,14 +28,14 @@ class Twitter extends EventEmitter {
   getTweet() {
     this.client.stream('statuses/filter', { track: this.hashtag }, (stream) => {
       stream.on('data', data => {
-        this.emit('json', {
-          service: 'twitter',
-          twitter: data,
-        })
         this.emit('message', {
           message: data.text,
           name: data.user.name,
           image: data.user.profile_image_url,
+          json: {
+            service: 'twitter',
+            twitter: data,
+          },
         })
       })
 
