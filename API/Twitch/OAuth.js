@@ -5,11 +5,10 @@ const Window = require('./Window')
 
 class OAuth {
   constructor(type) {
-    this.type = type
     switch (type) {
       case 'server': this.oauth = new Server(); break
       case 'window': this.oauth = new Window(); break
-      default: Util.showError('認証タイプ名が正しくありません')
+      default: Util.showError(Util._.invalidOAuthType)
     }
   }
 

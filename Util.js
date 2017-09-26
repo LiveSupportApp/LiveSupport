@@ -4,6 +4,7 @@ const {
   shell,
 } = require('electron')
 const prompt = require('electron-prompt')
+const I18n = require('./I18n')
 const fs = require('fs')
 const path = require('path')
 
@@ -16,6 +17,7 @@ class Util {
    * @property {Number} id default id
    * @property {String} message message
    * @property {String} detail detail
+   * @property {Number} only Only execute callback when this and res are the same
    */
 
   /**
@@ -34,7 +36,7 @@ class Util {
         detail: params.detail || '',
         cancelId: -1,
       }, res => {
-        resolve(res)
+        if (params.only | res === res) resolve(res)
       })
     })
   }
@@ -71,6 +73,12 @@ class Util {
   static open(url) {
     shell.openExternal(url)
   }
+
+  static get __() {
+    if (!this.i18n) this.i18n = new I18n()
+    return this.i18n.__
+  }
+
   static get settings() {
     if (!this.setting) {
       const filepath = path.join(__dirname, 'settings.json')

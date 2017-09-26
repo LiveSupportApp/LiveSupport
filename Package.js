@@ -30,7 +30,7 @@ class Package {
    */
   static getPackage(name) {
     if (!this.isExtra(name)) {
-      Util.showError('指定したパッケージが存在しません！')
+      Util.showError(Util._.notExistPackage)
     } else {
       const Pack = require(this.getPath(name))
       return new Pack()

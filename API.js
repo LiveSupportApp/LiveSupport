@@ -23,7 +23,7 @@ class API extends EventEmitter {
         case 'twitter':     this.services.twitter     = new Twitter(oauth);     break
         case 'youtube':     this.services.youtube     = new YouTube(oauth);     break
         default: () => {
-          Util.showError(`サービス名が正しくありません - ${service}`)
+          Util.showError(`${Util._.invalidService} - ${service}`)
           notAvailable.push(service)
         }
       }

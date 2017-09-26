@@ -39,10 +39,11 @@ class Server {
               if (err) {
                 Util.msgbox({
                   type: 'warning',
-                  buttons: ['再認証'],
-                  message: '認証できませんでした。',
+                  message: Util._.canNotOAuth + Util._.doAgain,
                   detail: err.toString(),
-                }).then(() => { this.getNewToken(callback) })
+                  buttons: [Util._.yes, Util._.cancel],
+                  only: 0,
+                }).then(() => this.getNewToken(callback))
               } else {
                 callback(access_token_key, access_token_secret)
               }
@@ -57,12 +58,12 @@ class Server {
     const qs = url.parse(req.url, true).query
     let message = 'LiveSupport\n'
     if (qs.oauth_verifier) {
-      message += '認証しました'
+      message += Util._.authenticated
       callback(qs.oauth_verifier)
     } else if (qs.denied) {
-      message += 'アクセスが拒否されました'
+      message += Util._.denied
     }
-    res.write(`${message}\nこれでこのウィンドウまたはタブを閉じてもかまいません。`)
+    res.write(`${message}\n${Util._.canClose}`)
     res.end()
     this.server.close()
   }

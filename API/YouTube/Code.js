@@ -17,24 +17,26 @@ class Code {
   getNewToken(callback) {
     Util.msgbox({
       type: 'info',
-      buttons: ['OK'],
-      message: 'OAuth認証を行います。',
-      detail: '次のページから認証を行いコードを入力してください。',
+      message: Util._.willOAuth,
+      detail: Util._.inputCode,
+      buttons: [Util._.ok],
+      only: 0,
     }).then(() => {
       const oauthURL = oauth2Client.generateAuthUrl({
         access_type: 'offline',
         scope: 'https://www.googleapis.com/auth/youtube',
       })
       Util.open(oauthURL)
-      Util.prompt('コードを入力してください', code => {
+      Util.prompt(Util._.inputCode, code => {
         oauth2Client.getToken(code, (err, token) => {
           if (err) {
             Util.msgbox({
               type: 'warning',
-              buttons: ['再認証'],
-              message: '認証できませんでした。',
+              message: Util._.canNotOAuth + Util._.doAgain,
               detail: err.toString(),
-            }).then(() => { this.getNewToken(callback) })
+              buttons: [Util._.yes, Util._.cancel],
+              only: 0,
+            }).then(() => this.getNewToken(callback))
           } else {
             oauth2Client.credentials = token
             callback(oauth2Client, token)

@@ -38,7 +38,7 @@ function main() {
     api.listen()
 
     globalShortcut.register('ALT+/', () => {
-      Util.prompt('メッセージを入力してください', res => {
+      Util.prompt(Util._.inputMessage, res => {
         if (res) api.send(res)
       })
     })
@@ -48,17 +48,19 @@ function main() {
     if (err.message==='No live was found') {
       Util.msgbox({
         type: 'warning',
-        buttons: ['OK', '再取得'],
-        message: '配信が見つかりませんでした。',
-        detail: '配信している場合は暫く待って取得してください。',
-      }).then(id => { if (id===1) api.reacquire() })
+        message: Util._.canNotFindLive + Util._.doAgain,
+        detail: Util._.wait,
+        buttons: [Util._.yes, Util._.cancel],
+        only: 0,
+      }).then(() => api.reacquire())
     } else if (err.message==='Can not find chat') {
       Util.msgbox({
         type: 'warning',
-        buttons: ['OK', '再取得'],
-        message: 'チャットが取得できませんでした。',
-        detail: '配信している場合は暫く待って取得してください。',
-      }).then(id => { if (id===1) api.reacquire() })
+        message: Util._.canNotFindChat + Util._.doAgain,
+        detail: Util._.wait,
+        buttons: [Util._.yes, Util._.cancel],
+        only: 0,
+      }).then(() => api.reacquire())
     } else {
       Util.showError(err)
     }

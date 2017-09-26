@@ -23,12 +23,12 @@ class Server {
     const qs = url.parse(req.url, true).query
     let message = 'LiveSupport\n'
     if (qs.code) {
-      message += '認証しました'
+      message += Util._.authenticated
       callback(qs.code)
     } else if (qs.result === 'denied') {
-      message += 'アクセスが拒否されました'
+      message += Util._.denied
     }
-    res.write(`${message}\nこれでこのウィンドウまたはタブを閉じてもかまいません。`)
+    res.write(`${message}\n${Util._.canClose}`)
     res.end()
     this.server.close()
   }

@@ -24,14 +24,15 @@ class Code {
   getNewToken(callback) {
     Util.msgbox({
       type: 'info',
-      buttons: ['OK'],
-      message: 'OAuth認証を行います。',
-      detail: '次のページから認証を行いコードを入力してください。',
+      message: Util._.willOAuth,
+      detail: Util._.inputCode,
+      buttons: [Util._.ok],
+      only: 0,
     }).then(() => {
       this.client.getRequestToken((err, req_token, req_token_secret) => {
         const oauthURL = this.client.getAuthUrl(req_token)
         Util.open(oauthURL)
-        Util.prompt('コードを入力してください', code => {
+        Util.prompt(Util._.inputCode, code => {
           this.client.getAccessToken(
             req_token,
             req_token_secret,
@@ -40,13 +41,13 @@ class Code {
               if (err) {
                 Util.msgbox({
                   type: 'warning',
-                  buttons: ['再認証'],
-                  message: '認証できませんでした。',
+                  message: Util._.canNotOAuth + Util._.doAgain,
                   detail: err.toString(),
-                }).then(() => { this.getNewToken(callback) })
-              } else {
+                  buttons: [Util._.yes, Util._.cancel],
+                  only: 0,
+                }).then(() => this.getNewToken(callback))
+              } else
                 callback(access_token_key, access_token_secret)
-              }
             })
         })
       })
