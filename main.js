@@ -8,10 +8,10 @@ const App = require('./App')
 const Package = require('./Package')
 const Util = require('./Util')
 
+const settings = Util.settings
 const packages = []
 
 let api
-let settings
 
 if (app.makeSingleInstance(() => {})) app.quit()
 
@@ -19,17 +19,12 @@ app.on('window-all-closed', () => {})
 
 app.on('ready', () => {
   console.log('ready')
-  App.init().then(setting => {
-    console.log('setting', setting)
-    App.trayInit()
+  App.trayInit()
 
-    settings = setting
+  api = new API()
+  api.authorize()
 
-    api = new API()
-    api.authorize()
-
-    main()
-  })
+  main()
 })
 
 function main() {

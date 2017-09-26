@@ -4,6 +4,8 @@ const {
   shell,
 } = require('electron')
 const prompt = require('electron-prompt')
+const fs = require('fs')
+const path = require('path')
 
 class Util {
   /**
@@ -68,6 +70,14 @@ class Util {
    */
   static open(url) {
     shell.openExternal(url)
+  }
+  static get settings() {
+    if (!this.setting) {
+      const filepath = path.join(__dirname, 'settings.json')
+      const file = fs.readFileSync(filepath, 'utf8')
+      this.setting = JSON.stringify(file)
+    }
+    return this.setting
   }
 }
 
