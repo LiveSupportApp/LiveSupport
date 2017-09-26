@@ -17,6 +17,7 @@ class API extends EventEmitter {
     super()
     this.names = settings.get.app.service
     this.services = {}
+    const notAvailable = []
     for (const service of this.names) {
       const oauth = settings.get[service].oauth
       switch (service) {
@@ -25,10 +26,14 @@ class API extends EventEmitter {
         case 'twitch':      this.services.twitch      = new Twitch(oauth);      break
         case 'twitter':     this.services.twitter     = new Twitter(oauth);     break
         case 'youtube':     this.services.youtube     = new YouTube(oauth);     break
-        default: Util.showError(`サービス名が正しくありません - ${service}`)
+        default: () => {
+          Util.showError(`サービス名が正しくありません - ${service}`)
+          notAvailable.push(service)
+        }
       }
+      this.names = notAvailable.filter(v => { return notAvailable.includes(v) })
     }
-    for (const service of Object.values(this.services)) {
+    for (const service of this.names) {
       service.on('error',   data => { this.emit('error',   data) })
       service.on('ready',   data => { this.emit('ready',   data) })
       service.on('json',    data => { this.emit('json',    data) })
@@ -37,28 +42,28 @@ class API extends EventEmitter {
   }
 
   /**
-   * 認証する
+   * Authorize
    */
   authorize() {
-    for (const service of Object.values(this.services))
+    for (const service of this.names)
       service.authorize()
   }
 
   /**
-   * chat/commentを取得する
+   * messageを取得する
    * @param {Number} [timeout] 更新間隔
    */
   listen(timeout) {
-    for (const service of Object.values(this.services))
+    for (const service of this.names)
       service.listen(timeout)
   }
 
   /**
-   * chat/commentを送信する
+   * messageを送信する
    * @param {String} message 送信するメッセージ
    */
   send(message) {
-    for (const service of Object.values(this.services))
+    for (const service of this.names)
       service.send(message)
   }
 
@@ -69,8 +74,8 @@ class API extends EventEmitter {
     this.services[service].reacquire()
   }
 
-  get services() {
-    return this.names
+  get service() {
+    return this.services
   }
 }
 
