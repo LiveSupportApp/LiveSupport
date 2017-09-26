@@ -20,12 +20,12 @@ class API extends EventEmitter {
     for (const service of this.names) {
       const oauth = settings.get[service].oauth
       switch (service) {
-      case 'niconico':    this.services.niconico    = new Niconico(oauth);    break
-      case 'twitcasting': this.services.twitcasting = new TwitCasting(oauth); break
-      case 'twitch':      this.services.twitch      = new Twitch(oauth);      break
-      case 'twitter':     this.services.twitter     = new Twitter(oauth);     break
-      case 'youtube':     this.services.youtube     = new YouTube(oauth);     break
-      default: Util.showError(`サービス名が正しくありません - ${service}`)
+        case 'niconico':    this.services.niconico    = new Niconico(oauth);    break
+        case 'twitcasting': this.services.twitcasting = new TwitCasting(oauth); break
+        case 'twitch':      this.services.twitch      = new Twitch(oauth);      break
+        case 'twitter':     this.services.twitter     = new Twitter(oauth);     break
+        case 'youtube':     this.services.youtube     = new YouTube(oauth);     break
+        default: Util.showError(`サービス名が正しくありません - ${service}`)
       }
     }
     for (const service of Object.values(this.services)) {
