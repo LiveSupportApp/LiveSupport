@@ -10,7 +10,7 @@ let tray
 
 class App {
   /**
-   * タスクトレイアイコンを初期化する
+   * Init task tray icon
    */
   static trayInit() {
     tray = new Tray(nativeImage.createFromPath(path.join(__dirname, '/icon/icon.png')))

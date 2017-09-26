@@ -8,7 +8,7 @@ const Util = require('./Util')
 
 class API extends EventEmitter {
   /**
-   * APIをまとめるクラス
+   * Arrange API methods
    * @extends EventEmitter
    */
   constructor() {
@@ -48,8 +48,8 @@ class API extends EventEmitter {
   }
 
   /**
-   * messageを取得する
-   * @param {Number} [timeout] 更新間隔
+   * Get message
+   * @param {Number} [timeout] interval
    */
   listen(timeout) {
     for (const service of this.names)
@@ -57,8 +57,8 @@ class API extends EventEmitter {
   }
 
   /**
-   * messageを送信する
-   * @param {String} message 送信するメッセージ
+   * Send message
+   * @param {String} message content
    */
   send(message) {
     for (const service of this.names)
@@ -66,7 +66,7 @@ class API extends EventEmitter {
   }
 
   /**
-   * 再取得する
+   * Get live info again
    */
   reacquire(service) {
     this.services[service].reacquire()

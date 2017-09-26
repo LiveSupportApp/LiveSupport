@@ -9,18 +9,18 @@ const path = require('path')
 
 class Util {
   /**
-   * メッセージボックスの設定
+   * Message box options
    * @typedef {Object} MsgBoxParas
-   * @property {String} type メッセージボックスの種類
-   * @property {Array} buttons メッセージボックスに表示するボタン
-   * @property {Number} id デフォルトID
-   * @property {String} message メッセージ
-   * @property {String} detail 詳細
+   * @property {String} type type
+   * @property {Array} buttons buttons
+   * @property {Number} id default id
+   * @property {String} message message
+   * @property {String} detail detail
    */
 
   /**
-   * メッセージボックスを表示する
-   * @param {MsgBoxParas} params メッセージボックスの設定
+   * Show message box
+   * @param {MsgBoxParas} params Options
    * @returns {Promise}
    */
   static msgbox(params) {
@@ -40,8 +40,8 @@ class Util {
   }
 
   /**
-   * プロンプトを表示する
-   * @param {String} message メッセージ
+   * Show prompt
+   * @param {String} message message
    * @returns {Promise}
    */
   static prompt(message) {
@@ -53,8 +53,8 @@ class Util {
   }
 
   /**
-   * エラーボックスを表示する
-   * @param {String} [err] エラーメッセージ
+   * Show error box
+   * @param {String} [err] message
    */
   static showError(err) {
     if (err) {
@@ -65,8 +65,8 @@ class Util {
   }
 
   /**
-   * URLを開く
-   * @param  {String} url 開くURL
+   * Open URL
+   * @param  {String} url URL
    */
   static open(url) {
     shell.openExternal(url)
