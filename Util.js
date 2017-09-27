@@ -81,11 +81,38 @@ class Util {
 
   static get settings() {
     if (!this.setting) {
-      const filepath = path.join(__dirname, 'settings.json')
-      const file = fs.readFileSync(filepath, 'utf8')
-      this.setting = JSON.stringify(file)
+      const filepath = this.join(__dirname, 'settings.json')
+      this.setting = this.readJSON(filepath)
     }
     return this.setting
+  }
+
+  /**
+   * Read JSON file
+   * @param  {String} path
+   * @return {Object}
+   */
+  static readJSON(path) {
+    const file = fs.readFileSync(path)
+    const json = JSON.parse(file)
+    return json
+  }
+
+  static isExist(file) {
+    try {
+      fs.statSync(file)
+      return true
+    } catch (err) {
+      if (err.code === 'ENOENT') return false
+    }
+  }
+
+  /**
+   * Return path.join
+   * @return {String}
+   */
+  static join() {
+    return path.join(...arguments)
   }
 }
 
