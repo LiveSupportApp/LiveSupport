@@ -1,0 +1,23 @@
+{
+  "quit": "Quit",
+  "canClose": "You can close this window or tab.",
+  "denied": "Access denied.",
+  "authenticated": "Authenticated.",
+  "willOAuth": "It going to do OAuth.",
+  "inputCode": "Please authenticate in the page to input code.",
+  "invalidOAuthType": "Invalid OAuth type.",
+  "canNotOAuth": "Can not OAuth.",
+  "invalidHashtag": "Hashtag is invalid.",
+  "inputMessage": "Please input message.",
+  "invalidService": "Service name is invalid.",
+  "invalidPackage": "Package is not exist.",
+  "notExistPackage": "Package name is invalid.",
+  "canNotFindLive": "Can not find your live.",
+  "canNotFindChat": "Can not find your live's chat.",
+  "yes": "Yes",
+  "no": "No",
+  "ok": "OK",
+  "cancel": "Cancel",
+  "doAgain": " Do it again?",
+  "wait": "Please wait for a while and try again."
+}
