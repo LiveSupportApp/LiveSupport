@@ -1,23 +1,65 @@
 {
-  "quit": "終了",
-  "canClose": "これでこのウィンドウまたはタブを閉じてもかまいません。",
-  "denied": "アクセスが拒否されました。",
-  "authenticated": "認証しました。",
-  "invalidOAuthType": "OAuthタイプが不正です。",
-  "willOAuth": "OAuth認証を行います。",
-  "inputCode": "次のページから認証を行いコードを入力してください。",
-  "canNotOAuth": "認証できませんでした。",
-  "invalidHashtag": "ハッシュタグが不正です。",
-  "inputMessage": "メッセージを入力してください。",
-  "invalidService": "サービス名が不正です。",
-  "invalidPackage": "パッケージが存在しません。",
-  "notExistPackage": "パッケージ名が不正です。",
-  "canNotFindLive": "配信が見つかりませんでした。",
-  "canNotFindChat": "チャットが取得できませんでした。",
-  "yes": "はい",
-  "no": "いいえ",
-  "ok": "OK",
-  "cancel": "キャンセル",
-  "doAgain": "再度実行しますか？",
-  "wait": "暫く待ってから再度実行してください。"
+  "quit": {
+    "message": "終了"
+  },
+  "canClose": {
+    "message": "これでこのウィンドウまたはタブを閉じてもかまいません。"
+  },
+  "denied": {
+    "message": "アクセスが拒否されました。"
+  },
+  "authenticated": {
+    "message": "認証しました。"
+  },
+  "invalidOAuthType": {
+    "message": "OAuthタイプが不正です。"
+  },
+  "willOAuth": {
+    "message": "OAuth認証を行います。"
+  },
+  "inputCode": {
+    "message": "次のページから認証を行いコードを入力してください。"
+  },
+  "canNotOAuth": {
+    "message": "認証できませんでした。"
+  },
+  "invalidHashtag": {
+    "message": "ハッシュタグが不正です。"
+  },
+  "inputMessage": {
+    "message": "メッセージを入力してください。"
+  },
+  "invalidService": {
+    "message": "サービス名が不正です。"
+  },
+  "invalidPackage": {
+    "message": "パッケージが存在しません。"
+  },
+  "notExistPackage": {
+    "message": "パッケージ名が不正です。"
+  },
+  "canNotFindLive": {
+    "message": "配信が見つかりませんでした。"
+  },
+  "canNotFindChat": {
+    "message": "チャットが取得できませんでした。"
+  },
+  "yes": {
+    "message": "はい"
+  },
+  "no": {
+    "message": "いいえ"
+  },
+  "ok": {
+    "message": "OK"
+  },
+  "cancel": {
+    "message": "キャンセル"
+  },
+  "doAgain": {
+    "message": "再度実行しますか？"
+  },
+  "wait": {
+    "message": "暫く待ってから再度実行してください。"
+  }
 }

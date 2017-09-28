@@ -1,21 +1,11 @@
 # LiveSupport
 
-生配信をサポートするソフト
+Support your live broadcasting!
 
 ## Features
-- 複数サービスへの対応
-  - TwitCasting
-  - Twitch
-  - Twitter
-  - YouTube
-- カスタマイズ可能なコメント表示
-- アプリ内からコメント送信
-- 複数タイプのOAuth認証
-  - ウィンドウ
-  - ブラウザー
-    - サーバー
-    - コード
-- パッケージ作成・導入
+- Support some services
+- Support some OAuth type
+- Support package system
 
 ## Install
 ```

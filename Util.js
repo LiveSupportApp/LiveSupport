@@ -74,9 +74,9 @@ class Util {
     shell.openExternal(url)
   }
 
-  static get __() {
+  static _(id) {
     if (!this.i18n) this.i18n = new I18n()
-    return this.i18n.__
+    return this.i18n._(id)
   }
 
   static get settings() {

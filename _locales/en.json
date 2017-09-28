@@ -1,23 +1,65 @@
 {
-  "quit": "Quit",
-  "canClose": "You can close this window or tab.",
-  "denied": "Access denied.",
-  "authenticated": "Authenticated.",
-  "willOAuth": "It going to do OAuth.",
-  "inputCode": "Please authenticate in the page to input code.",
-  "invalidOAuthType": "Invalid OAuth type.",
-  "canNotOAuth": "Can not OAuth.",
-  "invalidHashtag": "Hashtag is invalid.",
-  "inputMessage": "Please input message.",
-  "invalidService": "Service name is invalid.",
-  "invalidPackage": "Package is not exist.",
-  "notExistPackage": "Package name is invalid.",
-  "canNotFindLive": "Can not find your live.",
-  "canNotFindChat": "Can not find your live's chat.",
-  "yes": "Yes",
-  "no": "No",
-  "ok": "OK",
-  "cancel": "Cancel",
-  "doAgain": " Do it again?",
-  "wait": "Please wait for a while and try again."
+  "quit": {
+    "message": "Quit"
+  },
+  "canClose": {
+    "message": "You can close this window or tab."
+  },
+  "denied": {
+    "message": "Access denied."
+  },
+  "authenticated": {
+    "message": "Authenticated."
+  },
+  "willOAuth": {
+    "message": "It going to do OAuth."
+  },
+  "inputCode": {
+    "message": "Please authenticate in the page to input code."
+  },
+  "invalidOAuthType": {
+    "message": "Invalid OAuth type."
+  },
+  "canNotOAuth": {
+    "message": "Can not OAuth."
+  },
+  "invalidHashtag": {
+    "message": "Hashtag is invalid."
+  },
+  "inputMessage": {
+    "message": "Please input message."
+  },
+  "invalidService": {
+    "message": "Service name is invalid."
+  },
+  "invalidPackage": {
+    "message": "Package is not exist."
+  },
+  "notExistPackage": {
+    "message": "Package name is invalid."
+  },
+  "canNotFindLive": {
+    "message": "Can not find your live."
+  },
+  "canNotFindChat": {
+    "message": "Can not find your live's chat."
+  },
+  "yes": {
+    "message": "Yes"
+  },
+  "no": {
+    "message": "No"
+  },
+  "ok": {
+    "message": "OK"
+  },
+  "cancel": {
+    "message": "Cancel"
+  },
+  "doAgain": {
+    "message": " Do it again?"
+  },
+  "wait": {
+    "message": "Please wait for a while and try again."
+  }
 }
