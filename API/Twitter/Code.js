@@ -24,15 +24,15 @@ class Code {
   getNewToken(callback) {
     Util.msgbox({
       type: 'info',
-      message: Util._.willOAuth,
-      detail: Util._.inputCode,
-      buttons: [Util._.ok],
+      message: Util._('willOAuth'),
+      detail: Util._('inputCode'),
+      buttons: [Util._('ok')],
       only: 0,
     }).then(() => {
       this.client.getRequestToken((err, req_token, req_token_secret) => {
         const oauthURL = this.client.getAuthUrl(req_token)
         Util.open(oauthURL)
-        Util.prompt(Util._.inputCode, code => {
+        Util.prompt(Util._('inputCode'), code => {
           this.client.getAccessToken(
             req_token,
             req_token_secret,
@@ -41,9 +41,9 @@ class Code {
               if (err) {
                 Util.msgbox({
                   type: 'warning',
-                  message: Util._.canNotOAuth + Util._.doAgain,
+                  message: Util._('canNotOAuth') + Util._('doAgain'),
                   detail: err.toString(),
-                  buttons: [Util._.yes, Util._.cancel],
+                  buttons: [Util._('yes'), Util._('cancel')],
                   only: 0,
                 }).then(() => this.getNewToken(callback))
               } else

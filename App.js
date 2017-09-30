@@ -31,7 +31,7 @@ class App {
       const iconPath = Util.join(__dirname, '/icon/icon.png')
       const icon = nativeImage.createFromPath(iconPath)
       const menu = Menu.buildFromTemplate([{
-        label: Util._.quit,
+        label: Util._('quit'),
         click: app.quit,
       }])
       tray = new Tray(icon)

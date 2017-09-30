@@ -8,7 +8,7 @@ class OAuth {
     switch (type) {
       case 'server': this.oauth = new Server(); break
       case 'window': this.oauth = new Window(); break
-      default: Util.showError(`${Util._.invalidOAuthType} ${type}`)
+      default: Util.showError(`${Util._('invalidOAuthType')} ${type}`)
     }
   }
 

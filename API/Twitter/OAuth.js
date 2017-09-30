@@ -11,7 +11,7 @@ class OAuth {
       case 'code':   this.oauth = new Code();   break
       case 'server': this.oauth = new Server(); break
       case 'window': this.oauth = new Window(); break
-      default: Util.showError(Util._.invalidOAuthType)
+      default: Util.showError(Util._('invalidOAuthType'))
     }
   }
 

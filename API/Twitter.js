@@ -7,7 +7,7 @@ class Twitter extends EventEmitter {
     super()
     this.oauth = oauth
     this.hashtag = Util.settings.twitter.hashtag
-    if (!this.hashtag) Util.showError(Util._.invalidHashtag)
+    if (!this.hashtag) Util.showError(Util._('invalidHashtag'))
     if (/[#＃]/.test(this.hashtag)) this.hashtag.replace(/^[#＃]/, '#')
     else this.hashtag = `#${this.hashtag}`
   }

@@ -22,7 +22,7 @@ class Package {
       const Pack = require(this.getPath(name))
       return new Pack()
     } else
-      Util.showError(Util._.notExistPackage)
+      Util.showError(Util._('notExistPackage'))
   }
 
   /**

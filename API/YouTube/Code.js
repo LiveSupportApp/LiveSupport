@@ -17,9 +17,9 @@ class Code {
   getNewToken(callback) {
     Util.msgbox({
       type: 'info',
-      message: Util._.willOAuth,
-      detail: Util._.inputCode,
-      buttons: [Util._.ok],
+      message: Util._('willOAuth'),
+      detail: Util._('inputCode'),
+      buttons: [Util._('ok')],
       only: 0,
     }).then(() => {
       const oauthURL = oauth2Client.generateAuthUrl({
@@ -27,14 +27,14 @@ class Code {
         scope: 'https://www.googleapis.com/auth/youtube',
       })
       Util.open(oauthURL)
-      Util.prompt(Util._.inputCode, code => {
+      Util.prompt(Util._('inputCode'), code => {
         oauth2Client.getToken(code, (err, token) => {
           if (err) {
             Util.msgbox({
               type: 'warning',
-              message: Util._.canNotOAuth + Util._.doAgain,
+              message: Util._('canNotOAuth') + Util._('doAgain'),
               detail: err.toString(),
-              buttons: [Util._.yes, Util._.cancel],
+              buttons: [Util._('yes'), Util._('cancel')],
               only: 0,
             }).then(() => this.getNewToken(callback))
           } else {

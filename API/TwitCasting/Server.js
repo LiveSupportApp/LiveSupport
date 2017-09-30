@@ -23,12 +23,12 @@ class Server {
     const qs = url.parse(req.url, true).query
     let message = 'LiveSupport\n'
     if (qs.code) {
-      message += Util._.authenticated
+      message += Util._('authenticated')
       callback(qs.code)
     } else if (qs.result === 'denied') {
-      message += Util._.denied
+      message += Util._('denied')
     }
-    res.write(`${message}\n${Util._.canClose}`)
+    res.write(`${message}\n${Util._('canClose')}`)
     res.end()
     this.server.close()
   }

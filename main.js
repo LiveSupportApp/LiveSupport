@@ -28,17 +28,17 @@ class Main {
       if (err.message==='No live was found') {
         Util.msgbox({
           type: 'warning',
-          message: Util._.canNotFindLive + Util._.doAgain,
-          detail: Util._.wait,
-          buttons: [Util._.yes, Util._.cancel],
+          message: Util._('canNotFindLive') + Util._('doAgain'),
+          detail: Util._('wait'),
+          buttons: [Util._('yes'), Util._('cancel')],
           only: 0,
         }).then(() => this.api.reacquire())
       } else if (err.message==='Can not find chat') {
         Util.msgbox({
           type: 'warning',
-          message: Util._.canNotFindChat + Util._.doAgain,
-          detail: Util._.wait,
-          buttons: [Util._.yes, Util._.cancel],
+          message: Util._('canNotFindChat') + Util._('doAgain'),
+          detail: Util._('wait'),
+          buttons: [Util._('yes'), Util._('cancel')],
           only: 0,
         }).then(() => this.api.reacquire())
       } else {
