@@ -14,26 +14,20 @@ class API extends EventEmitter {
     super()
     this.names = Util.settings.app.service
     this.services = {}
-    const notAvailable = []
     for (const service of this.names) {
-      const oauth = Util.settings[service].oauth
       switch (service) {
-        case 'twitcasting': this.services.twitcasting = new TwitCasting(oauth); break
-        case 'twitch':      this.services.twitch      = new Twitch(oauth);      break
-        case 'twitter':     this.services.twitter     = new Twitter(oauth);     break
-        case 'youtube':     this.services.youtube     = new YouTube(oauth);     break
+        case 'twitcasting': this.services.twitcasting = new TwitCasting(); break
+        case 'twitch':      this.services.twitch      = new Twitch();      break
+        case 'twitter':     this.services.twitter     = new Twitter();     break
+        case 'youtube':     this.services.youtube     = new YouTube();     break
         default: () => {
-          Util.showError(`${Util._.invalidService} - ${service}`)
-          notAvailable.push(service)
+          Util.showError(`${Util._('invalidService')} - ${service}`)
+          this.names = this.names.filter(i => i !== service)
         }
       }
-      this.names = notAvailable.filter(v => { return notAvailable.includes(v) })
-    }
-    for (const service of this.names) {
-      service.on('error',   data => { this.emit('error',   data) })
-      service.on('ready',   data => { this.emit('ready',   data) })
-      service.on('json',    data => { this.emit('json',    data) })
-      service.on('message', data => { this.emit('message', data) })
+      service.on('error',   data => this.emit('error',   data))
+      service.on('ready',   data => this.emit('ready',   data))
+      service.on('message', data => this.emit('message', data))
     }
   }
 

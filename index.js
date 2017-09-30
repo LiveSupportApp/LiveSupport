@@ -1,4 +1,4 @@
-const Main = require('Main')
+const Main = require('./Main')
 const {
   app,
 } = require('electron')

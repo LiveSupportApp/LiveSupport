@@ -3,9 +3,8 @@ const OAuth = require('./Twitter/OAuth')
 const Util = require('../Util')
 
 class Twitter extends EventEmitter {
-  constructor(oauth) {
+  constructor() {
     super()
-    this.oauth = oauth
     this.hashtag = Util.settings.twitter.hashtag
     if (!this.hashtag) Util.showError(Util._('invalidHashtag'))
     if (/[#＃]/.test(this.hashtag)) this.hashtag.replace(/^[#＃]/, '#')
@@ -13,7 +12,7 @@ class Twitter extends EventEmitter {
   }
 
   authorize() {
-    const oauth = new OAuth(this.oauth)
+    const oauth = new OAuth(Util.settings.twitter.oauth)
     oauth.authorize(client => {
       this.client = client
       this.getTweet()

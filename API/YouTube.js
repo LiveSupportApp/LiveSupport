@@ -1,16 +1,16 @@
 const google = require('googleapis')
 const {EventEmitter} = require('events')
 const OAuth = require('./YouTube/OAuth')
+const Util = require('../Util')
 
 class YouTube extends EventEmitter {
-  constructor(oauth) {
+  constructor() {
     super()
-    this.oauth = oauth
     this.youtube = google.youtube('v3')
   }
 
   authorize() {
-    const oauth = new OAuth(this.oauth)
+    const oauth = new OAuth(Util.settings.youtube.oauth)
     oauth.authorize(oauth => {
       this.oauth = oauth
       this.getLive()

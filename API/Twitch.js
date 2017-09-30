@@ -2,17 +2,13 @@ const {EventEmitter} = require('events')
 const request = require('request')
 const tmi = require('tmi.js')
 const OAuth = require('./Twitch/OAuth')
+const Util = require('../Util')
 
 let client
 
 class Twitch extends EventEmitter {
-  constructor(oauth) {
-    super()
-    this.oauth = oauth
-  }
-
   authorize() {
-    const oauth = new OAuth(this.oauth)
+    const oauth = new OAuth(Util.settings.twitch.oauth)
     oauth.authorize((token, clientId) => {
       this.token = token
       this.clientId = clientId

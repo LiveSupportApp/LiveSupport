@@ -4,7 +4,7 @@ const {
   app,
   nativeImage,
 } = require('electron')
-const Util = require('Util')
+const Util = require('./Util')
 
 let tray
 
@@ -15,7 +15,7 @@ class App {
    */
   static init() {
     return new Promise((resolve, reject) => {
-      this.initEvents().then(() => {
+      this.trayInit().then(() => {
         resolve()
       }).catch(error => {
         reject(error)
@@ -28,8 +28,8 @@ class App {
    */
   static trayInit() {
     return new Promise(resolve => {
-      const iconPath = Util.join(__dirname, '/icon/icon.png')
-      const icon = nativeImage.createFromPath(iconPath)
+      const path = Util.join(__dirname, '/icon/icon.png')
+      const icon = nativeImage.createFromPath(path)
       const menu = Menu.buildFromTemplate([{
         label: Util._('quit'),
         click: app.quit,

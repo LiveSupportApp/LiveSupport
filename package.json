@@ -3,7 +3,7 @@
   "version": "2.14.5",
   "main": "index.js",
   "dependencies": {
-    "electron": "^1.7.5",
+    "electron": "^1.7.8",
     "electron-json-storage": "^3.0.7",
     "electron-prompt": "^0.3.0",
     "fs": "0.0.1-security",
