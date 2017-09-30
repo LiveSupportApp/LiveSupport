@@ -21,13 +21,15 @@ class API extends EventEmitter {
         case 'twitter':     this.services.twitter     = new Twitter();     break
         case 'youtube':     this.services.youtube     = new YouTube();     break
         default: () => {
-          Util.showError(`${Util._('invalidService')} - ${service}`)
+          Util.showError(`${Util._('invalidService')} - "${service}"`)
           this.names = this.names.filter(i => i !== service)
         }
       }
-      service.on('error',   data => this.emit('error',   data))
-      service.on('ready',   data => this.emit('ready',   data))
-      service.on('message', data => this.emit('message', data))
+    }
+    for (const name in this.services) {
+      this.services[name].on('error',   data => this.emit('error',   data))
+      this.services[name].on('ready',   data => this.emit('ready',   data))
+      this.services[name].on('message', data => this.emit('message', data))
     }
   }
 
@@ -35,8 +37,8 @@ class API extends EventEmitter {
    * Authorize
    */
   authorize() {
-    for (const service of this.names)
-      service.authorize()
+    for (const name in this.services)
+      this.services[name].authorize()
   }
 
   /**
@@ -44,8 +46,8 @@ class API extends EventEmitter {
    * @param {Number} [timeout] interval
    */
   listen(timeout) {
-    for (const service of this.names)
-      service.listen(timeout)
+    for (const name in this.services)
+      this.services[name].listen(timeout)
   }
 
   /**
@@ -53,8 +55,8 @@ class API extends EventEmitter {
    * @param {String} message content
    */
   send(message) {
-    for (const service of this.names)
-      service.send(message)
+    for (const name in this.services)
+      this.services[name].send(message)
   }
 
   /**

@@ -75,7 +75,7 @@ class Util {
   }
 
   static _(id) {
-    if (!this.i18n) this.i18n = new I18n()
+    if (!this.i18n) this.i18n = new I18n(this)
     return this.i18n._(id)
   }
 
