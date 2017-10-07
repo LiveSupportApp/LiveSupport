@@ -75,7 +75,7 @@ class Util {
   }
 
   static _(id) {
-    if (!this.i18n) this.i18n = new I18n(this)
+    if (!this.i18n) this.i18n = new I18n(this, app.getLocale())
     return this.i18n._(id)
   }
 

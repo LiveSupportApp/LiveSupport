@@ -42,7 +42,7 @@ class Server {
     if (qs.code) {
       message += Util._('authenticated')
       callback(qs.code)
-    } else if (qs.error==='access_denied') {
+    } else if (qs.error === 'access_denied') {
       message += Util._('denied')
     } else if (qs.error) {
       message += `${Util._('canNotOAuth')} ${qs.error}`

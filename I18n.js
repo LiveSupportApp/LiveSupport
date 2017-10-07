@@ -1,12 +1,8 @@
-const locale = require('electron').app.getLocale()
-
-let Util
-
 class I18n {
-  constructor(util) {
-    Util = util
+  constructor(util, locale) {
+    this.util = util
     const path = this.getPath(locale)
-    this.language = Util.readJSON(path)
+    this.language = this.util.readJSON(path)
   }
 
   _(id) {
@@ -14,8 +10,8 @@ class I18n {
   }
 
   getPath(locale) {
-    let path = Util.join(__dirname, '_locales/', locale, 'messages.json')
-    if (!Util.isExist(path)) path = this.getPath('en')
+    let path = this.util.join(__dirname, '_locales/', locale, 'messages.json')
+    if (!this.util.isExist(path)) path = this.getPath('en')
     return path
   }
 }

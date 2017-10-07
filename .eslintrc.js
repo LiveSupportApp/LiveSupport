@@ -9,7 +9,7 @@ module.exports = {
         'sourceType': 'module'
     },
     'rules': {
-        "indent": [2, 2, {'SwitchCase': 1}],
+        'indent': [2, 2, {'SwitchCase': 1}],
         'linebreak-style': ['error', 'windows'],
         'quotes': ['error', 'single'],
         'semi': ['error', 'never'],
@@ -24,4 +24,4 @@ module.exports = {
         'keyword-spacing': 'error',
         'space-before-blocks': 'error',
     },
-};
+}
