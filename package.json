@@ -1,43 +1,35 @@
 {
-  "name": "LiveSupport",
+  "name": "live-support",
   "version": "2.14.5",
-  "main": "index.js",
-  "dependencies": {
-    "electron": "^1.7.8",
-    "electron-json-storage": "^3.0.7",
-    "electron-prompt": "^0.3.0",
-    "fs": "0.0.1-security",
-    "google-auth-library": "^0.10.0",
-    "googleapis": "^20.1.0",
-    "node-powershell": "^3.1.1",
-    "node-twitter-api": "^1.8.0",
-    "path": "^0.12.7",
-    "request": "^2.82.0",
-    "tmi.js": "^1.2.1",
-    "twitter": "^1.7.1"
-  },
   "description": "A software for support live broadcast.",
-  "devDependencies": {
-    "devtron": "^1.4.0",
-    "eslint": "^4.7.0",
-    "eslint-config-standard": "^10.2.1",
-    "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-node": "^5.1.1",
-    "eslint-plugin-promise": "^3.5.0",
-    "eslint-plugin-standard": "^3.0.1"
-  },
+  "main": "index.js",
+  "private": true,
   "scripts": {
     "test": "electron .",
     "lint": "eslint **/*.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yuta0801/YouTubeLiveSupport.git"
+    "url": "git+https://github.com/LiveSupportApp/LiveSupport.git"
   },
   "author": "yuta0801",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/yuta0801/YouTubeLiveSupport/issues"
+    "url": "https://github.com/LiveSupportApp/LiveSupport/issues"
   },
-  "homepage": "https://github.com/yuta0801/YouTubeLiveSupport#readme"
+  "homepage": "https://github.com/LiveSupportApp/LiveSupport#readme",
+  "dependencies": {
+    "electron": "^1.7.10",
+    "electron-json-storage": "^4.0.2",
+    "electron-prompt": "^0.5.0",
+    "google-auth-library": "^0.12.0",
+    "googleapis": "^23.0.0",
+    "node-twitter-api": "^1.8.0",
+    "request": "^2.83.0",
+    "tmi.js": "^1.2.1",
+    "twitter": "^1.7.1"
+  },
+  "devDependencies": {
+    "devtron": "^1.4.0"
+  }
 }
