@@ -1,65 +1,65 @@
 {
-  "quit":{
-    "message":"Quit"
+  "quit": {
+    "message": "Quit"
   },
-  "canClose":{
-    "message":"You can close this window or tab."
+  "canClose": {
+    "message": "You can close this window or tab."
   },
-  "denied":{
-    "message":"Access denied."
+  "denied": {
+    "message": "Access denied."
   },
-  "authenticated":{
-    "message":"Authenticated."
+  "authenticated": {
+    "message": "Authenticated."
   },
-  "willOAuth":{
-    "message":"It going to do OAuth."
+  "willOAuth": {
+    "message": "It going to do OAuth."
   },
-  "inputCode":{
-    "message":"Please authenticate in the page to input code."
+  "inputCode": {
+    "message": "Please authenticate in the page to input code."
   },
-  "invalidOAuthType":{
-    "message":"Invalid OAuth type."
+  "invalidOAuthType": {
+    "message": "Invalid OAuth type."
   },
-  "canNotOAuth":{
-    "message":"Can not OAuth."
+  "canNotOAuth": {
+    "message": "Can not OAuth."
   },
-  "invalidHashtag":{
-    "message":"Hashtag is invalid."
+  "invalidHashtag": {
+    "message": "Hashtag is invalid."
   },
-  "inputMessage":{
-    "message":"Please input message."
+  "inputMessage": {
+    "message": "Please input message."
   },
-  "invalidService":{
-    "message":"Service name is invalid."
+  "invalidService": {
+    "message": "Service name is invalid."
   },
-  "invalidPackage":{
-    "message":"Package is not exist."
+  "invalidPackage": {
+    "message": "Package is not exist."
   },
-  "notExistPackage":{
-    "message":"Package name is invalid."
+  "notExistPackage": {
+    "message": "Package name is invalid."
   },
-  "canNotFindLive":{
-    "message":"Can not find your live."
+  "canNotFindLive": {
+    "message": "Can not find your live."
   },
-  "canNotFindChat":{
-    "message":"Can not find your live's chat."
+  "canNotFindChat": {
+    "message": "Can not find your live's chat."
   },
-  "yes":{
-    "message":"Yes"
+  "yes": {
+    "message": "Yes"
   },
-  "no":{
-    "message":"No"
+  "no": {
+    "message": "No"
   },
-  "ok":{
-    "message":"OK"
+  "ok": {
+    "message": "OK"
   },
-  "cancel":{
-    "message":"Cancel"
+  "cancel": {
+    "message": "Cancel"
   },
-  "doAgain":{
-    "message":" Do it again?"
+  "doAgain": {
+    "message": " Do it again?"
   },
-  "wait":{
-    "message":"Please wait for a while and try again."
+  "wait": {
+    "message": "Please wait for a while and try again."
   }
 }
